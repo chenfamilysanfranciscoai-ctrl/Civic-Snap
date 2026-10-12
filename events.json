@@ -4,6 +4,28 @@
     "color": "#4a7856",
     "events": [
       {
+        "name": "Ocean Beach Dune Revegetation",
+        "date": "2026-10-16",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7562,
+        "lng": -122.5102,
+        "location": "Ocean Beach, San Francisco, CA, USA",
+        "bookingUrl": "https://x.gldn.io/e/j3pWP92qZ1b"
+      },
+      {
+        "name": "Ocean Beach Dune Revegetation - Halloween Edition",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7562,
+        "lng": -122.5102,
+        "location": "Ocean Beach, San Francisco, CA, USA",
+        "bookingUrl": "https://x.gldn.io/e/j3pWP92qZ1b"
+      },
+      {
         "name": "Ocean Beach Cleanup - Surfrider San Francisco",
         "date": "2026-11-01",
         "day": "Sunday",
@@ -13,6 +35,39 @@
         "lng": -122.5102,
         "location": "Ocean Beach, San Francisco, CA, USA",
         "bookingUrl": "https://x.gldn.io/e/BggST6TsA5b"
+      },
+      {
+        "name": "Ocean Beach Dune Revegetation",
+        "date": "2026-11-07",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7562,
+        "lng": -122.5102,
+        "location": "Ocean Beach, San Francisco, CA, USA",
+        "bookingUrl": "https://x.gldn.io/e/j3pWP92qZ1b"
+      },
+      {
+        "name": "Ocean Beach Dune Revegetation",
+        "date": "2026-11-14",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7562,
+        "lng": -122.5102,
+        "location": "Ocean Beach, San Francisco, CA, USA",
+        "bookingUrl": "https://x.gldn.io/e/j3pWP92qZ1b"
+      },
+      {
+        "name": "Ocean Beach Cleanup - Surfrider San Francisco",
+        "date": "2026-12-06",
+        "day": "Sunday",
+        "start": "10:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7562,
+        "lng": -122.5102,
+        "location": "Ocean Beach, San Francisco, CA, USA",
+        "bookingUrl": "https://x.gldn.io/e/NdLcuiRmO3b"
       }
     ]
   },
@@ -26,17 +81,6 @@
     "color": "#3b6ea5",
     "events": [
       {
-        "name": "Leadership in Storytelling Community Celebration Picnic (Lunch provided!)",
-        "date": "2026-10-10",
-        "day": "Saturday",
-        "start": "10:00 AM",
-        "end": "1:00 PM",
-        "lat": 37.8045,
-        "lng": -122.2714,
-        "location": "Oakland",
-        "bookingUrl": "https://savesfbay.org/event/leadership-in-storytelling-community-celebration-picnic-lunch-provided-oakland-myrhyac/"
-      },
-      {
         "name": "Third Thursdays at PAB Nursery",
         "date": "2026-11-19",
         "day": "Thursday",
@@ -44,8 +88,19 @@
         "end": "12:00 PM",
         "lat": 37.4338,
         "lng": -122.0998,
-        "location": "Palo Alto Baylands Preserve, near the Duck Trail Pond",
+        "location": "Palo Alto Baylands Preserve, native plant nursery near the Duck Trail Pond",
         "bookingUrl": "https://savesfbay.org/event/third-thursdays-at-pab-nursery-sk0lyaw/"
+      },
+      {
+        "name": "First Fridays @ MLK Nursery",
+        "date": "2026-12-04",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7433,
+        "lng": -122.1975,
+        "location": "MLK Regional Shoreline, Hayward",
+        "bookingUrl": "https://savesfbay.org/event/first-fridays-mlk-nursery-skdfya4/"
       }
     ]
   },
@@ -54,26 +109,15 @@
     "color": "#8a6d1f",
     "events": [
       {
-        "name": "Compassion Week: Volunteer Outdoors at Foothills Nature Preserve",
-        "date": "2026-10-07",
-        "day": "Wednesday",
+        "name": "Volunteer Outdoors at Redwood Grove in Los Altos",
+        "date": "2026-10-16",
+        "day": "Friday",
         "start": "9:00 AM",
         "end": null,
-        "lat": 37.3662,
-        "lng": -122.1743,
-        "location": "Foothills Nature Preserve, 3300 Page Mill Rd, Palo Alto, CA 94304",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/07/volunteer-outdoors-foothills-nature-preserve-compassion-week"
-      },
-      {
-        "name": "Volunteer Outside at McClellan Ranch Preserve in Cupertino",
-        "date": "2026-10-11",
-        "day": "Sunday",
-        "start": "9:00 AM",
-        "end": null,
-        "lat": 37.3132,
-        "lng": -122.0628,
-        "location": "22221 McClellan Road, Cupertino, CA 95014",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/11/volunteer-at-mcclellan-ranch-preserve-in-cupertino"
+        "lat": 37.3742,
+        "lng": -122.1185,
+        "location": "Redwood Grove Nature Preserve, 482 University Avenue, Los Altos, CA 94022",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/16/volunteer-outdoors-redwood-grove-2jlrd"
       },
       {
         "name": "Volunteer Outdoors in Alviso at the Burrowing Owl Project (18+)",
@@ -109,18 +153,7 @@
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/17/volunteer-outdoors-in-mountain-view-shoreline"
       },
       {
-        "name": "Volunteer Outdoors in East Palo Alto at Ravenswood",
-        "date": "2026-10-24",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": null,
-        "lat": 37.4784,
-        "lng": -122.1997,
-        "location": "Ravenswood Open Space Preserve, 2100 Bay Road, East Palo Alto, CA 94303",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-east-palo-alto-ravenswood"
-      },
-      {
-        "name": "Volunteer Outdoors at Pearson-Arastradero Preserve",
+        "name": "Volunteer Outdoors in Palo Alto at Pearson-Arastradero Preserve",
         "date": "2026-10-24",
         "day": "Saturday",
         "start": "9:00 AM",
@@ -134,12 +167,45 @@
         "name": "CNPS Native Plant Sale at Hidden Villa",
         "date": "2026-10-24",
         "day": "Saturday",
-        "start": "9:00 AM",
+        "start": "<UNKNOWN>",
         "end": null,
         "lat": 37.354,
         "lng": -122.1563,
         "location": "Hidden Villa, 26870 Moody Road, Los Altos Hills, CA 94022",
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/cnps-native-plant-sale"
+      },
+      {
+        "name": "Volunteer Outdoors in East Palo Alto at Ravenswood",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "<UNKNOWN>",
+        "end": null,
+        "lat": 37.4784,
+        "lng": -122.1997,
+        "location": "Ravenswood Open Space Preserve, 2100 Bay Road, East Palo Alto, CA 94303",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-east-palo-alto-ravenswood"
+      },
+      {
+        "name": "Night Hike at Pearson-Arastradero Preserve",
+        "date": "2026-10-31",
+        "day": "Saturday",
+        "start": "6:00 PM",
+        "end": null,
+        "lat": 37.3871,
+        "lng": -122.1738,
+        "location": "1530 Arastradero Road, Palo Alto, CA 94304",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/night-hike-at-pearson-arastradero-preserve"
+      },
+      {
+        "name": "Volunteer Outdoors in Redwood City: Habitat Restoration at Redwood Creek",
+        "date": "2026-10-31",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": null,
+        "lat": 37.4915,
+        "lng": -122.2274,
+        "location": "353 Main Street, Redwood City, CA 94063",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-at-redwood-creek"
       },
       {
         "name": "Volunteer Outdoors in Menlo Park: Gardening for Pollinators at Alma Garden",
@@ -153,15 +219,15 @@
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-menlo-park-pollinator-garden"
       },
       {
-        "name": "Volunteer Outdoors in Redwood City: Habitat Restoration at Redwood Creek",
-        "date": "2026-10-31",
+        "name": "D\u00eda de los Muertos Celebracion en Cooley Landing",
+        "date": "2026-11-07",
         "day": "Saturday",
-        "start": "9:00 AM",
+        "start": "<UNKNOWN>",
         "end": null,
-        "lat": 37.4915,
-        "lng": -122.2274,
-        "location": "353 Main Street, Redwood City, CA 94063",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-at-redwood-creek"
+        "lat": 37.4768,
+        "lng": -122.1219,
+        "location": "Cooley Landing, 2100 Bay Road, East Palo Alto, CA 94303",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/11/07/dia-de-los-muertos-at-cooley-landing"
       }
     ]
   },
