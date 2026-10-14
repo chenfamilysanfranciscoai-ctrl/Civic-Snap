@@ -335,18 +335,11 @@ nav.tabs{
 </div>
 
 <script>
-// ---- TEMPORARY: mock-data toggle for aesthetics-only iteration ----
-// While we're just working on how the map LOOKS, set this to true to skip
-// the events.json fetch entirely and use the placeholder data below
-// instead -- so we're never touching (or depending on) the real event
-// data while iterating on style. Same 5 real orgs/colors so the aesthetic
-// proportions stay realistic; placeholder titles/locations and "#" links
-// so nothing sends a real visitor anywhere during testing.
-//
-// >>> Once the look is finalized, set this back to false and nothing else
-// needs to change -- loadOrgData() below goes right back to fetching the
-// real events.json. <<<
-const USE_MOCK_DATA = true;
+// ---- mock-data toggle ----
+// Set to true to skip the events.json fetch and use the placeholder data
+// below instead -- useful if we're ever iterating on looks again without
+// wanting to depend on real data. Live site should stay on false.
+const USE_MOCK_DATA = false;
 
 const MOCK_DATA = [
   {
