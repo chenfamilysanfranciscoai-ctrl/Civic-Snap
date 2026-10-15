@@ -531,6 +531,53 @@ CHANGELOG:
               real HTML has it) -- 19 unit tests total now, all passing --
               plus a full mocked dry run of main() end-to-end confirming
               nothing else regressed.
+2026-10-14  The site owner reported Pacific Beach Coalition back at 0 events
+              again. Investigated live rather than guessing: the Google
+              Calendar API call now 404s (same endpoint that worked on
+              2026-09-19), the iCal export also 404s, AND loading the
+              calendar embed directly in a real browser showed "Oops, we
+              couldn't load your events, please try again in a few minutes"
+              -- reproduced on PBC's OWN website
+              (pacificbeachcoalition.org/calendar-2026/), for both October
+              and November 2026, not just in this script. All three existing
+              fallbacks share that one Google Calendar dependency, so none of
+              them could route around an outage on Google/PBC's side.
+                Replaced PBC's data source entirely rather than add a fourth
+              Google Calendar fallback on top of three failing ones: PBC's
+              own site separately publishes a static table (confirmed by
+              hand: 11 rows, kind="pbc_site_table" + listing_page in ORGS)
+              listing every cleanup site with (a) a "More info" page giving
+              that site's recurring schedule in plain text and (b) that
+              site's own direct Google Form sign-up link right there in the
+              table -- real per-site registration links with no
+              description-matching guesswork needed, unlike the September
+              9-18 site-table attempts that were abandoned for exactly that
+              reason (this time the link comes straight from the table, not
+              inferred).
+                Most site pages (confirmed: Esplanade, San Pedro Creek) list
+              every upcoming date for the year explicitly, which the existing
+              claude_extract_events() already handles as-is -- tried first
+              for every site (process_pbc_site_table_org()). A few pages
+              (confirmed: Rockaway Beach) give only a recurrence rule in
+              prose ("First Saturday of the month from 9am-11am") with no
+              literal dates on the page -- for those,
+              _extract_site_recurrence_rule() asks Claude to read off the
+              rule as plain text/enum fields only (ordinal, weekday, time,
+              location -- no date arithmetic asked of the model), and the new
+              _dates_for_recurrence() computes the actual calendar dates in
+              plain Python, checked against real confirmed dates (San Pedro
+              Creek's page independently listed "1st Saturday" -> Oct 3,
+              2026 and Esplanade's "3rd Saturday" -> Oct 17, 2026; both match
+              what _dates_for_recurrence() computes for those rules).
+                Verified PBC_ROW_RE against the real table's exact DOM
+              structure (confirmed live via browser: <tr><td><strong>NAME
+              <a href=detail>More info...</a></strong></td><td><a
+              href=form>VOLUNTEER &gt;</a></td></tr>, same shape for all 11
+              rows including the one habitat-restoration row with different
+              anchor text) and unit-tested _dates_for_recurrence() against
+              both real dates above before sending. Surfrider is untouched
+              and still uses the Google Calendar API path; only PBC's "kind"
+              changed.
 """
 
 import base64
@@ -593,8 +640,8 @@ ORGS = [
     {
         "org": "Pacific Beach Coalition",
         "color": "#d9642b",
-        "kind": "google_calendar",
-        "calendar_page": "https://www.pacificbeachcoalition.org/calendar-2026/",
+        "kind": "pbc_site_table",
+        "listing_page": "https://www.pacificbeachcoalition.org/calendar-2026/",
     },
     {
         "org": "Save The Bay",
@@ -1543,6 +1590,197 @@ def process_html_listing_org(client, org_cfg):
     return raw_events
 
 
+PBC_ROW_RE = re.compile(
+    r'<tr>\s*<td>\s*<strong>\s*(?P<name>[^<]*?)\s*<a[^>]*href="(?P<detail_url>[^"]+)"[^>]*>.*?</a>\s*</strong>\s*</td>\s*'
+    r'<td>\s*<a[^>]*href="(?P<form_url>[^"]+)"[^>]*>.*?</a>\s*</td>\s*</tr>',
+    re.S,
+)
+
+_ORDINAL_WORDS = {
+    "first": 1, "1st": 1, "second": 2, "2nd": 2, "third": 3, "3rd": 3,
+    "fourth": 4, "4th": 4, "fifth": 5, "5th": 5, "last": -1,
+}
+_WEEKDAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+RECORD_SITE_RECURRENCE_TOOL = {
+    "name": "record_site_recurrence",
+    "description": "Record this cleanup site's recurring schedule rule, since no explicit upcoming dates are listed on the page.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "ordinal": {
+                "type": "string",
+                "enum": ["first", "second", "third", "fourth", "fifth", "last"],
+                "description": "Which occurrence of the weekday in the month, per the page's 'Time:' sentence.",
+            },
+            "weekday": {
+                "type": "string",
+                "enum": _WEEKDAY_NAMES,
+                "description": "The day of the week the cleanup recurs on.",
+            },
+            "start": {"type": "string", "description": "Start time, e.g. '9:00 AM'"},
+            "end": {"type": ["string", "null"], "description": "End time, e.g. '11:00 AM', or null if not stated"},
+            "location": {"type": "string", "description": "The most specific 'Where to Meet' address/venue text on the page"},
+        },
+        "required": ["ordinal", "weekday", "start", "location"],
+    },
+}
+
+
+def _extract_site_recurrence_rule(client, site_name, detail_html):
+    """Used only when claude_extract_events() found no explicit dates on a
+    site's page (e.g. the page only says "First Saturday of the month...,
+    check our calendar" with no literal upcoming dates to extract) -- asks
+    Claude to read off the recurrence rule as plain text/enum fields (no date
+    math from the model), which _dates_for_recurrence() below then turns into
+    real calendar dates deterministically."""
+    system = (
+        "You read a Pacific Beach Coalition cleanup site's page and report its recurring "
+        "schedule rule exactly as stated near a line starting with 'Time:' (e.g. 'First "
+        "Saturday of the month from 9am-11am'), plus the most specific meeting location from "
+        "a line starting with 'Where to Meet:'. Call record_site_recurrence exactly once."
+    )
+    user_content = f"Site: {site_name}\n\n--- PAGE TEXT/HTML ---\n{detail_html[:12000]}\n--- END ---"
+    resp = client.messages.create(
+        model=MODEL,
+        max_tokens=1024,
+        system=system,
+        tools=[RECORD_SITE_RECURRENCE_TOOL],
+        tool_choice={"type": "tool", "name": "record_site_recurrence"},
+        messages=[{"role": "user", "content": user_content}],
+    )
+    for block in resp.content:
+        if block.type == "tool_use" and block.name == "record_site_recurrence":
+            return block.input
+    return None
+
+
+def _dates_for_recurrence(ordinal, weekday, start_date, end_date):
+    """Every real calendar date matching 'Nth <weekday> of the month' (or
+    'last <weekday>') between start_date and end_date inclusive, computed in
+    plain Python -- deliberately NOT asked of the model, which is not
+    reliable at date arithmetic."""
+    import calendar as _calendar
+
+    weekday_idx = _WEEKDAY_NAMES.index(weekday)  # Monday=0 .. Sunday=6
+    ordinal_n = _ORDINAL_WORDS.get(str(ordinal).lower())
+    if ordinal_n is None:
+        return []
+
+    dates = []
+    year, month = start_date.year, start_date.month
+    while (year, month) <= (end_date.year, end_date.month):
+        month_days = _calendar.monthrange(year, month)[1]
+        matches = [d for d in range(1, month_days + 1)
+                   if date(year, month, d).weekday() == weekday_idx]
+        if matches:
+            picked = matches[ordinal_n - 1] if ordinal_n > 0 else matches[-1]
+            candidate = date(year, month, picked)
+            if start_date <= candidate <= end_date:
+                dates.append(candidate)
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+    return dates
+
+
+def process_pbc_site_table_org(client, org_cfg):
+    """2026-10-14: Google Calendar API, iCal export, AND the embed widget
+    itself all started returning errors for PBC's calendar
+    (pickituppacifica@gmail.com) -- confirmed live, in a real browser, on
+    PBC's OWN website (pacificbeachcoalition.org/calendar-2026/), not just
+    our scraper: the embed shows "Oops, we couldn't load your events, please
+    try again in a few minutes" for both October and November 2026. That's an
+    outage on Google/PBC's side, not a bug here -- all three of the old
+    "google_calendar" fallbacks share that one underlying dependency, so none
+    of them can route around it.
+
+    PBC's own site has a second, independent data source that doesn't touch
+    Google Calendar at all: a static table at listing_page with all 11
+    cleanup sites, each with (a) a "More info" page describing that site's
+    recurring schedule in plain text, and (b) that site's own direct Google
+    Form sign-up link, right there in the table -- the real per-site
+    registration links confirmed working, no description-matching guesswork
+    needed this time.
+
+    Most site pages list every upcoming date for the year explicitly (e.g.
+    "October 3rd, 2026 November 7th, 2026 December 5th, 2026"), which the
+    existing general-purpose claude_extract_events() already handles as-is
+    (that's exactly what it's for) -- tried first, for every site. A few
+    pages (confirmed: Rockaway Beach) give only a recurrence rule in prose
+    ("First Saturday of the month from 9am-11am") with no literal dates on
+    the page -- for those, _extract_site_recurrence_rule() reads the rule and
+    _dates_for_recurrence() computes the real calendar dates in Python.
+    """
+    listing_html = http_get(org_cfg["listing_page"])
+    log(f"  fetched site table page: {len(listing_html)} chars (plain HTTP)")
+
+    rows = list(PBC_ROW_RE.finditer(listing_html))
+    log(f"  site-table regex found {len(rows)} row(s)")
+    if not rows:
+        log("  ! no rows matched -- PBC's table markup may have changed, skipping this org for this run")
+        return []
+
+    today = date.today()
+    cutoff = today + timedelta(days=LOOKAHEAD_DAYS)
+
+    raw_events = []
+    for m in rows:
+        site_name = re.sub(r"\s+", " ", m.group("name")).strip().rstrip(",").strip()
+        detail_url = m.group("detail_url")
+        form_url = m.group("form_url")
+
+        try:
+            detail_html = http_get(detail_url)
+        except Exception as e:
+            log(f"  ! failed to fetch site page for '{site_name}': {e}")
+            continue
+
+        # Tier 1: reuse the existing extractor as-is -- it already pulls
+        # every explicit date out of a page's text, which is exactly what
+        # most of these pages give it.
+        site_events = claude_extract_events(client, f"Pacific Beach Coalition -- {site_name}", detail_html)
+        valid_events = [ev for ev in site_events if isinstance(ev, dict)]
+        if valid_events:
+            for ev in valid_events:
+                ev["bookingUrl"] = form_url  # the real per-site form link, not model-guessed
+                ev.setdefault("name", site_name)  # the table's site name is already a full label, e.g. "Rockaway Beach Cleanup, Pacifica"
+            log(f"  {site_name}: {len(valid_events)} explicit date(s) found on the page")
+            raw_events.extend(valid_events)
+            continue
+
+        # Tier 2: no explicit dates on the page -- read the recurrence rule
+        # instead and compute the actual upcoming dates ourselves.
+        try:
+            rule = _extract_site_recurrence_rule(client, site_name, detail_html)
+        except Exception as e:
+            log(f"  ! {site_name}: recurrence-rule extraction failed: {e}")
+            continue
+        if not rule:
+            log(f"  ! {site_name}: no explicit dates and no recurrence rule found -- skipping")
+            continue
+        try:
+            computed_dates = _dates_for_recurrence(rule["ordinal"], rule["weekday"], today, cutoff)
+        except Exception as e:
+            log(f"  ! {site_name}: failed to compute dates from recurrence rule {rule}: {e}")
+            continue
+        log(f"  {site_name}: no explicit dates listed -- computed {len(computed_dates)} date(s) "
+            f"from '{rule['ordinal']} {rule['weekday']}' rule")
+        for d in computed_dates:
+            raw_events.append({
+                "name": site_name,  # already a full label, e.g. "San Pedro Creek Cleanup, Pacifica"
+                "date": d.isoformat(),
+                "start": rule.get("start", ""),
+                "end": rule.get("end"),
+                "location": rule.get("location") or site_name,
+                "bookingUrl": form_url,
+            })
+
+    log(f"  -> {len(raw_events)} raw event(s) across {len(rows)} site(s) (before date filtering/geocoding)")
+    return raw_events
+
+
 def main():
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
@@ -1564,6 +1802,8 @@ def main():
                 events = process_google_calendar_org(client, org_cfg)
             elif org_cfg["kind"] == "html_listing":
                 events = process_html_listing_org(client, org_cfg)
+            elif org_cfg["kind"] == "pbc_site_table":
+                events = process_pbc_site_table_org(client, org_cfg)
             elif org_cfg["kind"] == "no_dated_events":
                 log("  no dated events by design (self-directed program)")
             else:
