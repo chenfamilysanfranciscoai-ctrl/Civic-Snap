@@ -578,6 +578,19 @@ CHANGELOG:
               both real dates above before sending. Surfrider is untouched
               and still uses the Google Calendar API path; only PBC's "kind"
               changed.
+2026-10-15  The first run of the above (run #23) fetched PBC's table page fine
+              (67,914 chars) but logged "site-table regex found 0 row(s)", so
+              PBC stayed empty. Root cause: PBC_ROW_RE was written from the
+              browser's parsed DOM view, which showed the "More info" link
+              nested inside <strong>; the raw HTML the server actually sends
+              has ONLY the site name inside <strong> and the link directly in
+              the cell. Fixed by fetching the live page's real source and
+              rewriting the pattern to match it -- confirmed it matches all 11
+              real rows (including "Surfer&#8217;s Beach", whose HTML entity
+              is now decoded by process_pbc_site_table_org()). The earlier
+              mocked dry run passed because its sample HTML was written in the
+              same wrong shape as the pattern; the sample is now the real
+              shape.
 """
 
 import base64
@@ -1590,8 +1603,17 @@ def process_html_listing_org(client, org_cfg):
     return raw_events
 
 
+# Matches the REAL raw markup (confirmed 2026-10-15 by fetching the live page's
+# source, after run #23 showed "site-table regex found 0 row(s)"):
+#   <tr><td><strong>Rockaway Beach Cleanup</strong>, Pacifica <a href="...">More
+#   info about this cleanup</a></td><td><a href="...">VOLUNTEER &gt;</a></td></tr>
+# i.e. only the site NAME is bold and the "More info" link sits directly in the
+# cell, NOT inside the <strong>. (The first version of this pattern assumed the
+# link was inside <strong>, which is how the page looked in the browser's DOM
+# view but not how the server actually sends it.) Tested against all 11 real
+# rows. The name group is cleaned of tags/entities in process_pbc_site_table_org().
 PBC_ROW_RE = re.compile(
-    r'<tr>\s*<td>\s*<strong>\s*(?P<name>[^<]*?)\s*<a[^>]*href="(?P<detail_url>[^"]+)"[^>]*>.*?</a>\s*</strong>\s*</td>\s*'
+    r'<tr>\s*<td>\s*(?P<name>(?:(?!</td>).)*?)\s*<a[^>]*href="(?P<detail_url>[^"]+)"[^>]*>.*?</a>\s*</td>\s*'
     r'<td>\s*<a[^>]*href="(?P<form_url>[^"]+)"[^>]*>.*?</a>\s*</td>\s*</tr>',
     re.S,
 )
@@ -1727,7 +1749,9 @@ def process_pbc_site_table_org(client, org_cfg):
 
     raw_events = []
     for m in rows:
-        site_name = re.sub(r"\s+", " ", m.group("name")).strip().rstrip(",").strip()
+        import html as _html
+        site_name = re.sub(r"<[^>]+>", "", m.group("name"))  # drop <strong> etc.
+        site_name = re.sub(r"\s+", " ", _html.unescape(site_name)).strip().rstrip(",").strip()
         detail_url = m.group("detail_url")
         form_url = m.group("form_url")
 
