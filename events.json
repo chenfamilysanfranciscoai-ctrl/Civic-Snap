@@ -4,17 +4,6 @@
     "color": "#4a7856",
     "events": [
       {
-        "name": "Ocean Beach Dune Revegetation",
-        "date": "2026-10-16",
-        "day": "Friday",
-        "start": "9:00 AM",
-        "end": "12:00 PM",
-        "lat": 37.7562,
-        "lng": -122.5102,
-        "location": "Ocean Beach, San Francisco, CA, USA",
-        "bookingUrl": "https://x.gldn.io/e/j3pWP92qZ1b"
-      },
-      {
         "name": "Ocean Beach Dune Revegetation - Halloween Edition",
         "date": "2026-10-24",
         "day": "Saturday",
@@ -81,10 +70,21 @@
         "day": "Saturday",
         "start": "9:00 AM",
         "end": "11:00 AM",
-        "lat": 37.6633,
-        "lng": -122.4924,
+        "lat": 37.6651,
+        "lng": -122.4928,
         "location": "Mussel Rock Car Park, Westline Drive, Daly City, CA",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLScq691daox7vG8NDgnTlsshUP_lf2qCxgCxRQI-V6HNVa5v0w/viewform"
+      },
+      {
+        "name": "Linda Mar Habitat Restoration",
+        "date": "2026-10-25",
+        "day": "Sunday",
+        "start": "10:00 AM",
+        "end": "12:00 PM",
+        "lat": 32.9892,
+        "lng": -117.2728,
+        "location": "Linda Mar Beach, west side of Highway 1 at Crespi Drive stoplight, Pacifica",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform"
       },
       {
         "name": "Surfer's Beach Cleanup, Half Moon Bay",
@@ -94,7 +94,7 @@
         "end": "11:00 AM",
         "lat": 37.5014,
         "lng": -122.4728,
-        "location": "Pillar Point RV Park coastal trail, 4000 Cabrillo Hwy, Half Moon Bay, CA 94019 (near South Jetty, Surfers Beach)",
+        "location": "Pillar Point RV Park, 4000 Cabrillo Hwy, Half Moon Bay, CA 94019 (coastal trail near South Jetty, Surfers Beach)",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfyVxegnWgK25iLiwOQm6kQEEgQd2Yz7i0YDA7Rraet-j4THA/viewform"
       },
       {
@@ -103,9 +103,9 @@
         "day": "Saturday",
         "start": "9:00 AM",
         "end": "11:00 AM",
-        "lat": 37.598,
-        "lng": -122.4995,
-        "location": "Rockaway Beach, North Beach parking lot near Best Western, Pacifica, CA",
+        "lat": 37.6098,
+        "lng": -122.4975,
+        "location": "Rockaway Beach, North Beach parking lot near Best Western, Pacifica",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeso-L2yeHgq8AGXlsJSeHzQAaHXipDjUsxN4z9-fh2twMEIA/viewform"
       },
       {
@@ -113,32 +113,11 @@
         "date": "2026-11-07",
         "day": "Saturday",
         "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 37.5891,
-        "lng": -122.5004,
-        "location": "751 San Pedro Terrace Road, Pacifica, CA",
+        "end": null,
+        "lat": 37.5881,
+        "lng": -122.4982,
+        "location": "San Pedro Creek, Pacifica",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSc0yHCe_fO2z-3gVwz5BFc0cpmIn-ga9Df5dzNS9zu_V1zRCQ/viewform"
-      },
-      {
-        "name": "Harbor Beach Cleanup, Half Moon Bay",
-        "date": "2026-11-07",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 48.2748,
-        "lng": -121.7425,
-        "location": "<UNKNOWN>"
-      },
-      {
-        "name": "Linda Mar Habitat Restoration, Pacifica",
-        "date": "2026-11-07",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 48.2748,
-        "lng": -121.7425,
-        "location": "<UNKNOWN>",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform"
       },
       {
         "name": "Foster City, Moving Locations",
@@ -152,15 +131,14 @@
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLScNW3unZRKSfxQemDndPFxZxk3qxGMQec85rbb3tcZU5-2seQ/viewform"
       },
       {
-        "name": "Esplanade Beach Cleanup, Pacifica",
+        "name": "Harbor Beach Cleanup, Half Moon Bay",
         "date": "2026-11-07",
         "day": "Saturday",
         "start": "<UNKNOWN>",
         "end": null,
-        "lat": 48.2748,
-        "lng": -121.7425,
-        "location": "<UNKNOWN>",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeDkdt-BxduvqZjBTMrC_I9Tt29K41GRMAia8N8qbqRTFnrOQ/viewform"
+        "lat": 37.5012,
+        "lng": -122.4748,
+        "location": "Pillar Point Harbor, Half Moon Bay"
       },
       {
         "name": "Montara State Beach Cleanup",
@@ -170,7 +148,7 @@
         "end": "11:00 AM",
         "lat": 37.5505,
         "lng": -122.5141,
-        "location": "Montara State Beach, Montara (parking lot north of large building across from First Street)",
+        "location": "Montara State Beach, Montara (parking lot north side of large building across from first street)",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdhEMAmljDDMb7cOb8dM9e3yRH4FY88u2XnnLcP9sW1APScsg/viewform"
       },
       {
@@ -185,36 +163,26 @@
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfVdK6L3JcCl4fK6JQl05L5QQGi-fEF84LYToB3M5pZpeN-6Q/viewform"
       },
       {
+        "name": "Esplanade Beach Cleanup",
+        "date": "2026-11-21",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.6548,
+        "lng": -122.4917,
+        "location": "Top of the stairs on Esplanade Avenue next to Oceanaire Apartments, 100 Esplanade Ave, Pacifica, CA",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeDkdt-BxduvqZjBTMrC_I9Tt29K41GRMAia8N8qbqRTFnrOQ/viewform"
+      },
+      {
         "name": "San Pedro Creek Cleanup, Pacifica",
         "date": "2026-12-05",
         "day": "Saturday",
         "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 37.5891,
-        "lng": -122.5004,
-        "location": "751 San Pedro Terrace Road, Pacifica, CA",
+        "end": null,
+        "lat": 37.5881,
+        "lng": -122.4982,
+        "location": "San Pedro Creek, Pacifica",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSc0yHCe_fO2z-3gVwz5BFc0cpmIn-ga9Df5dzNS9zu_V1zRCQ/viewform"
-      },
-      {
-        "name": "Harbor Beach Cleanup, Half Moon Bay",
-        "date": "2026-12-05",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 48.2748,
-        "lng": -121.7425,
-        "location": "<UNKNOWN>"
-      },
-      {
-        "name": "Linda Mar Habitat Restoration, Pacifica",
-        "date": "2026-12-05",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 48.2748,
-        "lng": -121.7425,
-        "location": "<UNKNOWN>",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform"
       },
       {
         "name": "Foster City, Moving Locations",
@@ -228,15 +196,14 @@
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLScNW3unZRKSfxQemDndPFxZxk3qxGMQec85rbb3tcZU5-2seQ/viewform"
       },
       {
-        "name": "Esplanade Beach Cleanup, Pacifica",
+        "name": "Harbor Beach Cleanup, Half Moon Bay",
         "date": "2026-12-05",
         "day": "Saturday",
         "start": "<UNKNOWN>",
         "end": null,
-        "lat": 48.2748,
-        "lng": -121.7425,
-        "location": "<UNKNOWN>",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeDkdt-BxduvqZjBTMrC_I9Tt29K41GRMAia8N8qbqRTFnrOQ/viewform"
+        "lat": 37.5012,
+        "lng": -122.4748,
+        "location": "Pillar Point Harbor, Half Moon Bay"
       }
     ]
   },
@@ -254,6 +221,17 @@
         "lng": -122.1975,
         "location": "MLK Regional Shoreline, Hayward",
         "bookingUrl": "https://savesfbay.org/event/first-fridays-mlk-nursery-skdfya4/"
+      },
+      {
+        "name": "Native Planting at Palo Alto Baylands!",
+        "date": "2026-12-12",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "1:00 PM",
+        "lat": 37.4338,
+        "lng": -122.0998,
+        "location": "Palo Alto Baylands",
+        "bookingUrl": "https://savesfbay.org/event/native-planting-at-palo-alto-baylands-ssnvyaw/"
       }
     ]
   },
@@ -262,37 +240,26 @@
     "color": "#8a6d1f",
     "events": [
       {
-        "name": "Volunteer Outdoors at Redwood Grove in Los Altos",
-        "date": "2026-10-16",
-        "day": "Friday",
-        "start": "9:00 AM",
+        "name": "CNPS Native Plant Sale at Hidden Villa",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "12:00 AM",
         "end": null,
-        "lat": 37.3742,
-        "lng": -122.1185,
-        "location": "Redwood Grove Nature Preserve, 482 University Avenue, Los Altos, CA 94022",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/16/volunteer-outdoors-redwood-grove"
+        "lat": 37.354,
+        "lng": -122.1563,
+        "location": "Hidden Villa, 26870 Moody Road, Los Altos Hills, CA 94022",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/cnps-native-plant-sale"
       },
       {
-        "name": "Volunteer Outdoors in Alviso at the Burrowing Owl Project (18+)",
-        "date": "2026-10-16",
-        "day": "Friday",
-        "start": "9:00 AM",
-        "end": null,
-        "lat": 37.4231,
-        "lng": -121.9551,
-        "location": "150 Nortech Pkwy, San Jose, CA 95134",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/16/alviso-san-jose-burrowing-owl-project"
-      },
-      {
-        "name": "Volunteer Outdoors in MV Shoreline Marsh Habitat Restoration",
-        "date": "2026-10-17",
+        "name": "Volunteer Outdoors in East Palo Alto at Ravenswood",
+        "date": "2026-10-24",
         "day": "Saturday",
         "start": "9:00 AM",
         "end": null,
-        "lat": 37.4225,
-        "lng": -122.0856,
-        "location": "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/17/volunteer-outdoors-in-mountain-view-shoreline"
+        "lat": 37.4784,
+        "lng": -122.1997,
+        "location": "Ravenswood Open Space Preserve, 2100 Bay Road, East Palo Alto, CA 94303",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-east-palo-alto-ravenswood"
       },
       {
         "name": "Volunteer Outdoors in Palo Alto at Pearson-Arastradero Preserve",
@@ -306,26 +273,15 @@
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-at-pearson-arastradero-preserve"
       },
       {
-        "name": "CNPS Native Plant Sale at Hidden Villa",
-        "date": "2026-10-24",
+        "name": "Night Hike at Pearson-Arastradero Preserve",
+        "date": "2026-10-31",
         "day": "Saturday",
-        "start": "9:00 AM",
+        "start": "7:00 PM",
         "end": null,
-        "lat": 37.354,
-        "lng": -122.1563,
-        "location": "Hidden Villa, 26870 Moody Road, Los Altos Hills, CA 94022",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/cnps-native-plant-sale"
-      },
-      {
-        "name": "Volunteer Outdoors in East Palo Alto at Ravenswood",
-        "date": "2026-10-24",
-        "day": "Saturday",
-        "start": "<UNKNOWN>",
-        "end": null,
-        "lat": 37.4784,
-        "lng": -122.1997,
-        "location": "Ravenswood Open Space Preserve, 2100 Bay Road, East Palo Alto, CA 94303",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-east-palo-alto-ravenswood"
+        "lat": 37.3871,
+        "lng": -122.1738,
+        "location": "1530 Arastradero Road, Palo Alto, CA 94304",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/night-hike-at-pearson-arastradero-preserve"
       },
       {
         "name": "Volunteer Outdoors in Menlo Park: Gardening for Pollinators at Alma Garden",
@@ -350,15 +306,15 @@
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-at-redwood-creek"
       },
       {
-        "name": "Night Hike at Pearson-Arastradero Preserve",
-        "date": "2026-10-31",
+        "name": "Volunteer Outdoors at Redwood Grove in Los Altos",
+        "date": "2026-11-07",
         "day": "Saturday",
-        "start": "<UNKNOWN>",
+        "start": "9:00 AM",
         "end": null,
-        "lat": 37.3871,
-        "lng": -122.1738,
-        "location": "1530 Arastradero Road, Palo Alto, CA 94304",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/night-hike-at-pearson-arastradero-preserve"
+        "lat": 37.3742,
+        "lng": -122.1185,
+        "location": "Redwood Grove Nature Preserve, 482 University Avenue, Los Altos, CA 94022",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/11/07/volunteer-outdoors-redwood-grove"
       },
       {
         "name": "D\u00eda de los Muertos Celebracion en Cooley Landing",
@@ -370,17 +326,6 @@
         "lng": -122.1219,
         "location": "Cooley Landing, 2100 Bay Road, East Palo Alto, CA 94303",
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/11/07/dia-de-los-muertos-at-cooley-landing"
-      },
-      {
-        "name": "Volunteer Outdoors at Redwood Grove in Los Altos",
-        "date": "2026-11-07",
-        "day": "Saturday",
-        "start": "<UNKNOWN>",
-        "end": null,
-        "lat": 37.3742,
-        "lng": -122.1185,
-        "location": "Redwood Grove Nature Preserve, 482 University Avenue, Los Altos, CA 94022",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/11/07/volunteer-outdoors-redwood-grove"
       }
     ]
   },
