@@ -295,8 +295,104 @@ nav.tabs{
   line-height: 1.2;
 }
 
+/* ---- date filter bar (top-left of the map) ---- */
+.filter-bar{
+  position: absolute;
+  top: 18px;
+  left: 16px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100% - 210px);
+  background: rgba(251,250,247,0.94);
+  backdrop-filter: blur(6px);
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 20px rgba(20,30,20,0.15);
+}
+.filter-btn{
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b6656;
+  background: transparent;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.filter-btn:hover{
+  background: var(--moss-light);
+  color: var(--moss-dark);
+}
+.filter-btn.active{
+  background: var(--moss);
+  color: white;
+}
+.filter-btn:focus-visible{
+  outline: 2px solid var(--clay);
+  outline-offset: 1px;
+}
+.filter-count{
+  font-size: 0.72rem;
+  color: #8a8577;
+  padding: 0 8px 0 6px;
+  white-space: nowrap;
+}
+.filter-empty{
+  position: absolute;
+  top: 74px;
+  left: 16px;
+  z-index: 5;
+  max-width: calc(100% - 210px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(20,30,20,0.15);
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: #4b463c;
+}
+.filter-empty[hidden]{ display: none; }
+
 .maplibregl-ctrl-top-right{
   top: 90px !important;
+}
+
+/* Narrow screens: the filter bar takes the full width along the top, and the
+   "I will help" counter and zoom buttons shift down underneath it (the legend
+   keeps the bottom-left corner to itself). */
+@media (max-width: 640px){
+  .filter-bar{
+    right: 16px;
+    max-width: none;
+  }
+  .filter-empty{
+    top: 86px;
+    right: 182px;
+    max-width: none;
+  }
+  .stat-box{
+    top: 86px;
+    min-width: 0;
+    max-width: 150px;
+    padding: 8px 12px;
+  }
+  .stat-box .big{ font-size: 1.3rem; }
+  .maplibregl-ctrl-top-right{
+    top: 160px !important;
+  }
+}
+@media (max-width: 360px){
+  .filter-bar{ gap: 2px; }
+  .filter-btn{
+    padding: 7px 6px;
+    font-size: 0.72rem;
+  }
 }
 .maplibregl-ctrl-group{
   border-radius: 8px !important;
@@ -327,6 +423,14 @@ nav.tabs{
 
 <div id="map-wrap">
 <div id="map"></div>
+<div class="filter-bar" id="filterBar" role="group" aria-label="Filter events by date">
+<button type="button" class="filter-btn" data-filter="week" aria-pressed="false">This Week</button>
+<button type="button" class="filter-btn" data-filter="nextweek" aria-pressed="false">Next Week</button>
+<button type="button" class="filter-btn" data-filter="month" aria-pressed="false">Next 30 Days</button>
+<button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+<span class="filter-count" id="filterCount" aria-live="polite"></span>
+</div>
+<div class="filter-empty" id="filterEmpty" hidden>No events in this date range &mdash; try a wider filter.</div>
 <div class="legend" id="legend"></div>
 <div class="stat-box">
 <div class="label">People who clicked "I will help!"</div>
@@ -539,6 +643,10 @@ function popupContentHtml(d){
 // map's projection internally and repositions its element automatically,
 // so this is genuinely simpler as well as smoother.
 function renderPins(){
+  // Start from a clean slate so this can never double-draw pins.
+  pinRecords.forEach(r => r.marker.remove());
+  pinRecords = [];
+
   orgData.forEach(orgGroup => {
     orgGroup.events.forEach(ev => {
       // anchorEl is what gets handed to maplibregl.Marker -- it must stay
@@ -558,13 +666,81 @@ function renderPins(){
       const popup = new maplibregl.Popup({ offset: 20, closeButton: true, maxWidth: '260px' })
         .setHTML(popupContentHtml(Object.assign({}, ev, { org: orgGroup.org, orgUrl: orgGroup.orgUrl })));
 
-      new maplibregl.Marker({ element: anchorEl, anchor: 'center' })
+      const marker = new maplibregl.Marker({ element: anchorEl, anchor: 'center' })
         .setLngLat([ev.lng, ev.lat])
         .setPopup(popup)
         .addTo(map);
+
+      // Remember each pin alongside its date so the date filter below can
+      // show/hide it without rebuilding anything.
+      pinRecords.push({ marker, popup, date: ev.date });
     });
   });
+
+  applyFilter(currentFilter);
 }
+
+// ---- date filter ----
+// Buttons above the map narrow the pins to a date window. Weeks run
+// Monday-Sunday ("This Week" = today through this coming Sunday, "Next Week"
+// = the following Monday-Sunday). "Next 30 Days" = today through 30 days out.
+// Event dates are plain YYYY-MM-DD strings, so the windows below are too and
+// can be compared as strings -- no timezone math involved.
+let pinRecords = [];
+let currentFilter = 'all';
+
+function toISODate(d){
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function filterRange(key, now){
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const plusDays = n => new Date(today.getFullYear(), today.getMonth(), today.getDate() + n);
+  const daysSinceMonday = (today.getDay() + 6) % 7; // Mon=0 ... Sun=6
+  const endOfThisWeek = 6 - daysSinceMonday;        // days from today to this Sunday
+
+  if (key === 'week')     return { start: toISODate(today), end: toISODate(plusDays(endOfThisWeek)) };
+  if (key === 'nextweek') return { start: toISODate(plusDays(endOfThisWeek + 1)), end: toISODate(plusDays(endOfThisWeek + 7)) };
+  if (key === 'month')    return { start: toISODate(today), end: toISODate(plusDays(30)) };
+  return null; // 'all' -- no limits
+}
+
+function applyFilter(key){
+  currentFilter = key;
+  const range = filterRange(key, new Date());
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    const on = btn.dataset.filter === key;
+    btn.classList.toggle('active', on);
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+
+  let shown = 0;
+  pinRecords.forEach(r => {
+    const visible = !range || (r.date >= range.start && r.date <= range.end);
+    r.marker.getElement().style.display = visible ? '' : 'none';
+    if (visible) shown++;
+    else if (r.popup.isOpen()) r.popup.remove();
+  });
+
+  const total = pinRecords.length;
+  const countEl = document.getElementById('filterCount');
+  if (total === 0) {
+    countEl.textContent = '';
+  } else if (shown === total) {
+    countEl.textContent = `${total} event${total === 1 ? '' : 's'}`;
+  } else {
+    countEl.textContent = `${shown} of ${total} events`;
+  }
+  document.getElementById('filterEmpty').hidden = !(total > 0 && shown === 0);
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+});
 
 function renderLegend(){
   const legend = document.getElementById('legend');
