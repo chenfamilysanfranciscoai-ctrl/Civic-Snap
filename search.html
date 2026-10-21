@@ -2,21 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Search — Local Environmental Volunteering</title>
+<title>Search | Civic Snap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<script>document.documentElement.classList.add('js')</script>
 <style>
-:root{
-  --moss: #4a7856;
-  --moss-dark: #24402c;
-  --moss-light: #eef4ee;
-  --clay: #d9642b;
-  --clay-dark: #b8531f;
-  --ink: #1f2b23;
-  --paper: #fbfaf7;
-  --line: #e4e0d6;
-}
 *{ box-sizing: border-box; }
 html, body{
   margin: 0;
@@ -25,80 +18,22 @@ html, body{
   background: var(--paper);
   color: var(--ink);
 }
-header{
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  padding: 16px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.brand{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.brand-icon{
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: var(--moss);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-header h1{
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--moss-dark);
-  letter-spacing: -0.01em;
-}
-header p{
-  margin: 0;
-  font-size: 0.78rem;
-  color: #8a8577;
-}
-
-/* ---- tab navigation (shared across every page on the site) ---- */
-nav.tabs{
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.tab-link{
-  text-decoration: none;
-  color: #6b6656;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.tab-link:hover{
-  background: var(--moss-light);
-  color: var(--moss-dark);
-}
-.tab-link.active{
-  background: var(--moss);
-  color: white;
-}
 
 /* ---- search page ---- */
+body{ background: var(--bg-soft); }
 .search-wrap{
   max-width: 860px;
   margin: 0 auto;
   padding: 40px 24px 96px;
 }
-.search-intro h2{
-  margin: 0 0 8px;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--moss-dark);
-  letter-spacing: -0.01em;
+.search-intro h1{
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+  font-weight: 600;
+  color: var(--brand-dark);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
 }
 .search-intro p{
   margin: 0 0 20px;
@@ -126,7 +61,7 @@ nav.tabs{
   font-size: 1rem;
   padding: 15px 46px 15px 46px;
   border: 2px solid var(--line);
-  border-radius: 14px;
+  border-radius: 10px;
   background: white;
   color: var(--ink);
   outline: none;
@@ -179,10 +114,11 @@ nav.tabs{
 
 /* ---- filter chips ---- */
 details.filters{
+  box-shadow: 0 1px 2px rgba(20,40,30,0.04);
   margin-top: 22px;
   background: white;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 10px;
 }
 details.filters > summary{
   list-style: none;
@@ -270,13 +206,13 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
   opacity: 0.4;
   cursor: not-allowed;
 }
-.chip.level{ background: #fbeee6; color: var(--clay-dark); }
+.chip.level{ background: var(--accent-light); color: var(--accent-dark); }
 .chip.level[aria-pressed="true"]{ background: var(--clay); border-color: var(--clay); color: white; }
-.chip.level .n{ color: #c99a82; }
+.chip.level .n{ color: #6f9ab5; }
 .chip.level[aria-pressed="true"] .n{ color: rgba(255,255,255,0.85); }
 .chip:focus-visible, .try-btn:focus-visible, .pill:focus-visible,
 .clear-q:focus-visible, .link-btn:focus-visible, summary:focus-visible{
-  outline: 3px solid rgba(217,100,43,0.55);
+  outline: 3px solid rgba(29,95,138,0.55);
   outline-offset: 2px;
 }
 
@@ -336,10 +272,13 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 15px 18px;
-  border-radius: 12px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
   border-left: 4px solid var(--moss);
-  margin-bottom: 11px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(20,40,30,0.04);
+  margin-bottom: 12px;
 }
 .card-main{ min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .card-org{
@@ -381,7 +320,7 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
 }
 .pill:hover{ background: white; border-color: var(--moss); }
 .pill.on{ background: var(--moss); border-color: var(--moss); color: white; }
-.pill.g-level{ color: var(--clay-dark); border-color: rgba(184,83,31,0.35); }
+.pill.g-level{ color: var(--clay-dark); border-color: rgba(21,74,109,0.35); }
 .pill.g-level.on{ background: var(--clay); border-color: var(--clay); color: white; }
 .pill.g-kind{ background: var(--moss-light); }
 .pill.g-kind.on{ background: var(--moss); }
@@ -431,29 +370,27 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
 </head>
 <body>
 
-<header>
-<div class="brand">
-<div class="brand-icon">🌿</div>
-<div>
-<h1>Local Environmental Volunteering — Bay Area</h1>
-<p>Find a way to help, near you</p>
-</div>
-</div>
-<nav class="tabs">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="header-inner">
+<a class="brand" href="index.html" aria-label="Civic Snap home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f4c3a"/><path d="M16 5.5c-4.7 0-8.5 3.6-8.5 8.1 0 5.8 8.5 13 8.5 13s8.5-7.2 8.5-13c0-4.5-3.8-8.1-8.5-8.1z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 17.5c-2.7 0-4.3-1.8-4.3-4.3 2.8 0 4.3 1.6 4.3 4.3zm0 0c0-2.7 1.6-4.3 4.3-4.3 0 2.7-1.6 4.3-4.3 4.3z" fill="#fff"/></svg><span class="brand-name">Civic Snap</span></a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="nav-toggle-label">Menu</span></button>
+<nav class="tabs" id="site-nav" aria-label="Main">
 <a href="index.html" class="tab-link">Home</a>
-<a href="map.html" class="tab-link">Map</a>
+<a href="search.html" class="tab-link active" aria-current="page">Search</a>
 <a href="dashboard.html" class="tab-link">Dashboard</a>
-<a href="search.html" class="tab-link active">Search</a>
+<a href="map.html" class="tab-link">Map</a>
 <a href="get-involved.html" class="tab-link">Get Involved</a>
 <a href="resources.html" class="tab-link">Resources</a>
 <a href="about.html" class="tab-link">About</a>
 </nav>
+</div>
 </header>
 
-<main class="search-wrap">
+<main class="search-wrap" id="main">
 <div class="search-intro">
-<h2>Find your kind of volunteering</h2>
-<p>Type what you're looking for in your own words, or pick from the filters below. Every event is tagged with a few descriptive words &mdash; how active it is, where it happens, what you'll actually be doing.</p>
+<h1>Find your kind of volunteering</h1>
+<p>Type what you're looking for in your own words, or pick from the filters below. Every event is tagged with a few descriptive words: how active it is, where it happens, and what you'll actually be doing.</p>
 </div>
 
 <form class="search-box" id="searchForm" role="search" autocomplete="off">
@@ -475,7 +412,7 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
 <div class="understood" id="understood" hidden></div>
 <div id="results"></div>
 
-<p class="fine-print">Tags are descriptions generated automatically from each event's title and location &mdash; a quick guide, not a promise. Always check the organizer's page for age limits, accessibility, and what to bring.</p>
+<p class="fine-print">Tags are descriptions generated automatically from each event's title and location. They are a quick guide, not a promise. Always check the organizer's page for age limits, accessibility, and what to bring.</p>
 </main>
 
 <script>
@@ -955,12 +892,12 @@ function renderResults(list){
     p.className = 'empty-note';
     const filtered = activeFilterCount() > 0 || clauses.length > 0;
     if (!ALL_EVENTS.length) {
-      p.textContent = 'No upcoming events right now — check back soon.';
+      p.textContent = 'No upcoming events right now. Check back soon.';
     } else if (filtered) {
       const s = document.createElement('strong');
       s.textContent = 'Nothing matches all of that yet. ';
       p.appendChild(s);
-      p.appendChild(document.createTextNode('Try removing a filter or a word — new events are added all the time.'));
+      p.appendChild(document.createTextNode('Try removing a filter or a word. New events are added all the time.'));
     }
     box.appendChild(p);
     return;
@@ -969,7 +906,6 @@ function renderResults(list){
     const url = safeUrl(ev.bookingUrl) || safeUrl(ev.orgUrl);
     const card = document.createElement('article');
     card.className = 'card';
-    card.style.background = hexToRgba(ev.color, 0.12);
     card.style.borderLeftColor = ev.color;
 
     const main = document.createElement('div');
@@ -988,7 +924,7 @@ function renderResults(list){
     } else h.textContent = ev.name;
     const loc = document.createElement('span');
     loc.className = 'card-loc';
-    loc.textContent = cleanField(ev.location) || 'Location to be announced — see the organizer’s page';
+    loc.textContent = cleanField(ev.location) || 'Location to be announced. See the organizer’s page.';
     main.appendChild(org); main.appendChild(h); main.appendChild(loc);
 
     const pills = document.createElement('div');
@@ -1150,5 +1086,33 @@ async function init(){
 init();
 </script>
 
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<div class="footer-brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f4c3a"/><path d="M16 5.5c-4.7 0-8.5 3.6-8.5 8.1 0 5.8 8.5 13 8.5 13s8.5-7.2 8.5-13c0-4.5-3.8-8.1-8.5-8.1z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 17.5c-2.7 0-4.3-1.8-4.3-4.3 2.8 0 4.3 1.6 4.3 4.3zm0 0c0-2.7 1.6-4.3 4.3-4.3 0 2.7-1.6 4.3-4.3 4.3z" fill="#fff"/></svg><span>Civic Snap</span></div>
+<p style="margin:0;max-width:340px">Be the local hero of your community. One place to find volunteer opportunities from trusted local groups.</p>
+</div>
+<div>
+<h4>Explore</h4>
+<ul>
+<li><a href="search.html">Search</a></li>
+<li><a href="dashboard.html">Upcoming events</a></li>
+<li><a href="map.html">Map</a></li>
+</ul>
+</div>
+<div>
+<h4>Learn more</h4>
+<ul>
+<li><a href="get-involved.html">Get involved</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="about.html">About Civic Snap</a></li>
+</ul>
+</div>
+</div>
+<p class="footer-note">Civic Snap is an independent community project. Organization names and links belong to the groups named and are shown only to point you to their events. Civic Snap is not affiliated with or endorsed by them. Always confirm details with the organizer before you go.</p>
+</div>
+</footer>
+<script src="site.js"></script>
 </body>
 </html>

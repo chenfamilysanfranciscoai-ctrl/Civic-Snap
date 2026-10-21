@@ -2,23 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Map — Local Environmental Volunteering</title>
+<title>Map | Civic Snap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<script>document.documentElement.classList.add('js')</script>
 <style>
-:root{
-  --moss: #4a7856;
-  --moss-dark: #24402c;
-  --moss-light: #eef4ee;
-  --clay: #d9642b;
-  --clay-dark: #b8531f;
-  --ink: #1f2b23;
-  --paper: #fbfaf7;
-  --line: #e4e0d6;
-}
 *{ box-sizing: border-box; }
 html, body{
   margin: 0;
@@ -34,68 +27,6 @@ html, body{
 body{
   display: flex;
   flex-direction: column;
-}
-header{
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  padding: 16px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  flex-shrink: 0;
-}
-.brand{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.brand-icon{
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: var(--moss);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-header h1{
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--moss-dark);
-  letter-spacing: -0.01em;
-}
-header p{
-  margin: 0;
-  font-size: 0.78rem;
-  color: #8a8577;
-}
-
-/* ---- tab navigation (shared across every page on the site) ---- */
-nav.tabs{
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.tab-link{
-  text-decoration: none;
-  color: #6b6656;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.tab-link:hover{
-  background: var(--moss-light);
-  color: var(--moss-dark);
-}
-.tab-link.active{
-  background: var(--moss);
-  color: white;
 }
 
 #map-wrap{
@@ -144,8 +75,7 @@ nav.tabs{
   box-shadow: 0 3px 6px rgba(0,0,0,0.28);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
-.pin span{
-  font-size: 14px;
+.pin svg{
   pointer-events: none;
 }
 .pin.is-hovered{
@@ -239,7 +169,7 @@ nav.tabs{
   bottom: 22px;
   left: 16px;
   z-index: 5;
-  background: rgba(251,250,247,0.94);
+  background: rgba(255,255,255,0.96);
   backdrop-filter: blur(6px);
   padding: 12px 16px;
   border-radius: 12px;
@@ -291,7 +221,7 @@ nav.tabs{
 .stat-box .big{
   font-size: 1.7rem;
   font-weight: 800;
-  color: #ffcb8e;
+  color: #ffffff;
   line-height: 1.2;
 }
 
@@ -306,7 +236,7 @@ nav.tabs{
   align-items: center;
   gap: 4px;
   max-width: calc(100% - 210px);
-  background: rgba(251,250,247,0.94);
+  background: rgba(255,255,255,0.96);
   backdrop-filter: blur(6px);
   padding: 5px;
   border-radius: 12px;
@@ -403,26 +333,24 @@ nav.tabs{
 </head>
 <body>
 
-<header>
-<div class="brand">
-<div class="brand-icon">🌿</div>
-<div>
-<h1>Local Environmental Volunteering — Bay Area</h1>
-<p>Tap a pin to see the opportunity and sign up</p>
-</div>
-</div>
-<nav class="tabs">
+<a class="skip-link" href="#map-wrap">Skip to content</a>
+<header class="site-header">
+<div class="header-inner">
+<a class="brand" href="index.html" aria-label="Civic Snap home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f4c3a"/><path d="M16 5.5c-4.7 0-8.5 3.6-8.5 8.1 0 5.8 8.5 13 8.5 13s8.5-7.2 8.5-13c0-4.5-3.8-8.1-8.5-8.1z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 17.5c-2.7 0-4.3-1.8-4.3-4.3 2.8 0 4.3 1.6 4.3 4.3zm0 0c0-2.7 1.6-4.3 4.3-4.3 0 2.7-1.6 4.3-4.3 4.3z" fill="#fff"/></svg><span class="brand-name">Civic Snap</span></a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="nav-toggle-label">Menu</span></button>
+<nav class="tabs" id="site-nav" aria-label="Main">
 <a href="index.html" class="tab-link">Home</a>
-<a href="map.html" class="tab-link active">Map</a>
-<a href="dashboard.html" class="tab-link">Dashboard</a>
 <a href="search.html" class="tab-link">Search</a>
+<a href="dashboard.html" class="tab-link">Dashboard</a>
+<a href="map.html" class="tab-link active" aria-current="page">Map</a>
 <a href="get-involved.html" class="tab-link">Get Involved</a>
 <a href="resources.html" class="tab-link">Resources</a>
 <a href="about.html" class="tab-link">About</a>
 </nav>
+</div>
 </header>
 
-<div id="map-wrap">
+<div id="map-wrap" role="main">
 <div id="map"></div>
 <div class="filter-bar" id="filterBar" role="group" aria-label="Filter events by date">
 <button type="button" class="filter-btn" data-filter="week" aria-pressed="false">This Week</button>
@@ -431,7 +359,7 @@ nav.tabs{
 <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
 <span class="filter-count" id="filterCount" aria-live="polite"></span>
 </div>
-<div class="filter-empty" id="filterEmpty" hidden>No events in this date range &mdash; try a wider filter.</div>
+<div class="filter-empty" id="filterEmpty" hidden>No events in this date range. Try a wider filter.</div>
 <div class="legend" id="legend"></div>
 <div class="stat-box">
 <div class="label">People who clicked "I will help!"</div>
@@ -659,7 +587,7 @@ function renderPins(){
       const pinEl = document.createElement('div');
       pinEl.className = 'pin';
       pinEl.style.background = orgGroup.color;
-      pinEl.innerHTML = '<span>🌱</span>';
+      pinEl.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14z"/><path d="M5 19l8-8"/></svg>';
       anchorEl.appendChild(pinEl);
       anchorEl.addEventListener('mouseenter', () => pinEl.classList.add('is-hovered'));
       anchorEl.addEventListener('mouseleave', () => pinEl.classList.remove('is-hovered'));
@@ -776,5 +704,6 @@ async function init(){
 init();
 </script>
 
+<script src="site.js"></script>
 </body>
 </html>

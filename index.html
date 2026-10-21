@@ -2,228 +2,396 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Local Environmental Volunteering — Bay Area</title>
+<title>Civic Snap | Be the local hero of your community</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Civic Snap gathers local volunteer opportunities from trusted community groups into one place, so you can find something to help with easy and fast.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<script>document.documentElement.classList.add('js')</script>
 <style>
-:root{
-  --moss: #4a7856;
-  --moss-dark: #24402c;
-  --moss-light: #eef4ee;
-  --clay: #d9642b;
-  --clay-dark: #b8531f;
-  --ink: #1f2b23;
-  --paper: #fbfaf7;
-  --line: #e4e0d6;
-}
-*{ box-sizing: border-box; }
-html, body{
-  margin: 0;
-  min-height: 100%;
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-}
-header{
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  padding: 16px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.brand{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.brand-icon{
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: var(--moss);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-header h1{
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--moss-dark);
-  letter-spacing: -0.01em;
-}
-header p{
-  margin: 0;
-  font-size: 0.78rem;
-  color: #8a8577;
-}
-
-/* ---- tab navigation (shared across every page on the site) ---- */
-nav.tabs{
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.tab-link{
-  text-decoration: none;
-  color: #6b6656;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.tab-link:hover{
-  background: var(--moss-light);
-  color: var(--moss-dark);
-}
-.tab-link.active{
-  background: var(--moss);
-  color: white;
-}
-
+body{ background:#fff; }
 /* ---- hero ---- */
 .hero{
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 88px 24px 48px;
+  position:relative;
+  color:#fff;
+  background-color:#0a3326;
+  background-image:linear-gradient(90deg, rgba(7,30,22,0.88) 0%, rgba(7,30,22,0.66) 52%, rgba(7,30,22,0.28) 100%), url("https://images.unsplash.com/photo-1779812208201-ae631b5f6ba9?auto=format&fit=crop&w=2000&q=70");
+  background-size:cover;
+  background-position:center 40%;
 }
-.hero-icon{
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
-  background: var(--moss);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  margin: 0 auto 24px;
-  box-shadow: 0 10px 24px rgba(36,64,44,0.25);
+.hero-inner{ max-width:1120px; margin:0 auto; padding:104px 28px 96px; }
+.hero .eyebrow{ color:#a9d8c2; }
+.hero h1{
+  margin:0 0 20px; max-width:760px;
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(2.2rem,5.2vw,3.7rem); line-height:1.08; letter-spacing:-0.02em;
 }
-.hero h2{
-  margin: 0 0 16px;
-  font-size: 2.1rem;
-  font-weight: 800;
-  color: var(--moss-dark);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+.hero p.sub{ margin:0 0 32px; max-width:580px; font-size:1.12rem; line-height:1.6; color:#dbe9e1; }
+.cta-row{ display:flex; flex-wrap:wrap; gap:12px; }
+.hero-stats{
+  position:relative; z-index:1;
+  display:flex; flex-wrap:wrap; gap:0;
+  max-width:1120px; margin:0 auto; padding:0 28px;
 }
-.hero p{
-  margin: 0 0 30px;
-  font-size: 1.05rem;
-  color: #55503f;
-  line-height: 1.55;
+.stat-strip{
+  display:flex; flex-wrap:wrap; width:100%;
+  border-top:1px solid rgba(255,255,255,0.22);
+  background:rgba(7,30,22,0.55);
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
 }
-.cta-btn{
-  display: inline-block;
-  background: var(--clay);
-  color: white;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.98rem;
-  padding: 13px 28px;
-  border-radius: 11px;
-  box-shadow: 0 8px 20px rgba(217,100,43,0.3);
-  transition: background 0.15s ease, transform 0.1s ease;
+.stat-strip[hidden]{ display:none; }
+.stat{ padding:18px 28px 18px 0; margin-right:28px; }
+.stat b{ display:block; font-family:var(--serif); font-size:1.6rem; font-weight:600; line-height:1.1; }
+.stat span{ font-size:0.78rem; letter-spacing:0.04em; text-transform:uppercase; color:#b9d3c6; }
+.hero-wrap{ position:relative; }
+.hero-wrap .stat-band{ position:absolute; left:0; right:0; bottom:0; }
+
+/* ---- spinning carousels ---- */
+.carousel-block{ margin-top:44px; }
+.carousel-head{
+  max-width:1120px; margin:0 auto 16px; padding:0 28px;
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;
 }
-.cta-btn:hover{
-  background: var(--clay-dark);
-  transform: translateY(-2px);
+.carousel-head h3{ margin:0; font-size:1.05rem; font-weight:700; color:var(--brand-dark); }
+.motion-btn{
+  font:inherit; font-size:0.8rem; font-weight:600; color:var(--accent-dark);
+  background:none; border:0; cursor:pointer; text-decoration:underline; padding:2px 0;
+}
+.marquee{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+}
+.marquee-track{ display:flex; width:max-content; animation:spin-left 60s linear infinite; }
+.marquee.reverse .marquee-track{ animation-name:spin-right; animation-duration:68s; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track, .carousels.paused .marquee-track{ animation-play-state:paused; }
+@keyframes spin-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@keyframes spin-right{ from{ transform:translateX(-50%); } to{ transform:translateX(0); } }
+.marquee-set{ display:flex; gap:20px; padding:4px 20px 14px 0; }
+
+.org-card{
+  flex:0 0 300px; display:flex; flex-direction:column;
+  background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  text-decoration:none; color:var(--ink);
+  box-shadow:0 1px 3px rgba(20,40,30,0.06);
+  transition:box-shadow .15s ease, transform .15s ease;
+}
+.org-card:hover{ box-shadow:0 12px 28px rgba(20,40,30,0.14); transform:translateY(-3px); }
+.org-photo{ height:172px; background:var(--brand-light); overflow:hidden; }
+.org-photo img{ width:100%; height:100%; object-fit:cover; }
+.org-body{ padding:16px 18px 18px; display:flex; flex-direction:column; gap:6px; flex:1; }
+.org-name{ font-size:1rem; font-weight:700; color:var(--brand-dark); line-height:1.3; }
+.org-desc{ font-size:0.86rem; color:var(--muted); line-height:1.5; flex:1; }
+.org-link{ display:inline-flex; align-items:center; gap:6px; margin-top:6px; font-size:0.82rem; font-weight:600; color:var(--accent-dark); }
+.org-link svg{ width:15px; height:15px; }
+
+.way-card{
+  flex:0 0 250px; display:flex; flex-direction:column; gap:6px;
+  background:var(--bg-soft); border:1px solid var(--line); border-radius:10px; padding:20px;
+  text-decoration:none; color:var(--ink);
+  transition:background .15s ease, border-color .15s ease, transform .15s ease;
+}
+.way-card:hover{ background:#fff; border-color:var(--brand-mid); transform:translateY(-3px); }
+.way-icon{ width:40px; height:40px; border-radius:9px; background:var(--brand-light); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:8px; }
+.way-icon svg{ width:22px; height:22px; }
+.way-name{ font-size:1rem; font-weight:700; color:var(--brand-dark); }
+.way-desc{ font-size:0.86rem; color:var(--muted); line-height:1.5; flex:1; }
+.way-link{ display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:0.82rem; font-weight:600; color:var(--accent-dark); }
+.way-link svg{ width:15px; height:15px; }
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{ animation:none; }
+  .marquee{ overflow-x:auto; -webkit-mask-image:none; mask-image:none; }
+  .motion-btn{ display:none; }
 }
 
-/* ---- feature row ---- */
-.features{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 8px 24px 96px;
+/* ---- how it works ---- */
+.steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; counter-reset:step; }
+.step{ position:relative; padding-top:18px; border-top:2px solid var(--brand); }
+.step::before{
+  counter-increment:step; content:"0" counter(step);
+  display:block; margin-bottom:10px;
+  font-family:var(--serif); font-size:1.5rem; font-weight:600; color:var(--brand-mid);
 }
-.feature{
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 26px 22px;
-  text-align: center;
-}
-.feature .icon{
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-.feature h3{
-  margin: 0 0 8px;
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: var(--moss-dark);
-}
-.feature p{
-  margin: 0;
-  font-size: 0.85rem;
-  color: #6b6656;
-  line-height: 1.5;
-}
+.step h3{ margin:0 0 8px; font-size:1.05rem; font-weight:700; color:var(--brand-dark); }
+.step p{ margin:0; font-size:0.94rem; line-height:1.65; color:var(--muted); }
+@media (max-width:760px){ .steps{ grid-template-columns:1fr; gap:24px; } }
 
-@media (max-width: 720px){
-  .features{ grid-template-columns: 1fr; }
-  .hero{ padding: 56px 20px 40px; }
-  .hero h2{ font-size: 1.6rem; }
+/* ---- tools ---- */
+.tool{ display:flex; flex-direction:column; text-decoration:none; color:inherit; transition:border-color .15s ease, box-shadow .15s ease; }
+.tool:hover{ border-color:var(--brand-mid); box-shadow:0 8px 22px rgba(20,40,30,0.1); }
+.tool p{ flex:1; }
+.tool .go{ margin-top:14px; display:inline-flex; align-items:center; gap:6px; font-size:0.86rem; font-weight:600; color:var(--accent-dark); }
+.tool .go svg{ width:15px; height:15px; }
+.tool .soon{ margin-top:14px; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); }
+
+/* ---- closing band ---- */
+.band{
+  color:#fff; text-align:left;
+  background-color:#0a3326;
+  background-image:linear-gradient(90deg, rgba(7,30,22,0.9), rgba(7,30,22,0.6)), url("https://images.unsplash.com/photo-1776988931450-7377dead1ed0?auto=format&fit=crop&w=1800&q=70");
+  background-size:cover; background-position:center;
+}
+.band-inner{ max-width:1120px; margin:0 auto; padding:72px 28px; }
+.band h2{ margin:0 0 12px; max-width:640px; font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,3.4vw,2.4rem); line-height:1.15; letter-spacing:-0.01em; }
+.band p{ margin:0 0 26px; max-width:560px; color:#d3e3da; line-height:1.6; }
+
+@media (max-width:640px){
+  .hero-inner{ padding:64px 20px 56px; }
+  .stat-strip{ padding:0; }
+  .stat{ padding:14px 0; margin-right:22px; }
+  .carousel-head, .band-inner, .hero-stats{ padding-left:20px; padding-right:20px; }
+  .band-inner{ padding-top:52px; padding-bottom:52px; }
+  .org-card{ flex-basis:268px; }
+  .way-card{ flex-basis:232px; }
 }
 </style>
 </head>
 <body>
-
-<header>
-<div class="brand">
-<div class="brand-icon">🌿</div>
-<div>
-<h1>Local Environmental Volunteering — Bay Area</h1>
-<p>Find a way to help, near you</p>
-</div>
-</div>
-<nav class="tabs">
-<a href="index.html" class="tab-link active">Home</a>
-<a href="map.html" class="tab-link">Map</a>
-<a href="dashboard.html" class="tab-link">Dashboard</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="header-inner">
+<a class="brand" href="index.html" aria-label="Civic Snap home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f4c3a"/><path d="M16 5.5c-4.7 0-8.5 3.6-8.5 8.1 0 5.8 8.5 13 8.5 13s8.5-7.2 8.5-13c0-4.5-3.8-8.1-8.5-8.1z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 17.5c-2.7 0-4.3-1.8-4.3-4.3 2.8 0 4.3 1.6 4.3 4.3zm0 0c0-2.7 1.6-4.3 4.3-4.3 0 2.7-1.6 4.3-4.3 4.3z" fill="#fff"/></svg><span class="brand-name">Civic Snap</span></a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="nav-toggle-label">Menu</span></button>
+<nav class="tabs" id="site-nav" aria-label="Main">
+<a href="index.html" class="tab-link active" aria-current="page">Home</a>
 <a href="search.html" class="tab-link">Search</a>
+<a href="dashboard.html" class="tab-link">Dashboard</a>
+<a href="map.html" class="tab-link">Map</a>
 <a href="get-involved.html" class="tab-link">Get Involved</a>
 <a href="resources.html" class="tab-link">Resources</a>
 <a href="about.html" class="tab-link">About</a>
 </nav>
+</div>
 </header>
-
-<main>
-<section class="hero">
-<div class="hero-icon">🌱</div>
-<h2>Real Bay Area cleanups and restoration days, all on one map</h2>
-<p>We pull volunteer events straight from trusted local environmental groups and put every one of them on a single map, so finding a way to help near you takes minutes, not a dozen open tabs.</p>
-<a class="cta-btn" href="map.html">View the Map →</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4z"/><path d="M9 4v14M15 6v14"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.5 0 4.5 1.7 4.5 4.5"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/></symbol>
+<symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M12 12C12 8 9 5.5 4.5 5.5 4.5 9.5 7 12 12 12z"/><path d="M12 14c0-3.5 2.5-6 7.5-6 0 4-2.5 6-7.5 6z"/></symbol>
+<symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 19l6.5-11 4 6.5 2.5-4L21 19H3z"/></symbol>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14z"/><path d="M5 19l8-8"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+</defs></svg>
+<main id="main">
+<section class="hero-wrap">
+<div class="hero">
+<div class="hero-inner">
+<p class="eyebrow">Local volunteering, in one place</p>
+<h1>Be the local hero of your community, easy and fast with Civic Snap</h1>
+<p class="sub">Civic Snap gathers volunteer opportunities from trusted local groups so you can find something that fits your time, your energy and what you care about, in a few taps.</p>
+<div class="cta-row">
+<a class="btn btn-light" href="search.html">Find something to do <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+<a class="btn btn-ghost" href="dashboard.html">See what's coming up</a>
+</div>
+</div>
+<div class="hero-stats"><div class="stat-strip" id="statStrip" hidden aria-live="polite">
+<div class="stat"><b id="statEvents"></b><span id="statEventsLabel">Upcoming events</span></div>
+<div class="stat"><b id="statOrgs"></b><span id="statOrgsLabel">Local groups</span></div>
+<div class="stat"><b id="statNext"></b><span>Next event</span></div>
+</div></div>
+</div>
 </section>
 
-<section class="features">
-<div class="feature">
-<div class="icon">🗺️</div>
-<h3>One map, real events</h3>
-<p>Every pin links straight to the organization's own real sign-up page — never a dead end.</p>
+<section class="section carousels" id="carousels" aria-label="Organizations and ways to help" style="padding-bottom:36px">
+<div class="carousel-block" style="margin-top:0">
+<div class="carousel-head">
+<h3>Local groups you can volunteer with</h3>
+<button type="button" class="motion-btn" id="motionBtn" aria-pressed="false">Pause motion</button>
 </div>
-<div class="feature">
-<div class="icon">🤝</div>
-<h3>Trusted local groups</h3>
-<p>Surfrider Foundation SF, Pacific Beach Coalition, Save The Bay, Grassroots Ecology, and SF Baykeeper.</p>
+<div class="marquee" data-marquee>
+<div class="marquee-track">
+<div class="marquee-set" data-source>
+<a class="org-card" href="https://sf.surfrider.org/" target="_blank" rel="noopener noreferrer">
+<div class="org-photo"><img src="https://images.unsplash.com/photo-1764023874622-824377771f18?auto=format&fit=crop&w=700&q=70" alt="People relaxing on a beach with the Golden Gate Bridge in the background" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>
+<div class="org-body"><span class="org-name">Surfrider Foundation, SF Chapter</span><span class="org-desc">Beach cleanups and dune revegetation at Ocean Beach.</span><span class="org-link">Visit website <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+</a>
+<a class="org-card" href="https://www.pacificbeachcoalition.org/" target="_blank" rel="noopener noreferrer">
+<div class="org-photo"><img src="https://images.unsplash.com/photo-1565803974275-dccd2f933cbb?auto=format&fit=crop&w=700&q=70" alt="People picking up trash along a beach" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>
+<div class="org-body"><span class="org-name">Pacific Beach Coalition</span><span class="org-desc">Regular shoreline cleanups along the San Mateo coast, from Pacifica to Half Moon Bay.</span><span class="org-link">Visit website <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+</a>
+<a class="org-card" href="https://savesfbay.org/" target="_blank" rel="noopener noreferrer">
+<div class="org-photo"><img src="https://images.unsplash.com/photo-1778736085356-536ecc2a4532?auto=format&fit=crop&w=700&q=70" alt="Still bay water and green grassland under a bright sky" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>
+<div class="org-body"><span class="org-name">Save The Bay</span><span class="org-desc">Native planting and wetland restoration along San Francisco Bay.</span><span class="org-link">Visit website <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+</a>
+<a class="org-card" href="https://www.grassrootsecology.org/" target="_blank" rel="noopener noreferrer">
+<div class="org-photo"><img src="https://images.unsplash.com/photo-1787013303584-06b1b187a73e?auto=format&fit=crop&w=700&q=70" alt="Two people planting a sapling in soil" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>
+<div class="org-body"><span class="org-name">Grassroots Ecology</span><span class="org-desc">Habitat restoration, native gardens and nature outings on the Peninsula.</span><span class="org-link">Visit website <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+</a>
+<a class="org-card" href="https://baykeeper.org/" target="_blank" rel="noopener noreferrer">
+<div class="org-photo"><img src="https://images.unsplash.com/photo-1785839886919-637c66319643?auto=format&fit=crop&w=700&q=70" alt="Boats on San Francisco Bay under a clear sky" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.display='none'"></div>
+<div class="org-body"><span class="org-name">San Francisco Baykeeper</span><span class="org-desc">Protecting Bay water quality, with shoreline cleanup programs.</span><span class="org-link">Visit website <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+</a>
 </div>
-<div class="feature">
-<div class="icon">🔄</div>
-<h3>Always up to date</h3>
-<p>Event listings refresh automatically, so what you see here is what's actually happening.</p>
+</div>
+</div>
+</div>
+
+<div class="carousel-block">
+<div class="carousel-head"><h3>Ways to help</h3></div>
+<div class="marquee reverse" data-marquee>
+<div class="marquee-track">
+<div class="marquee-set" data-source>
+<a class="way-card" href="search.html?f=kind.cleanup">
+<span class="way-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-trash"/></svg></span><span class="way-name">Cleanups</span><span class="way-desc">Beaches, creeks and shorelines. Easy to join, with a visible result.</span><span class="way-link">Browse cleanups <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</a>
+<a class="way-card" href="search.html?f=kind.planting">
+<span class="way-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-sprout"/></svg></span><span class="way-name">Native planting</span><span class="way-desc">Put local plants in the ground and help a place recover.</span><span class="way-link">Browse native planting <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</a>
+<a class="way-card" href="search.html?f=kind.restoration">
+<span class="way-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-mountain"/></svg></span><span class="way-name">Habitat restoration</span><span class="way-desc">Hands-on work that brings dunes, marshes and woods back to health.</span><span class="way-link">Browse habitat restoration <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</a>
+<a class="way-card" href="search.html?f=kind.gardening">
+<span class="way-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-leaf"/></svg></span><span class="way-name">Gardening</span><span class="way-desc">Pollinator gardens and nurseries. Relaxed, family-friendly work.</span><span class="way-link">Browse gardening <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</a>
+<a class="way-card" href="search.html?f=kind.nature-walk">
+<span class="way-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-route"/></svg></span><span class="way-name">Nature walks</span><span class="way-desc">Guided hikes and outings to get to know local wild places.</span><span class="way-link">Browse nature walks <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</a>
+<a class="way-card" href="search.html?f=kind.community-event">
+<span class="way-icon"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-users"/></svg></span><span class="way-name">Community events</span><span class="way-desc">Festivals, celebrations and plant sales. Meet your neighbors.</span><span class="way-link">Browse community events <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section soft">
+<div class="container">
+<p class="eyebrow">How it works</p>
+<h2>From "I should help" to signed up, in minutes</h2>
+<p class="intro">No more hunting through calendars and newsletters. Civic Snap does the gathering, and the organizer handles the sign-up.</p>
+<div class="steps">
+<div class="step"><h3>We gather the events</h3><p>Listings are collected automatically from each group's own public calendar and refreshed regularly, so what you see is current.</p></div>
+<div class="step"><h3>You find what fits</h3><p>Search by what you want to do, how active you'd like to be, where, and when. Every event carries plain-language tags.</p></div>
+<div class="step"><h3>You sign up with the organizer</h3><p>Each event links straight to the organizer's own sign-up page, so you always register with the group you'll be helping.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+<p class="eyebrow">Explore</p>
+<h2>Everything for local volunteering, in one place</h2>
+<p class="intro">Look things up the way you think about them: by what you want to do, by date, or by where you are.</p>
+<div class="grid cols-4">
+<a class="card-box tool" href="search.html"><div class="icon-box"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-search"/></svg></div><h3>Search</h3><p>Describe what you want, such as outdoors, easy, family-friendly or this weekend, and see matching events.</p><span class="go">Start searching <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+<a class="card-box tool" href="dashboard.html"><div class="icon-box"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-calendar"/></svg></div><h3>Upcoming events</h3><p>Every opportunity from every group, soonest first, with a direct sign-up link.</p><span class="go">See the list <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+<a class="card-box tool" href="map.html"><div class="icon-box"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-map"/></svg></div><h3>Map</h3><p>Prefer to browse by place? See events near you, with date filters.</p><span class="go">Open the map <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+<a class="card-box tool" href="get-involved.html"><div class="icon-box"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-users"/></svg></div><h3>Get involved</h3><p>Ways to help beyond a single event, and tips for your first time out.</p><span class="go">Read more <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+</div>
+</div>
+</section>
+
+<section class="band">
+<div class="band-inner">
+<h2>We're starting with the Bay Area's environmental groups, and growing.</h2>
+<p>Civic Snap is becoming a home for all kinds of local volunteering. Start with what's happening this week.</p>
+<a class="btn btn-light" href="search.html?f=when.week">See this week's events <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 </div>
 </section>
 </main>
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<div class="footer-brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f4c3a"/><path d="M16 5.5c-4.7 0-8.5 3.6-8.5 8.1 0 5.8 8.5 13 8.5 13s8.5-7.2 8.5-13c0-4.5-3.8-8.1-8.5-8.1z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 17.5c-2.7 0-4.3-1.8-4.3-4.3 2.8 0 4.3 1.6 4.3 4.3zm0 0c0-2.7 1.6-4.3 4.3-4.3 0 2.7-1.6 4.3-4.3 4.3z" fill="#fff"/></svg><span>Civic Snap</span></div>
+<p style="margin:0;max-width:340px">Be the local hero of your community. One place to find volunteer opportunities from trusted local groups.</p>
+</div>
+<div>
+<h4>Explore</h4>
+<ul>
+<li><a href="search.html">Search</a></li>
+<li><a href="dashboard.html">Upcoming events</a></li>
+<li><a href="map.html">Map</a></li>
+</ul>
+</div>
+<div>
+<h4>Learn more</h4>
+<ul>
+<li><a href="get-involved.html">Get involved</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="about.html">About Civic Snap</a></li>
+</ul>
+</div>
+</div>
+<p class="footer-note">Civic Snap is an independent community project. Organization names and links belong to the groups named and are shown only to point you to their events. Civic Snap is not affiliated with or endorsed by them. Always confirm details with the organizer before you go. Photographs are illustrative and do not depict the organizations shown. Photos by Peter Beke, Van Tien Le, Ashutosh Gupta, Brian Yurasits, Kim Ampie, Aliaksei Lepik and Gina Matias via Unsplash.</p>
+</div>
+</footer>
+<script src="site.js"></script>
+<script>
+// ---- spinning carousels ----
+// Each row's cards are written once in the HTML; this clones them until the strip is wider
+// than the screen, then doubles it so the loop is seamless (the CSS animation slides exactly
+// one half of the strip). Duplicates are hidden from screen readers and skipped by Tab.
+function cloneSet(el){
+  const c = el.cloneNode(true);
+  c.removeAttribute('data-source');
+  c.setAttribute('aria-hidden', 'true');
+  c.querySelectorAll('a').forEach(a => a.setAttribute('tabindex', '-1'));
+  return c;
+}
+function buildMarquees(){
+  document.querySelectorAll('[data-marquee]').forEach(m => {
+    const track = m.querySelector('.marquee-track');
+    const source = track.querySelector('[data-source]');
+    if (!source || track.dataset.built) return;
+    track.dataset.built = '1';
+    const need = Math.max(window.innerWidth, 1200);
+    let guard = 0;
+    const half = [source];
+    while (half.reduce((w, el) => w + el.getBoundingClientRect().width, 0) < need && guard++ < 8) {
+      const c = cloneSet(source);
+      track.appendChild(c);
+      half.push(c);
+    }
+    Array.from(track.children).forEach(el => track.appendChild(cloneSet(el)));
+  });
+}
+buildMarquees();
 
+// pause / play for people who find motion distracting
+const carousels = document.getElementById('carousels');
+const motionBtn = document.getElementById('motionBtn');
+function setPaused(p){
+  carousels.classList.toggle('paused', p);
+  motionBtn.setAttribute('aria-pressed', p ? 'true' : 'false');
+  motionBtn.textContent = p ? 'Play motion' : 'Pause motion';
+  try { localStorage.setItem('civicsnap-pause-motion', p ? '1' : '0'); } catch (e) {}
+}
+motionBtn.addEventListener('click', () => setPaused(!carousels.classList.contains('paused')));
+try { if (localStorage.getItem('civicsnap-pause-motion') === '1') setPaused(true); } catch (e) {}
+
+// ---- live numbers from events.json (quietly skipped if it can't be loaded) ----
+(async function(){
+  try {
+    const res = await fetch('events.json?_=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const d = new Date();
+    const today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    let n = 0, orgs = 0, next = null;
+    (Array.isArray(data) ? data : []).forEach(g => {
+      const list = ((g && g.events) || []).filter(e => e && typeof e.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(e.date) && e.date >= today);
+      n += list.length;
+      if (list.length) orgs++;
+      list.forEach(e => { if (!next || e.date < next) next = e.date; });
+    });
+    if (!n) return;
+    document.getElementById('statEvents').textContent = n;
+    document.getElementById('statEventsLabel').textContent = n === 1 ? 'Upcoming event' : 'Upcoming events';
+    document.getElementById('statOrgs').textContent = orgs;
+    document.getElementById('statOrgsLabel').textContent = orgs === 1 ? 'Local group' : 'Local groups';
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(next);
+    document.getElementById('statNext').textContent = new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    document.getElementById('statStrip').hidden = false;
+  } catch (e) { /* the page works fine without the numbers */ }
+})();
+</script>
 </body>
 </html>
