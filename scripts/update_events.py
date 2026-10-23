@@ -36,6 +36,19 @@ Design notes / honesty about limitations:
     (see verify_url()) -- a link that 404s/times out is dropped, not published.
 
 CHANGELOG:
+  2026-10-23  Three organizations are now read directly, with no AI calls (so
+              they cost nothing to run): SF-Marin Food Bank ("galaxy_calendar",
+              next 3 weeks), St. Anthony's ("v4s_listing") and Project Open Hand
+              ("openhand_hotspots"). They skip shifts with 0 open slots, link each
+              shift to its own page where the site has one, and set their own tags.
+              Added a hard cap on Claude calls per run (MAX_CLAUDE_CALLS, default
+              150) and a usage/cost line at the end of every run, ONLY_ORGS and
+              DRY_RUN switches for testing one org without touching the others,
+              a per-run cache for link checks, and "keep the previous events if
+              reading an org fails" for every org kind. Dropped Baykeeper, HandsOn
+              Bay Area and City of San Mateo; FOPAL and Second Harvest read new
+              pages. Parsers were checked against copies of the live pages, not
+              yet run from the GitHub runner.
   2026-10-21  Added organizations for other causes (disaster preparedness, youth,
               civic, arts, seniors, food, and a multi-cause aggregator). New org
               kinds: "text_page" (read a page's text, for pages with no per-event
@@ -626,6 +639,9 @@ import sys
 import time
 import unicodedata
 from datetime import date, datetime, timedelta
+import html as _htmlmod
+from html.parser import HTMLParser as _HTMLParser
+from urllib.parse import urljoin
 
 import requests
 
@@ -641,6 +657,18 @@ except ImportError:
 
 MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-5")
 LOOKAHEAD_DAYS = int(os.environ.get("LOOKAHEAD_DAYS", "56"))  # ~8 weeks
+# Cost safety. MAX_CLAUDE_CALLS is a hard stop: after that many Claude API
+# calls in one run, further calls are refused (the org just keeps its previous
+# events). A normal run makes well under 100. The prices (dollars per million
+# tokens) only feed the estimate printed at the end of the run.
+MAX_CLAUDE_CALLS = int(os.environ.get("MAX_CLAUDE_CALLS", "150"))
+PRICE_PER_MTOK_IN = float(os.environ.get("PRICE_PER_MTOK_IN", "2.0"))
+PRICE_PER_MTOK_OUT = float(os.environ.get("PRICE_PER_MTOK_OUT", "10.0"))
+# Test one organization without touching the others: ONLY_ORGS="food bank" (a
+# comma-separated list of name fragments). Every other org keeps what is already
+# in events.json. DRY_RUN=1 prints the results and does not write events.json.
+ONLY_ORGS = [x.strip().lower() for x in os.environ.get("ONLY_ORGS", "").split(",") if x.strip()]
+DRY_RUN = os.environ.get("DRY_RUN", "").lower() in ("1", "true", "yes", "on")
 EVENTS_JSON_PATH = os.environ.get("EVENTS_JSON_PATH", "events.json")
 # Optional: a free Google Cloud API key with the Calendar API enabled (no
 # billing required -- see the CHANGELOG entry below dated 2026-09-18e, and
@@ -708,13 +736,6 @@ ORGS = [
         # to be absolute, like Save The Bay below).
         "detail_link_pattern": r'/event-calendar/\d{4}/\d{2}/\d{2}/[a-z0-9\-]+',
     },
-    {
-        "org": "San Francisco Baykeeper",
-        "cause": "environment",
-        "color": "#2a8f8f",
-        "kind": "no_dated_events",
-        "org_url": "https://baykeeper.org/cleanups/",
-    },
     # ------------------------------------------------------------------
     # Added 2026-10-21: organizations for other causes. "cause" is one of
     # environment, disaster, youth, seniors, civic, arts, food, animals,
@@ -766,36 +787,69 @@ ORGS = [
         "booking_url": "https://www.mobilize.us/civicjoyfund/",
     },
     {
-        # The page lists the monthly used-book sale dates and venue. Volunteers
+        # The home page shows the next used-book sale dates and venue. Volunteers
         # staff the sale, so the sale days are published as volunteer days.
         "org": "Friends of the Palo Alto Library (FOPAL)",
         "cause": "arts",
         "color": "#8c3f5d",
         "kind": "text_page",
-        "source_page": "https://www.fopal.org/book-sale-info",
+        "source_page": "https://www.fopal.org/",
         "org_url": "https://www.fopal.org/volunteer",
         "booking_url": "https://www.fopal.org/volunteer",
         "extra_context": (
-            "This page announces the monthly used-book sale, which volunteers help run. Report each "
+            "This home page announces the monthly used-book sale, which volunteers help run. Report each "
             "upcoming sale day (the Saturday and the Sunday separately) as its own event named "
             "'Used Book Sale (volunteers help run it)'. Use ONLY dates stated on the page; do not "
             "work out later months. Use the venue address on the page as the location."
         ),
     },
+    # ---- Read directly, no AI (free to run). Each skips shifts with 0 open slots. ----
+    {
+        # "Get Connected" calendar: the month view's per-day lists come from
+        # /calendar/ajaxGetDay. Only the next 3 weeks are read (there are ~280 open
+        # shifts in 3 weeks); raise lookahead_days to show more.
+        "org": "San Francisco-Marin Food Bank",
+        "cause": "food",
+        "color": "#b5651d",
+        "kind": "galaxy_calendar",
+        "base_url": "https://volunteering.sfmfoodbank.org",
+        "org_url": "https://volunteering.sfmfoodbank.org/need",
+        "lookahead_days": 21,
+        "verify_links": False,     # the links come straight from the site's own list
+        "default_tags": ["moderate"],
+        "tag_rules": [(r"warehouse|kitchen", ["indoors"])],
+    },
+    {
+        # Salesforce "Hot Spots" page: two embedded shift lists, each under a
+        # 'Location:' line. Slots marked full are skipped. Sign-up happens in a
+        # pop-up on the Hot Spots page, so that page is the link.
+        "org": "Project Open Hand",
+        "cause": "food",
+        "color": "#c0392b",
+        "kind": "openhand_hotspots",
+        "source_page": "https://www.openhand.org/hotspots",
+        "org_url": "https://www.openhand.org/volunteer/volunteer-hot-spots",
+        "default_city": "San Francisco, CA",
+        "verify_links": False,
+        "default_tags": ["moderate", "indoors"],
+    },
+    {
+        # Salesforce job listing page; each shift links to its own page, built
+        # the same way the St. Anthony's calendar builds it.
+        "org": "St. Anthony's Foundation",
+        "cause": "housing",
+        "color": "#1f5f8b",
+        "kind": "v4s_listing",
+        "listing_base": "https://stanthonysf.my.salesforce-sites.com/volunteer/GW_Volunteers__VolunteersJobListingFS",
+        "org_url": "https://www.stanthonysf.org/volunteer/sign-up-now/",
+        "default_city": "San Francisco, CA",
+        "verify_links": False,
+        "default_tags": ["moderate"],
+        "tag_rules": [(r"breakfast|dining|clothing", ["indoors"])],
+    },
     # ---- Needs testing: JavaScript-rendered volunteer portals. The script
     # falls back to a headless browser automatically when the first plain fetch
     # shows no event links. ----
-    {
-        "org": "HandsOn Bay Area",
-        "cause": "various",
-        "color": "#2f6f73",
-        "kind": "html_listing",
-        "listing_page": "https://www.handsonbayarea.org/calendar",
-        "org_url": "https://www.handsonbayarea.org/volunteer",
-        # HandsOn Connect opportunity pages: /opportunity/<Salesforce id>
-        "detail_link_pattern": r'(?:https://www\.handsonbayarea\.org)?/opportunity/[A-Za-z0-9]{15,18}',
-        "max_details": 30,
-    },
     {
         "org": "Meals on Wheels San Francisco",
         "cause": "seniors",
@@ -808,21 +862,14 @@ ORGS = [
     },
     {
         # Booking platform unknown, so there is no link pattern to match: read
-        # the rendered calendar page as text instead.
+        # the rendered page as text instead. The site was down on 2026-10-23, so
+        # this one still needs a proper test run (it has many opportunities).
         "org": "Second Harvest Food Bank of Silicon Valley",
         "cause": "food",
         "color": "#a0731a",
         "kind": "text_page",
-        "source_page": "https://www.shfb.org/give-help/volunteer/volcalendar-general/",
+        "source_page": "https://www.shfb.org/give-help/volunteer/individual-volunteering/",
         "org_url": "https://www.shfb.org/give-help/volunteer/individual-volunteering/",
-    },
-    {
-        "org": "City of San Mateo Volunteer Source",
-        "cause": "civic",
-        "color": "#4b6584",
-        "kind": "text_page",
-        "source_page": "https://cityofsanmateo.galaxydigital.com/need/",
-        "org_url": "https://www.cityofsanmateo.org/2309",
     },
 ]
 
@@ -1039,6 +1086,8 @@ def tag_events(client, org_name, cleaned_events, previous_tags=None, cause="envi
     todo = []
     reused = 0
     for ev in cleaned_events:
+        if ev.get("tags"):
+            continue          # already tagged by the org's own reader (no Claude call needed)
         cached = sanitize_tags(previous_tags.get(_tag_cache_key(org_name, ev)), allowed_groups)
         if cached:
             ev["tags"] = list(cached)
@@ -1087,6 +1136,39 @@ def tag_events(client, org_name, cleaned_events, previous_tags=None, cause="envi
 
 def log(msg):
     print(msg, flush=True)
+
+
+# Claude usage this run (see MAX_CLAUDE_CALLS above).
+CLAUDE_CALLS = 0
+CLAUDE_IN_TOKENS = 0
+CLAUDE_OUT_TOKENS = 0
+
+
+def install_cost_guard(client):
+    """Wrap client.messages.create so every call is counted and the hard cap is
+    enforced. A refused call raises, which the callers already treat like any
+    other API failure (the org keeps its previous events)."""
+    original = client.messages.create
+
+    def guarded(*args, **kwargs):
+        global CLAUDE_CALLS, CLAUDE_IN_TOKENS, CLAUDE_OUT_TOKENS
+        if CLAUDE_CALLS >= MAX_CLAUDE_CALLS:
+            raise RuntimeError(f"cost guard: refusing Claude call #{CLAUDE_CALLS + 1} "
+                               f"(MAX_CLAUDE_CALLS={MAX_CLAUDE_CALLS})")
+        CLAUDE_CALLS += 1
+        resp = original(*args, **kwargs)
+        usage = getattr(resp, "usage", None)
+        CLAUDE_IN_TOKENS += int(getattr(usage, "input_tokens", 0) or 0)
+        CLAUDE_OUT_TOKENS += int(getattr(usage, "output_tokens", 0) or 0)
+        return resp
+
+    client.messages.create = guarded
+
+
+def log_claude_usage():
+    cost = CLAUDE_IN_TOKENS / 1e6 * PRICE_PER_MTOK_IN + CLAUDE_OUT_TOKENS / 1e6 * PRICE_PER_MTOK_OUT
+    log(f"Claude usage this run: {CLAUDE_CALLS} call(s), {CLAUDE_IN_TOKENS:,} input + "
+        f"{CLAUDE_OUT_TOKENS:,} output tokens, about ${cost:.2f} (cap: {MAX_CLAUDE_CALLS} calls)")
 
 
 # Number of failed Claude API calls so far this run. main() compares it before
@@ -1180,10 +1262,23 @@ def render_with_playwright(url):
             browser.close()
 
 
+_verify_cache = {}
+
+
 def verify_url(url, timeout=10):
     """Confirm a booking link actually resolves before we publish it. A 2xx/3xx
     (after redirects) counts as good; anything else, or a request that errors
-    out entirely, means we drop the link rather than publish something dead."""
+    out entirely, means we drop the link rather than publish something dead.
+    Results are remembered for the run, so a link shared by many events is
+    only checked once."""
+    if url in _verify_cache:
+        return _verify_cache[url]
+    ok = _verify_url_uncached(url, timeout)
+    _verify_cache[url] = ok
+    return ok
+
+
+def _verify_url_uncached(url, timeout=10):
     try:
         resp = requests.head(
             url, headers=HTTP_HEADERS, timeout=timeout, allow_redirects=True
@@ -2277,6 +2372,466 @@ def process_pbc_site_table_org(client, org_cfg):
     return raw_events
 
 
+# --------------------------------------------------------------------------
+# Direct readers (NO AI, so they cost nothing to run)
+#
+# Some sign-up systems publish their shifts as structured pages. Reading those
+# pages with plain code is cheaper (free), faster and more exact than asking
+# Claude to read them, so three kinds below parse the pages directly:
+#
+#   galaxy_calendar     SF-Marin Food Bank ("Get Connected" platform: a month
+#                       calendar whose per-day lists come from /calendar/ajaxGetDay)
+#   v4s_listing         St. Anthony's ("Volunteers for Salesforce" job listing page)
+#   openhand_hotspots   Project Open Hand (a page of embedded Salesforce listings)
+#
+# All three skip shifts with 0 open slots, build the link to each shift's own
+# page, and set the tags themselves. If a site changes its layout the reader
+# raises an error, and main() then keeps that org's previous events rather than
+# wiping them.
+# --------------------------------------------------------------------------
+
+REQUEST_PAUSE = float(os.environ.get("REQUEST_PAUSE", "0.3"))   # seconds between requests to one site
+
+
+def _pause():
+    if REQUEST_PAUSE > 0:
+        time.sleep(REQUEST_PAUSE)
+
+
+def fetch_text(url, params=None, tries=3):
+    """GET a page as text with a polite pause and a couple of retries."""
+    last = None
+    for attempt in range(tries):
+        try:
+            text = http_get(url, params=params) if params else http_get(url)
+            _pause()
+            return text
+        except requests.RequestException as e:
+            last = e
+            if REQUEST_PAUSE > 0:
+                time.sleep(min(2 * (attempt + 1), 6))
+    raise last
+
+
+def _strip_tags(s):
+    s = re.sub(r"<(script|style|svg)\b.*?</\1>", " ", s or "", flags=re.S | re.I)
+    s = re.sub(r"<br\s*/?>", ", ", s, flags=re.I)
+    s = re.sub(r"<[^>]+>", " ", s)
+    s = _htmlmod.unescape(s).replace("\xa0", " ")
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _time_12h(s):
+    """'9:00am' / '9:00 AM' / '9 am' -> '9:00 AM' (the format the site expects), or ''."""
+    m = re.fullmatch(r"\s*(\d{1,2})(?::(\d{2}))?\s*([AaPp])\.?[Mm]\.?\s*", s or "")
+    if not m:
+        return ""
+    return f"{int(m.group(1))}:{m.group(2) or '00'} {m.group(3).upper()}M"
+
+
+_MONTH_NUM = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+
+
+def normalize_location(text, default_city=None):
+    """Tidy an address for geocoding: collapse spaces, fix ' ,' gaps, drop floor
+    and suite parts, and add a default city when the text has no state."""
+    s = _htmlmod.unescape(text or "").replace("\xa0", " ")
+    s = re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+,", ",", s)
+    s = re.sub(r",\s*,", ",", s)
+    s = re.sub(r",?\s*\b(?:\d+(?:st|nd|rd|th)\s+floor|floor\s*\d+|suite\s*\w+|ste\.?\s*\w+)\b", "", s, flags=re.I)
+    s = re.sub(r"\s+", " ", s).strip(" ,")
+    if default_city and s and not re.search(r"\b(CA|California)\b", s):
+        s = f"{s}, {default_city}"
+    return s
+
+
+_WEEKDAY_ABBR = r"(?:MON|TUES?|WED|THURS?|FRI|SAT|SUN)"
+
+
+def clean_shift_name(title):
+    """'Marin Warehouse | WED Morning | 2026 Fall' -> 'Marin Warehouse - Morning'.
+    Drops weekday tags and season labels, which are noise on the site."""
+    parts = [p.strip() for p in re.split(r"\s*\|\s*", title or "") if p.strip()]
+    keep = []
+    for i, p in enumerate(parts):
+        if re.fullmatch(r"(?:19|20)\d\d\s+(?:Spring|Summer|Fall|Autumn|Winter)", p, re.I):
+            continue
+        if i > 0:
+            p = re.sub(rf"^{_WEEKDAY_ABBR}\b\.?\s*", "", p, flags=re.I).strip()
+        if p:
+            keep.append(p)
+    return " - ".join(keep) if keep else (title or "").strip()
+
+
+def fixed_tags(org_cfg, text):
+    """Tags for the no-AI readers: the org's default_tags plus any tag_rules
+    whose pattern matches the shift name. Only the vocabulary's own tags survive."""
+    tags = list(org_cfg.get("default_tags", []))
+    for pattern, extra in org_cfg.get("tag_rules", []):
+        if re.search(pattern, text or "", re.I):
+            tags += list(extra)
+    groups = None if org_cfg.get("cause", "environment") == "environment" else NON_ENV_TAG_GROUPS
+    return sanitize_tags(tags, groups)
+
+
+# ---- SF-Marin Food Bank ("Get Connected" calendar) ------------------------
+
+class _GalaxyRowParser(_HTMLParser):
+    """Collects the <tr class="need"> rows of a day's opportunity list."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.rows = []
+        self._row = None
+        self._cell = None
+        self._skip = 0
+        self._in_title = False
+        self._in_sub = False
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        cls = a.get("class") or ""
+        if tag == "tr" and re.search(r"\bneed\b", cls):
+            self._row = {"cells": [], "title": "", "href": "", "subtitle": ""}
+            return
+        if self._row is None:
+            return
+        if tag == "td":
+            self._cell = {"cls": cls, "text": []}
+        elif tag in ("svg", "script", "style"):
+            self._skip += 1
+        elif tag == "a" and re.search(r"\btitle\b", cls) and not self._row["href"]:
+            self._row["href"] = a.get("href") or ""
+            self._in_title = True
+        elif tag == "div" and "subtitle" in cls:
+            self._in_sub = True
+
+    def handle_endtag(self, tag):
+        if self._row is None:
+            return
+        if tag in ("svg", "script", "style"):
+            if self._skip:
+                self._skip -= 1
+        elif tag == "td" and self._cell is not None:
+            self._row["cells"].append((self._cell["cls"], " ".join("".join(self._cell["text"]).split())))
+            self._cell = None
+        elif tag == "a":
+            self._in_title = False
+        elif tag == "div" and self._in_sub:
+            self._in_sub = False
+        elif tag == "tr":
+            self.rows.append(self._row)
+            self._row = None
+
+    def handle_data(self, data):
+        if self._row is None or self._skip:
+            return
+        if self._in_title:
+            self._row["title"] += data
+        elif self._in_sub:
+            self._row["subtitle"] += data
+        if self._cell is not None:
+            self._cell["text"].append(data)
+
+
+_GAL_DT_RE = re.compile(r"([A-Za-z]{3,9})\.?\s+(\d{1,2}),\s*(\d{4})\s*@\s*(\d{1,2}:\d{2}\s*[AaPp][Mm])")
+
+
+def _parse_galaxy_dt(text):
+    """'Nov 4, 2026 @ 9:00am' -> ('2026-11-04', '9:00 AM'), or None."""
+    m = _GAL_DT_RE.search(text or "")
+    if not m:
+        return None
+    month = _MONTH_NUM.get(m.group(1)[:3].lower())
+    if not month:
+        return None
+    try:
+        iso = date(int(m.group(3)), month, int(m.group(2))).isoformat()
+    except ValueError:
+        return None
+    return iso, _time_12h(m.group(4))
+
+
+def parse_galaxy_day_rows(entry_html):
+    """One page of a day's opportunity list -> (shifts, number_of_rows_on_the_page).
+    Each shift: title, subtitle, href, need_id, date, start, end, slots (open slots)."""
+    p = _GalaxyRowParser()
+    p.feed(entry_html or "")
+    p.close()
+    shifts = []
+    for r in p.rows:
+        cells = r["cells"]
+        dt_idx = [i for i, (c, _t) in enumerate(cells) if "date-time" in c]
+        m = re.search(r"need_id=(\d+)", r["href"])
+        if len(dt_idx) < 2 or not m:
+            continue
+        start = _parse_galaxy_dt(cells[dt_idx[0]][1])
+        end = _parse_galaxy_dt(cells[dt_idx[1]][1])
+        if not start:
+            continue
+        slots = None
+        for j in range(dt_idx[1] + 1, len(cells)):      # "Teams Allowed" comes first, then the number
+            if re.fullmatch(r"\d+", cells[j][1]):
+                slots = int(cells[j][1])
+                break
+        shifts.append({
+            "title": " ".join(r["title"].split()),
+            "subtitle": " ".join(r["subtitle"].split()),
+            "href": r["href"],
+            "need_id": m.group(1),
+            "date": start[0],
+            "start": start[1],
+            "end": end[1] if end else "",
+            "slots": slots,
+        })
+    return shifts, len(p.rows)
+
+
+def fetch_galaxy_day(base, day):
+    """Every shift on one calendar day (the list is paged, 10 per page)."""
+    params = {"day": f"{day.day:02d}", "display_date": day.strftime("%A %B %d, %Y"), "calendar_type": "need"}
+    shifts = []
+    n_rows_total = 0
+    for page in range(60):
+        raw = fetch_text(f"{base}/calendar/ajaxGetDay/{page * 10}/", params=params)
+        try:
+            data = json.loads(raw)
+        except ValueError:
+            raise RuntimeError(f"{day} did not return JSON (the site layout may have changed)")
+        listing = data.get("entryListHtml") if isinstance(data, dict) else None
+        if not listing:
+            break
+        got, n_rows = parse_galaxy_day_rows(listing)
+        shifts += got
+        n_rows_total += n_rows
+        if n_rows < 10:
+            break
+    return shifts, n_rows_total
+
+
+def parse_galaxy_location(detail_html):
+    """The address on an opportunity page: <table class="... location-info"> ... </table>."""
+    m = re.search(r'<table[^>]*location-info[^>]*>(.*?)</table>', detail_html or "", re.S)
+    if not m:
+        return ""
+    return normalize_location(_strip_tags(m.group(1)))
+
+
+def process_galaxy_calendar_org(client, org_cfg):
+    base = org_cfg["base_url"].rstrip("/")
+    days = int(org_cfg.get("lookahead_days", LOOKAHEAD_DAYS))
+    min_slots = int(org_cfg.get("min_slots", 1))
+    today = date.today()
+    seen = set()
+    kept = []
+    n_rows_all = 0
+    n_parsed = 0
+    n_no_slots_info = 0
+    n_full = 0
+    day_failures = 0
+    for i in range(days + 1):
+        d = today + timedelta(days=i)
+        try:
+            shifts, n_rows = fetch_galaxy_day(base, d)
+        except Exception as e:
+            day_failures += 1
+            log(f"  ! could not read {d.isoformat()}: {e}")
+            continue
+        n_rows_all += n_rows
+        n_parsed += len(shifts)
+        for sh in shifts:
+            if sh["slots"] is None:
+                n_no_slots_info += 1
+                continue
+            if sh["slots"] < min_slots:
+                n_full += 1
+                continue
+            key = (sh["need_id"], sh["date"], sh["start"])
+            if key in seen:
+                continue
+            seen.add(key)
+            kept.append(sh)
+    if day_failures > max(2, (days + 1) // 4):
+        raise RuntimeError(f"{day_failures} of {days + 1} days failed to load")
+    if n_rows_all and n_parsed == 0:
+        raise RuntimeError("rows found but none could be read; the page layout probably changed")
+    if n_parsed and n_no_slots_info == n_parsed:
+        raise RuntimeError("shifts found but no slot counts; the page layout probably changed")
+    log(f"  read {n_rows_all} shift(s) over {days + 1} day(s): {len(kept)} with open slots, "
+        f"{n_full} full (skipped), {n_no_slots_info} without a slot count (skipped)")
+
+    locations = {}
+    events = []
+    for sh in kept:
+        nid = sh["need_id"]
+        if nid not in locations:
+            try:
+                locations[nid] = parse_galaxy_location(fetch_text(urljoin(base + "/", sh["href"])))
+            except Exception as e:
+                log(f"  ! could not read the page for need {nid}: {e}")
+                locations[nid] = ""
+        loc = locations[nid]
+        if not loc:
+            continue
+        name = clean_shift_name(sh["title"])
+        events.append({
+            "name": name,
+            "date": sh["date"],
+            "start": sh["start"],
+            "end": sh["end"] or None,
+            "location": normalize_location(loc, org_cfg.get("default_city")),
+            "bookingUrl": urljoin(base + "/", sh["href"]),
+            "tags": fixed_tags(org_cfg, f"{name} {sh['subtitle']}"),
+        })
+    log(f"  {len(events)} event(s) with an address ({len(locations)} shift page(s) read)")
+    return events
+
+
+# ---- "Volunteers for Salesforce" listing pages (St. Anthony's, Open Hand) ----
+
+_V4S_DATE_RE = re.compile(
+    r"'((?:Sun|Mon|Tues|Wednes|Thurs|Fri|Satur)day)\s+(\d{1,2})/(\d{1,2})/(\d{4})\s+"
+    r"(\d{1,2}:\d{2}\s*[AP]M)(?:\s*-\s*(\d{1,2}:\d{2}\s*[AP]M))?[^']*'")
+
+
+def parse_v4s_listing(page_html):
+    """A Volunteers-for-Salesforce job listing page -> a list of jobs:
+    {name, address, shifts: [{date, start, end, confirmed, available, job_id, shift_id}]}."""
+    jobs = []
+    chunks = re.split(r'class="cssJobName"[^>]*>', page_html or "")
+    for chunk in chunks[1:]:
+        name = _strip_tags(chunk.split("</span>", 1)[0])
+        am = re.search(r'class="cssJobLocationAddress"[^>]*>(.*?)</p>', chunk, re.S)
+        address = normalize_location(_strip_tags(am.group(1))) if am else ""
+        shifts = []
+        for row in re.findall(r"<tr\b[^>]*>(.*?)</tr>", chunk, re.S):
+            cm = re.search(r"confirmed:\s*(\d+)\s*-\s*available:\s*(\d+)", row)
+            dm = _V4S_DATE_RE.search(row)
+            if not cm or not dm:
+                continue
+            try:
+                iso = date(int(dm.group(4)), int(dm.group(2)), int(dm.group(3))).isoformat()
+            except ValueError:
+                continue
+            im = re.search(r"OpenSignUpDlg\('([^']+)',\s*'([^']+)'", row)
+            shifts.append({
+                "date": iso,
+                "start": _time_12h(dm.group(5)),
+                "end": _time_12h(dm.group(6)) if dm.group(6) else "",
+                "confirmed": int(cm.group(1)),
+                "available": int(cm.group(2)),
+                "job_id": im.group(1) if im else "",
+                "shift_id": im.group(2) if im else "",
+            })
+        jobs.append({"name": name, "address": address, "shifts": shifts})
+    return jobs
+
+
+def _v4s_shift_link(base, shift):
+    """The same link the St. Anthony's calendar uses for one shift."""
+    if not (shift["job_id"] and shift["shift_id"]):
+        return None
+    y, mo, d = shift["date"].split("-")
+    m = re.match(r"(\d{1,2}):(\d{2})\s*([AP])M", shift["start"] or "")
+    hour, minute = 0, 0
+    if m:
+        hour = int(m.group(1)) % 12 + (12 if m.group(3) == "P" else 0)
+        minute = int(m.group(2))
+    return (f"{base}?Calendar=1&volunteerShiftId={shift['shift_id']}&jobId={shift['job_id']}"
+            f"&dtMonthFilter={int(y)}-{int(mo)}-{int(d)}%20{hour}:{minute}:0&nDaysToShow=1&ShowNumberAvailable=1")
+
+
+def process_v4s_listing_org(client, org_cfg):
+    base = org_cfg["listing_base"]
+    days = int(org_cfg.get("lookahead_days", LOOKAHEAD_DAYS))
+    page = fetch_text(f"{base}?nDaysToShow={days}&ShowNumberAvailable=1")
+    jobs = parse_v4s_listing(page)
+    if not jobs:
+        raise RuntimeError("no jobs found on the listing page; the layout probably changed")
+    today = date.today()
+    events = []
+    n_shifts = n_open = 0
+    for job in jobs:
+        for sh in job["shifts"]:
+            n_shifts += 1
+            if sh["available"] < 1 or sh["date"] < today.isoformat():
+                continue
+            n_open += 1
+            if not job["address"]:
+                continue
+            events.append({
+                "name": job["name"],
+                "date": sh["date"],
+                "start": sh["start"],
+                "end": sh["end"] or None,
+                "location": normalize_location(job["address"], org_cfg.get("default_city")),
+                "bookingUrl": _v4s_shift_link(base, sh) or org_cfg.get("org_url"),
+                "tags": fixed_tags(org_cfg, job["name"]),
+            })
+    if n_shifts == 0:
+        raise RuntimeError("jobs found but no shifts parsed; the layout probably changed")
+    log(f"  {len(jobs)} job(s), {n_shifts} shift(s), {n_open} with open slots -> {len(events)} event(s)")
+    return events
+
+
+# ---- Project Open Hand "Hot Spots" page --------------------------------------
+
+def parse_hotspot_frames(page_html):
+    """The Hot Spots page embeds one Salesforce listing per program, each under an
+    <h2> heading and a 'Location: ...' line. -> [{program, location, src}]."""
+    frames = []
+    prev_end = 0
+    for m in re.finditer(r'<iframe\b[^>]*\bsrc="([^"]*salesforce-sites\.com[^"]*)"', page_html or "", re.I):
+        before = page_html[prev_end:m.start()]
+        prev_end = m.end()
+        heads = re.findall(r"<h2[^>]*>(.*?)</h2>", before, re.S | re.I)
+        locs = re.findall(r"Location:\s*(?:<[^>]+>\s*)*([^<\n]+)", before, re.I)
+        frames.append({
+            "program": _strip_tags(heads[-1]) if heads else "",
+            "location": _strip_tags(locs[-1]) if locs else "",
+            "src": _htmlmod.unescape(m.group(1)),
+        })
+    return frames
+
+
+def process_openhand_hotspots_org(client, org_cfg):
+    page = fetch_text(org_cfg["source_page"])
+    frames = parse_hotspot_frames(page)
+    if not frames:
+        raise RuntimeError("no embedded listings found on the Hot Spots page; the layout probably changed")
+    today = date.today()
+    events = []
+    n_shifts = n_open = 0
+    for fr in frames:
+        loc = normalize_location(fr["location"], org_cfg.get("default_city"))
+        short = re.sub(r"^(?:Prepare|Assemble)\s+", "", fr["program"]).strip()
+        listing = fetch_text(urljoin(org_cfg["source_page"], fr["src"]))
+        for job in parse_v4s_listing(listing):
+            for sh in job["shifts"]:
+                n_shifts += 1
+                if sh["available"] < 1 or sh["date"] < today.isoformat():
+                    continue
+                n_open += 1
+                if not loc:
+                    continue
+                name = f"{job['name']} ({short})" if short else job["name"]
+                events.append({
+                    "name": name,
+                    "date": sh["date"],
+                    "start": sh["start"],
+                    "end": sh["end"] or None,
+                    "location": loc,
+                    "bookingUrl": org_cfg["source_page"],
+                    "tags": fixed_tags(org_cfg, name),
+                })
+    if n_shifts == 0:
+        raise RuntimeError("listings found but no shifts parsed; the layout probably changed")
+    log(f"  {len(frames)} listing(s), {n_shifts} shift(s), {n_open} with open slots -> {len(events)} event(s)")
+    return events
+
+
 def main():
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
@@ -2284,6 +2839,7 @@ def main():
             "variables > Actions) so this workflow can call the Claude API.")
         sys.exit(1)
     client = anthropic.Anthropic(api_key=api_key)
+    install_cost_guard(client)
 
     today = date.today()
     cutoff = today + timedelta(days=LOOKAHEAD_DAYS)
@@ -2292,11 +2848,27 @@ def main():
     previous_tags = load_previous_tags() if TAGGING_ENABLED else {}
     previous_events = load_previous_events()
 
+    # With ONLY_ORGS set, organizations that are not being tested keep exactly
+    # what is already in events.json.
+    previous_entries = {}
+    if ONLY_ORGS:
+        try:
+            with open(EVENTS_JSON_PATH, encoding="utf-8") as f:
+                previous_entries = {o.get("org", ""): o for o in json.load(f) if isinstance(o, dict)}
+        except Exception:
+            previous_entries = {}
+        log(f"ONLY_ORGS={ONLY_ORGS}: other organizations keep their current events")
+
     output = []
     for org_cfg in ORGS:
         org_name = org_cfg["org"]
+        if ONLY_ORGS and not any(k in org_name.lower() for k in ONLY_ORGS):
+            if org_name in previous_entries:
+                output.append(previous_entries[org_name])
+            continue
         log(f"== {slugify_for_log(org_name)} ==")
         api_errors_before = API_ERROR_COUNT
+        org_failed = False
         events = []
         try:
             if org_cfg["kind"] == "google_calendar":
@@ -2309,6 +2881,12 @@ def main():
                 events = process_text_page_org(client, org_cfg)
             elif org_cfg["kind"] == "weekly_recurring":
                 events = process_weekly_recurring_org(client, org_cfg)
+            elif org_cfg["kind"] == "galaxy_calendar":
+                events = process_galaxy_calendar_org(client, org_cfg)
+            elif org_cfg["kind"] == "v4s_listing":
+                events = process_v4s_listing_org(client, org_cfg)
+            elif org_cfg["kind"] == "openhand_hotspots":
+                events = process_openhand_hotspots_org(client, org_cfg)
             elif org_cfg["kind"] == "no_dated_events":
                 log("  no dated events by design (self-directed program)")
             else:
@@ -2316,6 +2894,7 @@ def main():
         except Exception as e:
             log(f"  ! failed to process {org_name}: {e}")
             events = []
+            org_failed = True
 
         cleaned_events = []
         for ev in events:
@@ -2369,7 +2948,7 @@ def main():
                     continue
 
                 booking_url = ev.get("bookingUrl")
-                if booking_url and not verify_url(booking_url):
+                if booking_url and org_cfg.get("verify_links", True) and not verify_url(booking_url):
                     booking_url = None  # dropped, not published -- see verify_url()
 
                 cleaned_events.append(
@@ -2383,6 +2962,7 @@ def main():
                         "lng": round(lng, 4),
                         "location": ev.get("location", ""),
                         **({"bookingUrl": booking_url} if booking_url else {}),
+                        **({"tags": sanitize_tags(ev.get("tags"))} if sanitize_tags(ev.get("tags")) else {}),
                     }
                 )
             except Exception as e:
@@ -2391,10 +2971,12 @@ def main():
                 log(f"  ! unexpected error cleaning event {ev!r:.200} -- skipping it: {e}")
                 continue
 
-        if not cleaned_events and API_ERROR_COUNT > api_errors_before:
+        if not cleaned_events and (API_ERROR_COUNT > api_errors_before or org_failed):
             kept = [e for e in previous_events.get(org_name, []) if str(e.get("date", "")) >= today.isoformat()]
             if kept:
-                log(f"  ! the Claude API failed {API_ERROR_COUNT - api_errors_before} time(s) for this org, so "
+                why = (f"the Claude API failed {API_ERROR_COUNT - api_errors_before} time(s) for this org"
+                       if API_ERROR_COUNT > api_errors_before else "reading this org failed")
+                log(f"  ! {why}, so "
                     f"keeping its {len(kept)} upcoming event(s) from the previous run instead of wiping them")
                 cleaned_events = kept
         cleaned_events.sort(key=lambda e: (e["date"], e.get("start", "")))
@@ -2408,6 +2990,12 @@ def main():
             org_entry["orgUrl"] = org_cfg["org_url"]
         output.append(org_entry)
 
+    log_claude_usage()
+    if DRY_RUN:
+        for o in output:
+            log(f"DRY RUN: {slugify_for_log(o['org'])}: {len(o['events'])} event(s)")
+        log("DRY RUN: events.json was NOT written")
+        return
     with open(EVENTS_JSON_PATH, "w") as f:
         json.dump(output, f, indent=2)
         f.write("\n")
