@@ -58,136 +58,177 @@
         "location": "Ocean Beach, San Francisco, CA, USA",
         "bookingUrl": "https://x.gldn.io/e/NdLcuiRmO3b"
       }
-    ]
+    ],
+    "cause": "environment"
   },
   {
     "org": "Pacific Beach Coalition",
-    "color": "#d9642b",
-    "events": [
-      {
-        "name": "Surfer's Beach Cleanup, Half Moon Bay",
-        "date": "2026-10-31",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 37.5014,
-        "lng": -122.4728,
-        "location": "Pillar Point RV Park, 4000 Cabrillo Hwy, Half Moon Bay, CA 94019 (coastal trail near South Jetty, Surfers Beach)",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfyVxegnWgK25iLiwOQm6kQEEgQd2Yz7i0YDA7Rraet-j4THA/viewform"
-      },
-      {
-        "name": "Foster City, Moving Locations",
-        "date": "2026-11-07",
-        "day": "Saturday",
-        "start": "<UNKNOWN>",
-        "end": null,
-        "lat": 35.234,
-        "lng": -101.8911,
-        "location": "<UNKNOWN>",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLScNW3unZRKSfxQemDndPFxZxk3qxGMQec85rbb3tcZU5-2seQ/viewform"
-      },
-      {
-        "name": "Harbor Beach Cleanup, Half Moon Bay",
-        "date": "2026-11-07",
-        "day": "Saturday",
-        "start": "Earth Day (April) and Coastal Cleanup Day (September) Events",
-        "end": null,
-        "lat": 37.5012,
-        "lng": -122.4748,
-        "location": "Pillar Point Harbor, Half Moon Bay"
-      },
-      {
-        "name": "Montara State Beach Cleanup",
-        "date": "2026-11-14",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 37.5505,
-        "lng": -122.5141,
-        "location": "Montara State Beach, Montara (parking lot north side of large building across from first street)",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdhEMAmljDDMb7cOb8dM9e3yRH4FY88u2XnnLcP9sW1APScsg/viewform"
-      },
-      {
-        "name": "Sharp Park Beach Cleanup",
-        "date": "2026-11-14",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 37.6284,
-        "lng": -122.4948,
-        "location": "Corner of Beach Blvd and Clarendon Rd (start of the Levee), Sharp Park Beach, Pacifica, CA",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfVdK6L3JcCl4fK6JQl05L5QQGi-fEF84LYToB3M5pZpeN-6Q/viewform"
-      },
-      {
-        "name": "Linda Mar Habitat Restoration, Pacifica",
-        "date": "2026-11-14",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "12:00 PM",
-        "lat": 37.5987,
-        "lng": -122.4978,
-        "location": "Linda Mar Beach, Pacifica",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform"
-      },
-      {
-        "name": "Esplanade Beach Cleanup",
-        "date": "2026-11-21",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "11:00 AM",
-        "lat": 37.6548,
-        "lng": -122.4917,
-        "location": "Top of the stairs on Esplanade Avenue next to Oceanaire Apartments, 100 Esplanade Ave, Pacifica, CA",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeDkdt-BxduvqZjBTMrC_I9Tt29K41GRMAia8N8qbqRTFnrOQ/viewform"
-      },
-      {
-        "name": "Foster City, Moving Locations",
-        "date": "2026-12-05",
-        "day": "Saturday",
-        "start": "<UNKNOWN>",
-        "end": null,
-        "lat": 35.234,
-        "lng": -101.8911,
-        "location": "<UNKNOWN>",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLScNW3unZRKSfxQemDndPFxZxk3qxGMQec85rbb3tcZU5-2seQ/viewform"
-      },
-      {
-        "name": "Harbor Beach Cleanup, Half Moon Bay",
-        "date": "2026-12-05",
-        "day": "Saturday",
-        "start": "Earth Day (April) and Coastal Cleanup Day (September) Events",
-        "end": null,
-        "lat": 37.5012,
-        "lng": -122.4748,
-        "location": "Pillar Point Harbor, Half Moon Bay"
-      },
-      {
-        "name": "Linda Mar Habitat Restoration, Pacifica",
-        "date": "2026-12-12",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": "12:00 PM",
-        "lat": 37.5987,
-        "lng": -122.4978,
-        "location": "Linda Mar Beach, Pacifica",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform"
-      }
-    ]
+    "color": "#a8433f",
+    "events": [],
+    "cause": "environment"
   },
   {
     "org": "Save The Bay",
     "color": "#3b6ea5",
-    "events": []
+    "events": [],
+    "cause": "environment"
   },
   {
     "org": "Grassroots Ecology",
     "color": "#8a6d1f",
-    "events": []
+    "events": [],
+    "cause": "environment"
   },
   {
     "org": "San Francisco Baykeeper",
     "color": "#2a8f8f",
     "events": [],
+    "cause": "environment",
     "orgUrl": "https://baykeeper.org/cleanups/"
+  },
+  {
+    "org": "SF Neighborhood Emergency Response Team (NERT)",
+    "color": "#b4532a",
+    "events": [],
+    "cause": "disaster",
+    "orgUrl": "https://sf-fire.org/NERT"
+  },
+  {
+    "org": "Mentor Tutor Connection",
+    "color": "#6b4c9a",
+    "events": [],
+    "cause": "youth",
+    "orgUrl": "https://www.mentortutorconnection.org/news-events/"
+  },
+  {
+    "org": "Civic Joy Fund Bayview Cleanup",
+    "color": "#7a5a2a",
+    "events": [
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-10-31",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-11-07",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-11-14",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-11-21",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-11-28",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-12-05",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      },
+      {
+        "name": "Bayview 3rd Street Community Cleanup",
+        "date": "2026-12-12",
+        "day": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.7387,
+        "lng": -122.3897,
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "bookingUrl": "https://www.mobilize.us/civicjoyfund/"
+      }
+    ],
+    "cause": "civic",
+    "orgUrl": "https://www.mobilize.us/civicjoyfund/"
+  },
+  {
+    "org": "Friends of the Palo Alto Library (FOPAL)",
+    "color": "#8c3f5d",
+    "events": [],
+    "cause": "arts",
+    "orgUrl": "https://www.fopal.org/volunteer"
+  },
+  {
+    "org": "HandsOn Bay Area",
+    "color": "#2f6f73",
+    "events": [],
+    "cause": "various",
+    "orgUrl": "https://www.handsonbayarea.org/volunteer"
+  },
+  {
+    "org": "Meals on Wheels San Francisco",
+    "color": "#9a4a6b",
+    "events": [],
+    "cause": "seniors",
+    "orgUrl": "https://volunteer.mowsf.org/"
+  },
+  {
+    "org": "Second Harvest Food Bank of Silicon Valley",
+    "color": "#a0731a",
+    "events": [],
+    "cause": "food",
+    "orgUrl": "https://www.shfb.org/give-help/volunteer/individual-volunteering/"
+  },
+  {
+    "org": "City of San Mateo Volunteer Source",
+    "color": "#4b6584",
+    "events": [],
+    "cause": "civic",
+    "orgUrl": "https://www.cityofsanmateo.org/2309"
   }
 ]
