@@ -368,6 +368,28 @@ body{
 </div>
 
 <script>
+// Defensive clean-up of events.json before anything is shown. Drops events that
+// have no real location (placeholder text like "<UNKNOWN>", or coordinates that
+// are not in the Bay Area, which is what a failed address lookup can produce)
+// and blanks start/end values that are not clock times.
+function cleanEventData(data){
+  var timeRe = /^\d{1,2}(:\d{2})?\s*[AP]M$/i;
+  var noLoc = /^\s*(tbd|tba|n\/a|none)?\s*$|<\s*unknown\s*>|to be (determined|announced)/i;
+  return (Array.isArray(data) ? data : []).map(function(g){
+    var list = ((g && g.events) || []).filter(function(e){
+      if (!e) return false;
+      if (noLoc.test(String(e.location == null ? '' : e.location))) return false;
+      var lat = +e.lat, lng = +e.lng;
+      return isFinite(lat) && isFinite(lng) && lat > 36.8 && lat < 38.7 && lng > -123.4 && lng < -121.0;
+    }).map(function(e){
+      var s = String(e.start == null ? '' : e.start).trim(), t = String(e.end == null ? '' : e.end).trim();
+      return Object.assign({}, e, { start: timeRe.test(s) ? s : '', end: timeRe.test(t) ? t : '' });
+    });
+    return Object.assign({}, g, { events: list });
+  });
+}
+</script>
+<script>
 // ---- mock-data toggle ----
 // Set to true to skip the events.json fetch and use the placeholder data
 // below instead -- useful if we're ever iterating on looks again without
@@ -441,7 +463,7 @@ async function loadOrgData(){
     // dates" or "the wrong event" even though the source data is correct.
     const res = await fetch('events.json?_=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) throw new Error('events.json request failed: ' + res.status);
-    orgData = await res.json();
+    orgData = cleanEventData(await res.json());
   } catch (err) {
     console.error('Could not load events.json', err);
     document.getElementById('map-wrap').insertAdjacentHTML(
@@ -544,7 +566,7 @@ async function recordBooking(eventName){
 }
 
 function popupContentHtml(d){
-  const timeStr = d.end ? `${d.start} - ${d.end}` : d.start;
+  const timeStr = d.start ? (d.end ? `${d.start} - ${d.end}` : d.start) : 'Time to be announced';
 
   // The whole point of this map is that each pin sends a volunteer to a
   // REAL sign-up page. Prefer this event's own bookingUrl; if this org

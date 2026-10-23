@@ -325,6 +325,28 @@ body{ background:#fff; }
 </footer>
 <script src="site.js"></script>
 <script>
+// Defensive clean-up of events.json before anything is shown. Drops events that
+// have no real location (placeholder text like "<UNKNOWN>", or coordinates that
+// are not in the Bay Area, which is what a failed address lookup can produce)
+// and blanks start/end values that are not clock times.
+function cleanEventData(data){
+  var timeRe = /^\d{1,2}(:\d{2})?\s*[AP]M$/i;
+  var noLoc = /^\s*(tbd|tba|n\/a|none)?\s*$|<\s*unknown\s*>|to be (determined|announced)/i;
+  return (Array.isArray(data) ? data : []).map(function(g){
+    var list = ((g && g.events) || []).filter(function(e){
+      if (!e) return false;
+      if (noLoc.test(String(e.location == null ? '' : e.location))) return false;
+      var lat = +e.lat, lng = +e.lng;
+      return isFinite(lat) && isFinite(lng) && lat > 36.8 && lat < 38.7 && lng > -123.4 && lng < -121.0;
+    }).map(function(e){
+      var s = String(e.start == null ? '' : e.start).trim(), t = String(e.end == null ? '' : e.end).trim();
+      return Object.assign({}, e, { start: timeRe.test(s) ? s : '', end: timeRe.test(t) ? t : '' });
+    });
+    return Object.assign({}, g, { events: list });
+  });
+}
+</script>
+<script>
 // ---- spinning carousels ----
 // Each row's cards are written once in the HTML; this clones them until the strip is wider
 // than the screen, then doubles it so the loop is seamless (the CSS animation slides exactly
@@ -372,7 +394,7 @@ try { if (localStorage.getItem('civicsnap-pause-motion') === '1') setPaused(true
   try {
     const res = await fetch('events.json?_=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return;
-    const data = await res.json();
+    const data = cleanEventData(await res.json());
     const d = new Date();
     const today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     let n = 0, orgs = 0, next = null;
