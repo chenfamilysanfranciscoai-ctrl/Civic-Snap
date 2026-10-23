@@ -36,6 +36,15 @@ Design notes / honesty about limitations:
     (see verify_url()) -- a link that 404s/times out is dropped, not published.
 
 CHANGELOG:
+  2026-10-21  Added organizations for other causes (disaster preparedness, youth,
+              civic, arts, seniors, food, and a multi-cause aggregator). New org
+              kinds: "text_page" (read a page's text, for pages with no per-event
+              links) and "weekly_recurring" (a fixed weekly event written as a
+              rule). Orgs now carry a "cause"; the Claude tagging step only uses
+              the level/setting/goodfor tags for non-environmental causes.
+              html_listing's no-link fallback now sends page TEXT instead of the
+              first 20,000 characters of raw HTML, and "max_details" raises the
+              15-page cap for aggregators. NOT yet run against the live sites.
   2026-09-09  Initial version.
   2026-09-16  After run #1 came back with Pacific Beach Coalition and Grassroots
               Ecology both finding 0 events, and Save The Bay's 2 events failing
@@ -591,6 +600,22 @@ CHANGELOG:
               mocked dry run passed because its sample HTML was written in the
               same wrong shape as the pattern; the sample is now the real
               shape.
+2026-10-20  Added descriptive event TAGS for the new Search tab (search.html).
+              After each organization's events are cleaned, tag_events() makes
+              one Claude call (forced record_tags tool, fixed vocabulary in
+              TAG_VOCAB -- kind / level / setting / place / goodfor) and
+              attaches a "tags" list to every event in events.json. Tags are
+              sanitized (unknown tags dropped, exactly one level and one
+              setting kept), events that are still listed from the previous
+              run keep their old tags (load_previous_tags(), so no
+              flip-flopping and no repeat cost), and any failure is non-fatal:
+              the event is just written without "tags" and search.html infers
+              its own from the title/location. Set TAGGING_ENABLED=0 to switch
+              it off. Nothing else in events.json changed, so the map and
+              dashboard are unaffected.
+              Also changed Pacific Beach Coalition's map/dashboard color from
+              orange to brick red to fit the site's new, more professional
+              palette.
 """
 
 import base64
@@ -646,18 +671,21 @@ LOCATION_OVERRIDES = {
 ORGS = [
     {
         "org": "Surfrider Foundation (SF Chapter)",
+        "cause": "environment",
         "color": "#4a7856",
         "kind": "google_calendar",
         "calendar_page": "https://sf.surfrider.org/calendar",
     },
     {
         "org": "Pacific Beach Coalition",
-        "color": "#d9642b",
+        "cause": "environment",
+        "color": "#a8433f",
         "kind": "pbc_site_table",
         "listing_page": "https://www.pacificbeachcoalition.org/calendar-2026/",
     },
     {
         "org": "Save The Bay",
+        "cause": "environment",
         "color": "#3b6ea5",
         "kind": "html_listing",
         "listing_page": "https://savesfbay.org/calendar/",
@@ -665,6 +693,7 @@ ORGS = [
     },
     {
         "org": "Grassroots Ecology",
+        "cause": "environment",
         "color": "#8a6d1f",
         "kind": "html_listing",
         "listing_page": "https://www.grassrootsecology.org/event-calendar",
@@ -681,9 +710,119 @@ ORGS = [
     },
     {
         "org": "San Francisco Baykeeper",
+        "cause": "environment",
         "color": "#2a8f8f",
         "kind": "no_dated_events",
         "org_url": "https://baykeeper.org/cleanups/",
+    },
+    # ------------------------------------------------------------------
+    # Added 2026-10-21: organizations for other causes. "cause" is one of
+    # environment, disaster, youth, seniors, civic, arts, food, animals,
+    # housing, various; it is written into events.json as an extra field
+    # (the map and dashboard ignore it) so a cause filter can be added later.
+    #
+    # NONE of these has been run live yet -- they were set up from reading each
+    # site's pages. The first run of each is a test: read the log lines under
+    # its "== name ==" heading ("detail-link regex found N match(es)", "kept N
+    # upcoming event(s)") and fix the pattern or listing_page if N is 0.
+    # ------------------------------------------------------------------
+    {
+        # Confident: server-rendered list, one page per event, dated.
+        "org": "SF Neighborhood Emergency Response Team (NERT)",
+        "cause": "disaster",
+        "color": "#b4532a",
+        "kind": "html_listing",
+        "listing_page": "https://sf-fire.org/nert-calendar",
+        "org_url": "https://sf-fire.org/NERT",
+        # Hrefs may be relative (/calendar/nert-...) or absolute.
+        "detail_link_pattern": r'(?:https://sf-fire\.org)?/calendar/nert-[a-z0-9\-]+',
+    },
+    {
+        # Confident: plain "Upcoming Events" list, one page per event. The
+        # online-only info sessions have no street address and will be skipped
+        # at the geocoding step (the log says so).
+        "org": "Mentor Tutor Connection",
+        "cause": "youth",
+        "color": "#6b4c9a",
+        "kind": "html_listing",
+        "listing_page": "https://www.mentortutorconnection.org/news-events/",
+        "org_url": "https://www.mentortutorconnection.org/news-events/",
+        "detail_link_pattern": r'https://www\.mentortutorconnection\.org/mc-events/[a-z0-9\-]+/?',
+    },
+    {
+        # Recurring weekly cleanup; there is no listing page to read, so the
+        # rule is written here. The sf.gov page says "every Saturday", 10-11am.
+        # If the cleanups stop, delete this entry (or the events keep showing).
+        "org": "Civic Joy Fund Bayview Cleanup",
+        "cause": "civic",
+        "color": "#7a5a2a",
+        "kind": "weekly_recurring",
+        "org_url": "https://www.mobilize.us/civicjoyfund/",
+        "event_name": "Bayview 3rd Street Community Cleanup",
+        "weekday": "Saturday",
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "location": "1605 Jerrold Ave, San Francisco, CA 94124",
+        "booking_url": "https://www.mobilize.us/civicjoyfund/",
+    },
+    {
+        # The page lists the monthly used-book sale dates and venue. Volunteers
+        # staff the sale, so the sale days are published as volunteer days.
+        "org": "Friends of the Palo Alto Library (FOPAL)",
+        "cause": "arts",
+        "color": "#8c3f5d",
+        "kind": "text_page",
+        "source_page": "https://www.fopal.org/book-sale-info",
+        "org_url": "https://www.fopal.org/volunteer",
+        "booking_url": "https://www.fopal.org/volunteer",
+        "extra_context": (
+            "This page announces the monthly used-book sale, which volunteers help run. Report each "
+            "upcoming sale day (the Saturday and the Sunday separately) as its own event named "
+            "'Used Book Sale (volunteers help run it)'. Use ONLY dates stated on the page; do not "
+            "work out later months. Use the venue address on the page as the location."
+        ),
+    },
+    # ---- Needs testing: JavaScript-rendered volunteer portals. The script
+    # falls back to a headless browser automatically when the first plain fetch
+    # shows no event links. ----
+    {
+        "org": "HandsOn Bay Area",
+        "cause": "various",
+        "color": "#2f6f73",
+        "kind": "html_listing",
+        "listing_page": "https://www.handsonbayarea.org/calendar",
+        "org_url": "https://www.handsonbayarea.org/volunteer",
+        # HandsOn Connect opportunity pages: /opportunity/<Salesforce id>
+        "detail_link_pattern": r'(?:https://www\.handsonbayarea\.org)?/opportunity/[A-Za-z0-9]{15,18}',
+        "max_details": 30,
+    },
+    {
+        "org": "Meals on Wheels San Francisco",
+        "cause": "seniors",
+        "color": "#9a4a6b",
+        "kind": "html_listing",
+        "listing_page": "https://volunteer.mowsf.org/calendar",
+        "org_url": "https://volunteer.mowsf.org/",
+        # Galaxy Digital opportunity pages: /need/detail/?need_id=<number>
+        "detail_link_pattern": r'(?:https://volunteer\.mowsf\.org)?/need/detail/\?need_id=\d+',
+    },
+    {
+        # Booking platform unknown, so there is no link pattern to match: read
+        # the rendered calendar page as text instead.
+        "org": "Second Harvest Food Bank of Silicon Valley",
+        "cause": "food",
+        "color": "#a0731a",
+        "kind": "text_page",
+        "source_page": "https://www.shfb.org/give-help/volunteer/volcalendar-general/",
+        "org_url": "https://www.shfb.org/give-help/volunteer/individual-volunteering/",
+    },
+    {
+        "org": "City of San Mateo Volunteer Source",
+        "cause": "civic",
+        "color": "#4b6584",
+        "kind": "text_page",
+        "source_page": "https://cityofsanmateo.galaxydigital.com/need/",
+        "org_url": "https://www.cityofsanmateo.org/2309",
     },
 ]
 
@@ -722,7 +861,8 @@ RECORD_EVENTS_TOOL = {
 }
 
 EXTRACTION_SYSTEM_PROMPT = """You extract upcoming volunteer event listings from messy website text/HTML/ICS \
-content for a Bay Area environmental volunteering map. Rules:
+content for a Bay Area volunteering map (all causes: environment, food, seniors, youth, \
+disaster preparedness, civic and more). Rules:
 - Only include events dated today ({today}) or later. Ignore past events.
 - One event per calendar entry. If a single day lists many separate sites/locations \
 (e.g. a coastal cleanup day with multiple named sites), output each site as its own event, \
@@ -733,8 +873,216 @@ Do not invent an address if none is given -- use whatever place name is present.
 to that event (not the org's generic homepage). If the text includes a table mapping site names \
 to sign-up form links, match each event to the right link by site name. If nothing event-specific \
 exists, leave bookingUrl null.
+- A training course that meets on several dates: if each session date is listed, output one event per \
+session; if only the first and last dates are given, output ONE event on the first session date.
 - Normalize times to a "H:MM AM/PM" style string. If no end time is stated, use null.
 - Call the record_events tool exactly once with everything you found."""
+
+
+# --------------------------------------------------------------------------
+# Event tags (descriptive adjectives for the Search page)
+# --------------------------------------------------------------------------
+# The Search tab (search.html) filters on these. The SAME vocabulary lives in
+# search.html's TAG_GROUPS -- if you add or rename a tag here, change it there
+# too. search.html also works out tags for itself from each event's title and
+# location, so events.json "tags" are an upgrade (Claude can judge things like
+# how strenuous a workday is), never a requirement: if tagging fails for any
+# reason the events are still written, just without a "tags" list.
+TAGGING_ENABLED = os.environ.get("TAGGING_ENABLED", "1").lower() not in ("0", "false", "no", "off")
+
+TAG_VOCAB = {
+    "kind": ["cleanup", "planting", "restoration", "invasive-removal", "gardening",
+             "nature-walk", "community-event", "monitoring"],
+    "level": ["relaxed", "moderate", "active"],          # exactly one per event
+    "setting": ["outdoors", "indoors"],                  # exactly one per event
+    "place": ["beach", "dunes", "creek", "wetland", "woodland", "garden"],
+    "goodfor": ["beginner-friendly", "family-friendly", "educational", "social"],
+}
+TAG_GROUP_OF = {tag: grp for grp, tags in TAG_VOCAB.items() for tag in tags}
+ALL_TAGS = [tag for tags in TAG_VOCAB.values() for tag in tags]
+_TAG_MAX_PER_GROUP = {"kind": 3, "level": 1, "setting": 1, "place": 2, "goodfor": 3}
+
+RECORD_TAGS_TOOL = {
+    "name": "record_tags",
+    "description": "Record descriptive tags for each volunteer event, by its index number.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "events": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "index": {"type": "integer", "description": "The event's index number from the list"},
+                        "tags": {
+                            "type": "array",
+                            "items": {"type": "string", "enum": ALL_TAGS},
+                            "description": "Tags from the fixed vocabulary only",
+                        },
+                    },
+                    "required": ["index", "tags"],
+                },
+            }
+        },
+        "required": ["events"],
+    },
+}
+
+TAGGING_SYSTEM_PROMPT = """You label Bay Area environmental volunteer events with short descriptive tags for a \
+search page. You will get a numbered list of events (name, date, time, location) from one organization. \
+Choose tags ONLY from this fixed vocabulary:
+
+- kind (what volunteers will actually do; pick 1-3): cleanup (picking up trash/debris), planting (putting \
+native plants in the ground, nursery/potting work, revegetation), restoration (habitat or dune \
+restoration work), invasive-removal (pulling weeds/invasive plants), gardening (garden or pollinator-garden \
+upkeep), nature-walk (hikes, walks, guided outings), community-event (festivals, celebrations, plant \
+sales, social gatherings), monitoring (water-quality testing, surveys, citizen science)
+- level (how physically demanding; pick EXACTLY ONE): relaxed (low effort: festivals, talks, easy walks, \
+monitoring), moderate (a couple of hours of walking, bending and light lifting: beach cleanups, gardening, \
+planting), active (sustained digging, hauling, or uphill work: dune planting, habitat restoration, \
+invasive removal)
+- setting (pick EXACTLY ONE): outdoors, indoors
+- place (the environment, pick 0-2): beach, dunes, creek (creek or stream), wetland (marsh, baylands, bay \
+shoreline), woodland (forest, preserve, hills), garden (garden or nursery)
+- goodfor (pick 0-3, only if plausible from the listing): beginner-friendly (no experience needed), \
+family-friendly (reasonable for kids), educational (volunteers will learn something), social (community / \
+meet-people feel)
+
+Rules: judge only from the information given -- do not invent details. Use the event name and location, \
+not the organization's name, to decide place tags (an organization called "Beach ..." does not make \
+every event a beach event). If a title is just a place name and the organization only runs one kind of \
+event (e.g. a cleanup-site list), use that kind. Night-time events are not family-friendly. Call \
+record_tags exactly once, including every index."""
+
+
+# Causes other than "environment" only use these groups: the "kind" and "place"
+# tags (cleanup, planting, beach, dunes ...) describe environmental work and
+# would be wrong for, say, a food-bank shift or a CERT training.
+NON_ENV_TAG_GROUPS = ("level", "setting", "goodfor")
+
+NON_ENV_TAGGING_NOTE = """
+
+IMPORTANT: this organization is NOT an environmental group. Use ONLY the level, setting and goodfor \
+groups; never use kind or place tags. For level, judge physical effort: relaxed (trainings, talks, info \
+sessions, phone or desk work, light tasks), moderate (serving, packing, sorting, tutoring, a few hours on \
+your feet), active (heavy lifting, construction or repair, sustained physical work)."""
+
+
+def _tags_tool(allowed_tags):
+    """record_tags tool definition restricted to the given tags."""
+    tool = json.loads(json.dumps(RECORD_TAGS_TOOL))
+    tool["input_schema"]["properties"]["events"]["items"]["properties"]["tags"]["items"]["enum"] = list(allowed_tags)
+    return tool
+
+
+def sanitize_tags(tags, allowed_groups=None):
+    """Keep only known tags, drop duplicates, and enforce the per-group limits
+    (exactly one level and one setting, at most N of the others). Anything
+    unknown -- or a non-list -- is discarded, never published."""
+    if not isinstance(tags, (list, tuple)):
+        return []
+    seen_per_group = {}
+    out = []
+    for raw in tags:
+        if not isinstance(raw, str):
+            continue
+        tag = raw.strip().lower()
+        grp = TAG_GROUP_OF.get(tag)
+        if grp is None or tag in out:
+            continue
+        if allowed_groups is not None and grp not in allowed_groups:
+            continue
+        if seen_per_group.get(grp, 0) >= _TAG_MAX_PER_GROUP[grp]:
+            continue
+        seen_per_group[grp] = seen_per_group.get(grp, 0) + 1
+        out.append(tag)
+    # stable, readable order: group order from TAG_VOCAB, then vocabulary order
+    out.sort(key=lambda t: ALL_TAGS.index(t))
+    return out
+
+
+def _tag_cache_key(org_name, ev):
+    return (org_name.strip().lower(), str(ev.get("name", "")).strip().lower(),
+            str(ev.get("location", "")).strip().lower())
+
+
+def load_previous_tags(path=None):
+    """Tags from the events.json written by the previous run, so an event that
+    is still listed keeps the exact same tags (no flip-flopping between runs,
+    and no repeat API cost). Any problem reading the file just means 'no cache'."""
+    path = path or EVENTS_JSON_PATH
+    cache = {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        for org in data:
+            for ev in org.get("events", []):
+                tags = sanitize_tags(ev.get("tags"))
+                if tags:
+                    cache[_tag_cache_key(org.get("org", ""), ev)] = tags
+    except Exception:
+        return {}
+    return cache
+
+
+def tag_events(client, org_name, cleaned_events, previous_tags=None, cause="environment"):
+    """Attach a "tags" list to each cleaned event, in place. One Claude call per
+    organization covers all of its not-yet-tagged events. Never raises: on any
+    failure the affected events simply keep no "tags" (search.html infers its
+    own), and the rest of the run carries on."""
+    if not TAGGING_ENABLED or not cleaned_events:
+        return
+    allowed_groups = None if cause == "environment" else NON_ENV_TAG_GROUPS
+    allowed_tags = ALL_TAGS if allowed_groups is None else [t for t in ALL_TAGS if TAG_GROUP_OF[t] in allowed_groups]
+    system_prompt = TAGGING_SYSTEM_PROMPT + ("" if allowed_groups is None else NON_ENV_TAGGING_NOTE)
+    previous_tags = previous_tags or {}
+    todo = []
+    reused = 0
+    for ev in cleaned_events:
+        cached = sanitize_tags(previous_tags.get(_tag_cache_key(org_name, ev)), allowed_groups)
+        if cached:
+            ev["tags"] = list(cached)
+            reused += 1
+        else:
+            todo.append(ev)
+    if reused:
+        log(f"  tags: reused {reused} from the previous run")
+    if not todo:
+        return
+    try:
+        lines = []
+        for i, ev in enumerate(todo):
+            lines.append(f"{i}. {ev.get('name', '')} | {ev.get('date', '')} {ev.get('start', '')}"
+                         f"{' - ' + ev['end'] if ev.get('end') else ''} | {ev.get('location', '')}")
+        user_content = f"Organization: {org_name}\n\nEvents:\n" + "\n".join(lines)
+        resp = client.messages.create(
+            model=MODEL,
+            max_tokens=4096,
+            system=system_prompt,
+            tools=[_tags_tool(allowed_tags)],
+            tool_choice={"type": "tool", "name": "record_tags"},
+            messages=[{"role": "user", "content": user_content}],
+        )
+        tagged = 0
+        for block in resp.content:
+            if getattr(block, "type", None) == "tool_use" and getattr(block, "name", None) == "record_tags":
+                items = block.input.get("events", []) if isinstance(block.input, dict) else []
+                if not isinstance(items, list):
+                    continue
+                for item in items:
+                    if not isinstance(item, dict):
+                        continue
+                    idx = item.get("index")
+                    if not isinstance(idx, int) or isinstance(idx, bool) or not (0 <= idx < len(todo)):
+                        continue
+                    tags = sanitize_tags(item.get("tags"), allowed_groups)
+                    if tags:
+                        todo[idx]["tags"] = tags
+                        tagged += 1
+        log(f"  tags: Claude tagged {tagged} of {len(todo)} new event(s)")
+    except Exception as e:
+        log(f"  ! tagging failed for {org_name} (events kept without tags; the Search page "
+            f"will infer its own): {e}")
 
 
 def log(msg):
@@ -745,6 +1093,51 @@ def http_get(url, **kwargs):
     resp = requests.get(url, headers=HTTP_HEADERS, timeout=30, **kwargs)
     resp.raise_for_status()
     return resp.text
+
+
+class _TextExtractor(__import__("html.parser", fromlist=["HTMLParser"]).HTMLParser):
+    _SKIP = {"script", "style", "noscript", "svg", "head"}
+    _BREAK = {"p", "div", "br", "li", "tr", "h1", "h2", "h3", "h4", "h5", "h6", "section", "article"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+        self._skip_depth = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self._SKIP:
+            self._skip_depth += 1
+        elif tag in self._BREAK:
+            self.parts.append("\n")
+        elif tag == "a":
+            href = dict(attrs).get("href")
+            if href and not href.startswith(("#", "javascript:")):
+                self.parts.append(f" [link: {href}] ")
+
+    def handle_endtag(self, tag):
+        if tag in self._SKIP and self._skip_depth:
+            self._skip_depth -= 1
+
+    def handle_data(self, data):
+        if not self._skip_depth:
+            self.parts.append(data)
+
+
+def html_to_text(page_html):
+    """Visible text of a page (scripts/styles dropped), with each link's href kept
+    inline as "[link: ...]" so Claude can still match a sign-up URL to its event.
+    Raw HTML is mostly markup, so truncating it at N characters often cut off
+    the actual content; text is far more compact."""
+    parser = _TextExtractor()
+    try:
+        parser.feed(page_html)
+        parser.close()
+    except Exception:
+        pass
+    text = "".join(parser.parts)
+    text = re.sub(r"[ \t\r\f\v]+", " ", text)
+    text = re.sub(r"\n\s*\n+", "\n", text)
+    return text.strip()
 
 
 def render_with_playwright(url):
@@ -1488,7 +1881,7 @@ def process_google_calendar_org(client, org_cfg):
 _URL_DATE_RE = re.compile(r'/(20\d{2})/(\d{2})/(\d{2})/')
 
 
-def _find_detail_urls(listing_page, listing_html, pattern):
+def _find_detail_urls(listing_page, listing_html, pattern, max_details=15):
     """Resolve whatever the pattern matches against the listing page's own URL --
     a no-op for an already-absolute match (e.g. Save The Bay), but required for
     a site like Grassroots Ecology whose event links are relative paths.
@@ -1529,13 +1922,13 @@ def _find_detail_urls(listing_page, listing_html, pattern):
     dropped = len(resolved) - len(future_or_unknown)
     if dropped:
         log(f"  dropped {dropped} detail link(s) whose URL date is already in the past")
-    return sorted(future_or_unknown, key=sort_key)[:15]
+    return sorted(future_or_unknown, key=sort_key)[:max_details]
 
 
 def process_html_listing_org(client, org_cfg):
     listing_html = http_get(org_cfg["listing_page"])
     log(f"  fetched listing page: {len(listing_html)} chars (plain HTTP)")
-    detail_urls = _find_detail_urls(org_cfg["listing_page"], listing_html, org_cfg["detail_link_pattern"])
+    detail_urls = _find_detail_urls(org_cfg["listing_page"], listing_html, org_cfg["detail_link_pattern"], org_cfg.get("max_details", 15))
     log(f"  detail-link regex found {len(detail_urls)} match(es) in the plain fetch")
 
     if not detail_urls:
@@ -1543,7 +1936,7 @@ def process_html_listing_org(client, org_cfg):
         # via client-side JS -- retry with a rendered fetch before giving up.
         listing_html = render_with_playwright(org_cfg["listing_page"])
         log(f"  re-fetched via Playwright: {len(listing_html)} chars")
-        detail_urls = _find_detail_urls(org_cfg["listing_page"], listing_html, org_cfg["detail_link_pattern"])
+        detail_urls = _find_detail_urls(org_cfg["listing_page"], listing_html, org_cfg["detail_link_pattern"], org_cfg.get("max_details", 15))
         log(f"  detail-link regex found {len(detail_urls)} match(es) after rendering")
 
     log(f"  found {len(detail_urls)} detail page(s)")
@@ -1553,7 +1946,7 @@ def process_html_listing_org(client, org_cfg):
         # listing page's own text so a broken detail-link pattern degrades to
         # "no bookingUrl" rather than "no events".
         raw_events = claude_extract_events(
-            client, org_cfg["org"], f"--- LISTING PAGE ({org_cfg['listing_page']}) ---\n{listing_html[:20000]}\n"
+            client, org_cfg["org"], f"--- LISTING PAGE ({org_cfg['listing_page']}) ---\n{(html_to_text(listing_html) or listing_html)[:20000]}\n"
         )
         log(f"  Claude extracted {len(raw_events)} raw event(s) from the listing page alone "
             f"(before date filtering/geocoding)")
@@ -1601,6 +1994,61 @@ def process_html_listing_org(client, org_cfg):
     log(f"  Claude extracted {len(raw_events)} raw event(s) from {len(detail_urls)} detail page(s), "
         f"one call per page (before date filtering/geocoding)")
     return raw_events
+
+
+def process_text_page_org(client, org_cfg):
+    """For a page that lists dates in its own text and has no per-event links to
+    follow (or whose booking platform we can't identify): fetch it, reduce it to
+    text, and let Claude extract the events. Tries a plain fetch first and a
+    headless browser if the plain page has almost no text (JavaScript calendar).
+    org_cfg may carry "extra_context" (instructions for Claude) and
+    "booking_url" (used for events that have no event-specific link)."""
+    page = org_cfg["source_page"]
+    text = ""
+    try:
+        text = html_to_text(http_get(page))
+        log(f"  fetched {page}: {len(text)} chars of text (plain HTTP)")
+    except Exception as e:
+        log(f"  plain fetch of {page} failed: {e}")
+    if len(text) < 500:
+        rendered = html_to_text(render_with_playwright(page))
+        log(f"  rendered fetch: {len(rendered)} chars of text")
+        text = rendered if len(rendered) > len(text) else text
+    if not text:
+        log("  ! no page text available -- 0 events")
+        return []
+    raw_events = claude_extract_events(
+        client, org_cfg["org"], f"--- PAGE ({page}) ---\n{text[:30000]}\n",
+        extra_context=org_cfg.get("extra_context", ""),
+    )
+    default_url = org_cfg.get("booking_url")
+    for ev in raw_events:
+        if isinstance(ev, dict) and not ev.get("bookingUrl") and default_url:
+            ev["bookingUrl"] = default_url
+    log(f"  Claude extracted {len(raw_events)} raw event(s) from the page text")
+    return raw_events
+
+
+def process_weekly_recurring_org(client, org_cfg):
+    """A fixed weekly event (same weekday and time every week), written as a rule
+    in the config instead of read from a page. Produces one event per week for
+    the lookahead window; main() applies the usual date filter."""
+    weekday = _WEEKDAY_NAMES.index(org_cfg["weekday"])
+    day = date.today()
+    day += timedelta(days=(weekday - day.weekday()) % 7)
+    events = []
+    while day <= date.today() + timedelta(days=LOOKAHEAD_DAYS):
+        events.append({
+            "name": org_cfg["event_name"],
+            "date": day.isoformat(),
+            "start": org_cfg["start"],
+            "end": org_cfg.get("end"),
+            "location": org_cfg["location"],
+            "bookingUrl": org_cfg.get("booking_url"),
+        })
+        day += timedelta(days=7)
+    log(f"  weekly rule ({org_cfg['weekday']}s): {len(events)} occurrence(s) in the next {LOOKAHEAD_DAYS} days")
+    return events
 
 
 # Matches the REAL raw markup (confirmed 2026-10-15 by fetching the live page's
@@ -1816,6 +2264,9 @@ def main():
     today = date.today()
     cutoff = today + timedelta(days=LOOKAHEAD_DAYS)
 
+    # Read last run's tags BEFORE events.json gets overwritten at the end.
+    previous_tags = load_previous_tags() if TAGGING_ENABLED else {}
+
     output = []
     for org_cfg in ORGS:
         org_name = org_cfg["org"]
@@ -1828,6 +2279,10 @@ def main():
                 events = process_html_listing_org(client, org_cfg)
             elif org_cfg["kind"] == "pbc_site_table":
                 events = process_pbc_site_table_org(client, org_cfg)
+            elif org_cfg["kind"] == "text_page":
+                events = process_text_page_org(client, org_cfg)
+            elif org_cfg["kind"] == "weekly_recurring":
+                events = process_weekly_recurring_org(client, org_cfg)
             elif org_cfg["kind"] == "no_dated_events":
                 log("  no dated events by design (self-directed program)")
             else:
@@ -1871,6 +2326,17 @@ def main():
                     log(f"  ! skipping '{ev.get('name')}' on {ev['date']} -- {reason}")
                     continue
 
+                loc_text = str(ev.get("location") or "")
+                if re.search(r"<\s*unknown\s*>|to be (determined|announced)", loc_text, re.I) or not loc_text.strip() \
+                        or loc_text.strip().lower() in ("tbd", "tba", "n/a", "none"):
+                    # Run 2026-10: "<UNKNOWN>" was geocoded to a spot in Texas and shown on the map.
+                    log(f"  ! no real location for '{ev.get('name')}' ({loc_text!r}) -- skipping this event")
+                    continue
+                for _k in ("start", "end"):
+                    _v = ev.get(_k)
+                    if _v and not re.fullmatch(r"\d{1,2}(:\d{2})?\s*[AaPp][Mm]", str(_v).strip()):
+                        ev[_k] = "" if _k == "start" else None   # e.g. "Earth Day (April) and ..." is not a time
+
                 lat, lng = geocode(ev.get("location", ""))
                 if lat is None:
                     log(f"  ! could not geocode '{ev.get('location')}' -- skipping this event")
@@ -1901,8 +2367,11 @@ def main():
 
         cleaned_events.sort(key=lambda e: (e["date"], e["start"]))
         log(f"  -> {len(cleaned_events)} upcoming event(s) kept")
+        tag_events(client, org_name, cleaned_events, previous_tags, cause=org_cfg.get("cause", "environment"))
 
         org_entry = {"org": org_name, "color": org_cfg["color"], "events": cleaned_events}
+        if org_cfg.get("cause"):
+            org_entry["cause"] = org_cfg["cause"]
         if org_cfg.get("org_url"):
             org_entry["orgUrl"] = org_cfg["org_url"]
         output.append(org_entry)
