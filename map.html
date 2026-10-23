@@ -2,7 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Map | Civic Snap</title>
+<title>Volunteer Events Map | Civic Snap</title>
+<meta name="description" content="See local volunteer events on a map of the Bay Area, with filters for this week, next week and the next 30 days.">
+<link rel="canonical" href="https://chenfamilysanfranciscoai-ctrl.github.io/Volunteer-Map/map.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Civic Snap">
+<meta property="og:title" content="Volunteer Events Map | Civic Snap">
+<meta property="og:description" content="See local volunteer events on a map of the Bay Area, with filters for this week, next week and the next 30 days.">
+<meta property="og:url" content="https://chenfamilysanfranciscoai-ctrl.github.io/Volunteer-Map/map.html">
+<meta property="og:image" content="https://chenfamilysanfranciscoai-ctrl.github.io/Volunteer-Map/logo-full.png">
+<meta name="twitter:card" content="summary">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -84,6 +93,52 @@ body{
   box-shadow: 0 6px 14px rgba(0,0,0,0.38);
   transform: scale(1.15);
 }
+
+/* Several events can share one address (a food bank warehouse, a dining
+   room). They get ONE pin with a count badge instead of stacking on top of
+   each other where only the top one could ever be clicked. */
+.pin.is-group{
+  position: relative;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.pin.is-wide{ font-size: 0.64rem; letter-spacing: -0.02em; }
+.pin-badge{
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* Popup for a pin with more than one event: a short header and a
+   scrollable list, one compact card per event. */
+.popup-group-head{
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--clay-dark);
+  margin: 0 18px 4px 0;
+}
+.popup-group-where{
+  font-size: 0.82rem;
+  color: #4b463c;
+  margin: 0 0 8px 0;
+}
+.popup-list{
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 0 -6px 0 0;
+  padding-right: 6px;
+}
+.popup-item{
+  border-top: 1px solid #e6e0d0;
+  padding: 8px 0 10px;
+}
+.popup-item .popup-org{ margin: 0 0 2px 0; }
+.popup-item .popup-title{ font-size: 0.92rem; margin: 0 0 4px 0; }
+.popup-item .popup-row{ margin: 2px 0; }
+.popup-item .help-btn{ margin-top: 8px; padding: 7px 12px; font-size: 0.8rem; }
 
 /* MapLibre's own popup, reskinned to match this site's card style instead
    of the library default (removing its default background/tip so ours,
@@ -567,7 +622,8 @@ async function recordBooking(eventName){
   }
 }
 
-function popupContentHtml(d){
+function popupContentHtml(d, opts){
+  const compact = !!(opts && opts.compact);
   const timeStr = d.start ? (d.end ? `${d.start} - ${d.end}` : d.start) : 'Time to be announced';
 
   // The whole point of this map is that each pin sends a volunteer to a
@@ -575,62 +631,118 @@ function popupContentHtml(d){
   // only has a general page (no event-specific link was found), fall
   // back to its orgUrl. Only if neither exists do we show a disabled
   // button rather than a dead "#" link that silently goes nowhere.
+  // The click is recorded by one delegated handler (see below) from the
+  // data-event-name attribute, so no event text is ever pasted into
+  // inline JavaScript.
   const signupUrl = d.bookingUrl || d.orgUrl || null;
   const helpButtonHtml = signupUrl
-    ? `<a class="help-btn" href="${escapeAttr(signupUrl)}" target="_blank" rel="noopener noreferrer" onclick="recordBooking('${d.name.replace(/'/g, "\\'")}')">I will help! →</a>`
+    ? `<a class="help-btn" href="${escapeAttr(signupUrl)}" target="_blank" rel="noopener noreferrer" data-event-name="${escapeAttr(d.name)}">I will help! →</a>`
     : `<span class="help-btn disabled" title="No sign-up link found yet for this event -- check the organization's site directly">Sign-up link coming soon</span>`;
 
   return `
-    <p class="popup-org">${d.org}</p>
-    <p class="popup-title">${d.name}</p>
-    <div class="popup-row"><b>Date</b> ${d.day}, ${formatDate(d.date)}</div>
-    <div class="popup-row"><b>Time</b> ${timeStr}</div>
-    <div class="popup-row"><b>Where</b> ${d.location}</div>
+    <p class="popup-org">${escapeAttr(d.org)}</p>
+    <p class="popup-title">${escapeAttr(d.name)}</p>
+    <div class="popup-row"><b>Date</b> ${escapeAttr(d.day)}, ${formatDate(d.date)}</div>
+    <div class="popup-row"><b>Time</b> ${escapeAttr(timeStr)}</div>
+    ${compact ? '' : `<div class="popup-row"><b>Where</b> ${escapeAttr(d.location)}</div>`}
     ${helpButtonHtml}
   `;
 }
 
-// ---- one MapLibre Marker per event ----
+// Popup body for a pin: one event shows the usual card; several events at
+// the same spot show a scrollable list (soonest first).
+function groupPopupHtml(events){
+  if (events.length === 1) return popupContentHtml(events[0]);
+  const sorted = events.slice().sort((x, y) =>
+    (x.date + (x.start || '')).localeCompare(y.date + (y.start || '')));
+  const items = sorted.map(ev =>
+    `<div class="popup-item">${popupContentHtml(ev, { compact: true })}</div>`).join('');
+  return `
+    <p class="popup-group-head">${sorted.length} events here</p>
+    <p class="popup-group-where">${escapeAttr(sorted[0].location)}</p>
+    <div class="popup-list">${items}</div>
+  `;
+}
+
+// One delegated listener for every "I will help!" button on the page
+// (popups are created and replaced dynamically).
+document.addEventListener('click', e => {
+  const btn = e.target.closest && e.target.closest('a.help-btn[data-event-name]');
+  if (btn) recordBooking(btn.getAttribute('data-event-name'));
+});
+
+// ---- one MapLibre Marker per LOCATION ----
 // Unlike the earlier D3 version, there's no manual pixel-position math or
 // zoom/pan event listeners here: MapLibre's own Marker class tracks the
 // map's projection internally and repositions its element automatically,
 // so this is genuinely simpler as well as smoother.
+//
+// Events at the same coordinates are grouped into a single pin. Without
+// this, 144 events at one address drew 144 pins in the same pixel and the
+// map looked nearly empty.
+const GROUP_COLOR = '#3d4a3a';
+
+function groupEventsByPlace(){
+  const groups = new Map();
+  orgData.forEach(orgGroup => {
+    orgGroup.events.forEach(ev => {
+      const key = Number(ev.lat).toFixed(4) + ',' + Number(ev.lng).toFixed(4);
+      if (!groups.has(key)) groups.set(key, { lat: ev.lat, lng: ev.lng, events: [] });
+      groups.get(key).events.push(Object.assign({}, ev, {
+        org: orgGroup.org, orgUrl: orgGroup.orgUrl, color: orgGroup.color
+      }));
+    });
+  });
+  return Array.from(groups.values());
+}
+
 function renderPins(){
   // Start from a clean slate so this can never double-draw pins.
   pinRecords.forEach(r => r.marker.remove());
   pinRecords = [];
 
-  orgData.forEach(orgGroup => {
-    orgGroup.events.forEach(ev => {
-      // anchorEl is what gets handed to maplibregl.Marker -- it must stay
-      // free of any CSS transform of ours (see the big comment on
-      // .pin-anchor above). The colored circle + hover scale-up live on
-      // the nested .pin child instead.
-      const anchorEl = document.createElement('div');
-      anchorEl.className = 'pin-anchor';
-      const pinEl = document.createElement('div');
-      pinEl.className = 'pin';
-      pinEl.style.background = orgGroup.color;
-      pinEl.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14z"/><path d="M5 19l8-8"/></svg>';
-      anchorEl.appendChild(pinEl);
-      anchorEl.addEventListener('mouseenter', () => pinEl.classList.add('is-hovered'));
-      anchorEl.addEventListener('mouseleave', () => pinEl.classList.remove('is-hovered'));
+  groupEventsByPlace().forEach(g => {
+    // anchorEl is what gets handed to maplibregl.Marker -- it must stay
+    // free of any CSS transform of ours (see the big comment on
+    // .pin-anchor above). The colored circle + hover scale-up live on
+    // the nested .pin child instead.
+    const anchorEl = document.createElement('div');
+    anchorEl.className = 'pin-anchor';
+    const pinEl = document.createElement('div');
+    pinEl.className = 'pin';
+    anchorEl.appendChild(pinEl);
+    anchorEl.addEventListener('mouseenter', () => pinEl.classList.add('is-hovered'));
+    anchorEl.addEventListener('mouseleave', () => pinEl.classList.remove('is-hovered'));
 
-      const popup = new maplibregl.Popup({ offset: 20, closeButton: true, maxWidth: '260px' })
-        .setHTML(popupContentHtml(Object.assign({}, ev, { org: orgGroup.org, orgUrl: orgGroup.orgUrl })));
+    const popup = new maplibregl.Popup({ offset: 20, closeButton: true, maxWidth: '280px' });
+    const marker = new maplibregl.Marker({ element: anchorEl, anchor: 'center' })
+      .setLngLat([g.lng, g.lat])
+      .setPopup(popup)
+      .addTo(map);
 
-      const marker = new maplibregl.Marker({ element: anchorEl, anchor: 'center' })
-        .setLngLat([ev.lng, ev.lat])
-        .setPopup(popup)
-        .addTo(map);
-
-      // Remember each pin alongside its date so the date filter below can
-      // show/hide it without rebuilding anything.
-      pinRecords.push({ marker, popup, date: ev.date });
-    });
+    // The pin's look and popup depend on which of its events pass the
+    // current date filter, so they are (re)drawn by applyFilter below.
+    pinRecords.push({ marker, popup, pinEl, events: g.events });
   });
 
   applyFilter(currentFilter);
+}
+
+function paintPin(rec, visibleEvents){
+  const pinEl = rec.pinEl;
+  const n = visibleEvents.length;
+  const orgs = new Set(visibleEvents.map(e => e.org));
+  if (n > 1){
+    pinEl.classList.add('is-group');
+    pinEl.classList.toggle('is-wide', n > 99);
+    pinEl.style.background = orgs.size === 1 ? visibleEvents[0].color : GROUP_COLOR;
+    pinEl.innerHTML = `<span class="pin-badge">${n > 999 ? '999+' : n}</span>`;
+  } else {
+    pinEl.classList.remove('is-group');
+    pinEl.style.background = visibleEvents[0].color;
+    pinEl.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14z"/><path d="M5 19l8-8"/></svg>';
+  }
+  rec.popup.setHTML(groupPopupHtml(visibleEvents));
 }
 
 // ---- date filter ----
@@ -672,14 +784,21 @@ function applyFilter(key){
   });
 
   let shown = 0;
+  let total = 0;
   pinRecords.forEach(r => {
-    const visible = !range || (r.date >= range.start && r.date <= range.end);
-    r.marker.getElement().style.display = visible ? '' : 'none';
-    if (visible) shown++;
-    else if (r.popup.isOpen()) r.popup.remove();
+    const visibleEvents = !range ? r.events
+      : r.events.filter(ev => ev.date >= range.start && ev.date <= range.end);
+    total += r.events.length;
+    shown += visibleEvents.length;
+    if (visibleEvents.length){
+      paintPin(r, visibleEvents);
+      r.marker.getElement().style.display = '';
+    } else {
+      r.marker.getElement().style.display = 'none';
+      if (r.popup.isOpen()) r.popup.remove();
+    }
   });
 
-  const total = pinRecords.length;
   const countEl = document.getElementById('filterCount');
   if (total === 0) {
     countEl.textContent = '';
