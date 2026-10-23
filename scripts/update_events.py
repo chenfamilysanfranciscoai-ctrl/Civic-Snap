@@ -36,6 +36,11 @@ Design notes / honesty about limitations:
     (see verify_url()) -- a link that 404s/times out is dropped, not published.
 
 CHANGELOG:
+  2026-10-24  Second Harvest is now read directly too ("mmvfs_feed", next 3 weeks,
+              Sort Food and Distribute Food shifts with open slots): the site's
+              calendar loads one JSON feed with times, slots, addresses and exact
+              coordinates, and each shift links to its own page. Events that
+              already carry coordinates skip the geocoder.
   2026-10-23  Three organizations are now read directly, with no AI calls (so
               they cost nothing to run): SF-Marin Food Bank ("galaxy_calendar",
               next 3 weeks), St. Anthony's ("v4s_listing") and Project Open Hand
@@ -832,6 +837,14 @@ ORGS = [
         "default_city": "San Francisco, CA",
         "verify_links": False,
         "default_tags": ["moderate", "indoors"],
+        # Used only when openhand.org refuses the request (it answered 403 to the
+        # GitHub runner). Copied from the live Hot Spots page on 2026-10-23.
+        "fallback_frames": [
+            {"program": "Prepare Medically-Tailored Meals", "location": "730 Polk Street, 1st Floor",
+             "src": "https://openhand.my.salesforce-sites.com/volunteer/GW_Volunteers__VolunteersJobListingFS?CampaignID=701Vv00000rQXRd&ShowNumberAvailable=1&nDaysToShow=15"},
+            {"program": "Assemble Medically-Tailored Groceries and Meals", "location": "730 Polk Street, 2nd Floor",
+             "src": "https://openhand.my.salesforce-sites.com/volunteer/GW_Volunteers__VolunteersJobListingFS?CampaignID=701Vv00000q6pUv&ShowNumberAvailable=1&nDaysToShow=15"},
+        ],
     },
     {
         # Salesforce job listing page; each shift links to its own page, built
@@ -861,15 +874,23 @@ ORGS = [
         "detail_link_pattern": r'(?:https://volunteer\.mowsf\.org)?/need/detail/\?need_id=\d+',
     },
     {
-        # Booking platform unknown, so there is no link pattern to match: read
-        # the rendered page as text instead. The site was down on 2026-10-23, so
-        # this one still needs a proper test run (it has many opportunities).
+        # The volunteer calendar on shfb.org loads ONE JSON feed (WordPress ajax
+        # action "mmvfs_get_data"): every shift with its date, clock times, open
+        # slots, address and coordinates. Shifts on the same day and place are
+        # nested inside one another, so the reader flattens them. Each shift has
+        # its own page: <calendar page>?shift_id=<id>. No AI calls.
         "org": "Second Harvest Food Bank of Silicon Valley",
         "cause": "food",
         "color": "#a0731a",
-        "kind": "text_page",
-        "source_page": "https://www.shfb.org/give-help/volunteer/individual-volunteering/",
+        "kind": "mmvfs_feed",
+        "feed_url": "https://www.shfb.org/wp-admin/admin-ajax.php?action=mmvfs_get_data",
+        "shift_page": "https://www.shfb.org/give-help/volunteer/volcalendar-general/",
+        "job_types": ["Sort Food", "Distribute Food"],
+        "lookahead_days": 21,
         "org_url": "https://www.shfb.org/give-help/volunteer/individual-volunteering/",
+        "verify_links": False,
+        "default_tags": ["moderate"],
+        "tag_rules": [(r"^sort food", ["indoors"])],
     },
 ]
 
@@ -2797,10 +2818,22 @@ def parse_hotspot_frames(page_html):
 
 
 def process_openhand_hotspots_org(client, org_cfg):
-    page = fetch_text(org_cfg["source_page"])
-    frames = parse_hotspot_frames(page)
+    frames = []
+    try:
+        frames = parse_hotspot_frames(fetch_text(org_cfg["source_page"]))
+        if not frames:
+            log("  ! no embedded listings found on the Hot Spots page; the layout probably changed")
+    except requests.RequestException as e:
+        # openhand.org answers 403 to the GitHub runner (run #29), although the
+        # Salesforce listings it embeds are readable. Fall back to the listing
+        # addresses written in the config.
+        log(f"  ! could not read the Hot Spots page ({e})")
+    if not frames and org_cfg.get("fallback_frames"):
+        frames = [dict(f) for f in org_cfg["fallback_frames"]]
+        log(f"  using the {len(frames)} listing address(es) saved in the config instead "
+            f"(if Open Hand changes its Hot Spots listings, update fallback_frames)")
     if not frames:
-        raise RuntimeError("no embedded listings found on the Hot Spots page; the layout probably changed")
+        raise RuntimeError("no embedded listings found for Open Hand")
     today = date.today()
     events = []
     n_shifts = n_open = 0
@@ -2829,6 +2862,111 @@ def process_openhand_hotspots_org(client, org_cfg):
     if n_shifts == 0:
         raise RuntimeError("listings found but no shifts parsed; the layout probably changed")
     log(f"  {len(frames)} listing(s), {n_shifts} shift(s), {n_open} with open slots -> {len(events)} event(s)")
+    return events
+
+
+# ---- Second Harvest Food Bank of Silicon Valley (volunteer calendar feed) ----
+
+def _clock_12h(s):
+    """'09:00:00.000Z' / '13:30' -> '9:00 AM' / '1:30 PM'. The feed writes the
+    LOCAL clock time with a trailing Z, so no timezone conversion is done."""
+    m = re.match(r"\s*(\d{1,2}):(\d{2})", s or "")
+    if not m:
+        return ""
+    h, mi = int(m.group(1)), int(m.group(2))
+    if h > 23 or mi > 59:
+        return ""
+    return f"{(h % 12) or 12}:{mi:02d} {'AM' if h < 12 else 'PM'}"
+
+
+def _us_date_iso(s):
+    """'10/26/2026' or '10/26/2026, 1:30 PM' -> '2026-10-26', or ''."""
+    m = re.match(r"\s*(\d{1,2})/(\d{1,2})/(\d{4})", s or "")
+    if not m:
+        return ""
+    try:
+        return date(int(m.group(3)), int(m.group(1)), int(m.group(2))).isoformat()
+    except ValueError:
+        return ""
+
+
+def flatten_mmvfs_shifts(data):
+    """Top-level shifts plus the sibling shifts nested inside each one (the
+    1:30 pm shift of a day lives inside the 9 am shift), de-duplicated by id."""
+    seen, out = set(), []
+    for top in (data or {}).get("shifts") or []:
+        if not isinstance(top, dict):
+            continue
+        for sh in [top] + [x for x in (top.get("shifts") or []) if isinstance(x, dict)]:
+            sid = sh.get("shift_id")
+            if sid and sid not in seen:
+                seen.add(sid)
+                out.append(sh)
+    return out
+
+
+def mmvfs_events(data, org_cfg, today):
+    """Turn the feed into events: wanted job types, open slots, published, in the
+    next lookahead_days. Returns (events, n_flattened)."""
+    days = int(org_cfg.get("lookahead_days", LOOKAHEAD_DAYS))
+    last = (today + timedelta(days=days)).isoformat()
+    wanted = set(org_cfg.get("job_types") or [])
+    page = org_cfg["shift_page"]
+    shifts = flatten_mmvfs_shifts(data)
+    events = []
+    for sh in shifts:
+        if wanted and sh.get("job_type") not in wanted:
+            continue
+        if not sh.get("published", True) or not sh.get("display_on_website", True):
+            continue
+        try:
+            need = int(sh.get("volunteers_still_needed") or 0)
+        except (TypeError, ValueError):
+            need = 0
+        if need < 1:
+            continue
+        iso = _us_date_iso(sh.get("start_date_time") or sh.get("date"))
+        if not iso or iso < today.isoformat() or iso > last:
+            continue
+        loc = sh.get("location_data") or {}
+        place = (loc.get("name") or "").strip()
+        street = (loc.get("address") or "").strip()
+        if not street:
+            continue
+        city = (loc.get("city") or sh.get("city") or "").strip()
+        zipc = (loc.get("zip") or "").strip()
+        tail = ", ".join(x for x in [city, ("CA " + zipc).strip()] if x)
+        location = ", ".join(x for x in [place, street, tail] if x)
+        name = (sh.get("job_type") or sh.get("job_name") or "Volunteer shift").strip()
+        if place:
+            name = f"{name} - {place}"
+        ev = {
+            "name": name,
+            "date": iso,
+            "start": _clock_12h(sh.get("start_time")),
+            "end": _clock_12h(sh.get("end_time")) or None,
+            "location": location,
+            "bookingUrl": f"{page}?shift_id={sh['shift_id']}",
+            "tags": fixed_tags(org_cfg, name),
+        }
+        lat, lng = loc.get("lat"), loc.get("lng")
+        if isinstance(lat, (int, float)) and isinstance(lng, (int, float)):
+            ev["lat"], ev["lng"] = float(lat), float(lng)
+        events.append(ev)
+    return events, len(shifts)
+
+
+def process_mmvfs_feed_org(client, org_cfg):
+    text = fetch_text(org_cfg["feed_url"])
+    try:
+        data = json.loads(text)
+    except ValueError:
+        raise RuntimeError("the volunteer feed did not return JSON; the site probably changed")
+    if not isinstance(data, dict) or not data.get("shifts"):
+        raise RuntimeError("the volunteer feed has no shifts")
+    events, n = mmvfs_events(data, org_cfg, date.today())
+    log(f"  {n} shift(s) in the feed -> {len(events)} open shift(s) in the next "
+        f"{org_cfg.get('lookahead_days', LOOKAHEAD_DAYS)} days")
     return events
 
 
@@ -2887,6 +3025,8 @@ def main():
                 events = process_v4s_listing_org(client, org_cfg)
             elif org_cfg["kind"] == "openhand_hotspots":
                 events = process_openhand_hotspots_org(client, org_cfg)
+            elif org_cfg["kind"] == "mmvfs_feed":
+                events = process_mmvfs_feed_org(client, org_cfg)
             elif org_cfg["kind"] == "no_dated_events":
                 log("  no dated events by design (self-directed program)")
             else:
@@ -2942,7 +3082,16 @@ def main():
                     if _v and not re.fullmatch(r"\d{1,2}(:\d{2})?\s*[AaPp][Mm]", str(_v).strip()):
                         ev[_k] = "" if _k == "start" else None   # e.g. "Earth Day (April) and ..." is not a time
 
-                lat, lng = geocode(ev.get("location", ""))
+                # Readers that already know exact coordinates (Second Harvest's feed)
+                # pass them along; anything outside the Bay Area is ignored and
+                # the address is geocoded as usual.
+                lat = lng = None
+                _la, _ln = ev.get("lat"), ev.get("lng")
+                if isinstance(_la, (int, float)) and isinstance(_ln, (int, float)) \
+                        and 36.8 <= _la <= 38.7 and -123.4 <= _ln <= -121.0:
+                    lat, lng = float(_la), float(_ln)
+                else:
+                    lat, lng = geocode(ev.get("location", ""))
                 if lat is None:
                     log(f"  ! could not geocode '{ev.get('location')}' -- skipping this event")
                     continue
