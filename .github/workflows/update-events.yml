@@ -2,10 +2,21 @@ name: Update volunteer events
 
 on:
   schedule:
-    # 15:00 UTC = 8:00 AM Pacific Daylight Time (adjust if you care about the
-    # 1-hour PST/PDT drift -- GitHub cron always runs in UTC).
-    - cron: "0 15 * * 1"
-  workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
+    # Once a month: the 1st of every month at 15:00 UTC (8:00 AM Pacific Daylight
+    # Time; GitHub cron always runs in UTC). The script looks 8 weeks ahead, so a
+    # monthly run always leaves several weeks of upcoming events on the site.
+    # You can still run it any time by hand from the Actions tab.
+    - cron: "0 15 1 * *"
+  workflow_dispatch:       # lets you trigger a run manually from the Actions tab
+    inputs:
+      only_orgs:
+        description: "Optional: test only these organizations (name fragments, comma separated, e.g. food bank). Everyone else keeps their current events."
+        required: false
+        default: ""
+      dry_run:
+        description: "Dry run: read everything and print the results, but do not change events.json"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -49,6 +60,9 @@ jobs:
           # pipeline. Safe to leave unset: those two orgs just fall back to
           # the older pipeline until it's added.
           GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
+          # Only set when you start the run by hand from the Actions tab.
+          ONLY_ORGS: ${{ github.event.inputs.only_orgs }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: python scripts/update_events.py
 
       - name: Commit and push events.json if it changed
