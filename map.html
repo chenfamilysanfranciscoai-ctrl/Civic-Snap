@@ -283,16 +283,25 @@ body{
 }
 
 /* ---- date filter bar (top-left of the map) ---- */
-.filter-bar{
+.map-top{
   position: absolute;
   top: 18px;
   left: 16px;
   z-index: 5;
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: calc(100% - 210px);
+  pointer-events: none;           /* only the boxes inside catch clicks */
+}
+.map-top > *{ pointer-events: auto; }
+.filter-bar{
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  max-width: calc(100% - 210px);
+  max-width: 100%;
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(6px);
   padding: 5px;
@@ -331,11 +340,7 @@ body{
   white-space: nowrap;
 }
 .filter-empty{
-  position: absolute;
-  top: 74px;
-  left: 16px;
-  z-index: 5;
-  max-width: calc(100% - 210px);
+  max-width: 100%;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -346,6 +351,207 @@ body{
 }
 .filter-empty[hidden]{ display: none; }
 
+
+/* ---- search box + "near me" (under the date filter) ---- */
+.finder{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 430px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(6px);
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 20px rgba(20,30,20,0.15);
+}
+.finder-search{
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.finder-search svg{
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  transform: translateY(-50%);
+  color: #8a8577;
+  pointer-events: none;
+}
+.finder-input{
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #1f2b23;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 30px 8px 30px;
+}
+.finder-input:focus{
+  outline: 2px solid var(--clay);
+  outline-offset: 0;
+}
+.finder-clear{
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #8a8577;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 4px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.finder-clear:hover{ background: var(--moss-light); color: var(--moss-dark); }
+.finder-clear[hidden]{ display: none; }
+.near-btn{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--clay);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.near-btn:hover{ background: var(--clay-dark); }
+.near-btn:disabled{ background: #cfc9ba; color: #6b6656; cursor: wait; }
+.near-btn:focus-visible{ outline: 2px solid var(--moss-dark); outline-offset: 2px; }
+.near-btn svg{ width: 15px; height: 15px; }
+
+.near-status{
+  max-width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(20,30,20,0.15);
+  padding: 9px 13px;
+  font-size: 0.8rem;
+  color: #4b463c;
+}
+.near-status[hidden]{ display: none; }
+.near-status.is-error{ border-color: #d9a48f; }
+
+/* "Closest to you" list */
+.nearby{
+  width: 330px;
+  max-width: 100%;
+  max-height: min(46vh, 420px);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(20,30,20,0.22);
+  overflow: hidden;
+}
+.nearby[hidden]{ display: none; }
+.nearby-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px 8px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.nearby-title{
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--moss-dark);
+}
+.nearby-close{
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #6b6656;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.nearby-close:hover{ background: var(--moss-light); color: var(--moss-dark); }
+.nearby-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+.nearby-item{ border-bottom: 1px solid #eee9db; }
+.nearby-item:last-child{ border-bottom: none; }
+.nearby-go{
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: #4b463c;
+}
+.nearby-go:hover, .nearby-go:focus-visible{ background: var(--moss-light); outline: none; }
+.nearby-dist{
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--clay-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.nearby-name{
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--moss-dark);
+  margin: 2px 0;
+  line-height: 1.25;
+}
+.nearby-sub{ display: block; font-size: 0.76rem; line-height: 1.35; }
+.nearby-note{
+  font-size: 0.7rem;
+  color: #8a8577;
+  padding: 8px 14px 10px;
+  border-top: 1px solid var(--line);
+}
+
+/* the blue dot that marks where you are */
+.user-dot{
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2b6cdf;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 0 rgba(43,108,223,0.5), 0 2px 6px rgba(0,0,0,0.35);
+  animation: userPulse 2s ease-out infinite;
+}
+@keyframes userPulse{
+  0%{ box-shadow: 0 0 0 0 rgba(43,108,223,0.5), 0 2px 6px rgba(0,0,0,0.35); }
+  80%,100%{ box-shadow: 0 0 0 16px rgba(43,108,223,0), 0 2px 6px rgba(0,0,0,0.35); }
+}
+@media (prefers-reduced-motion: reduce){ .user-dot{ animation: none; } }
+.popup-dist{
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--clay-dark);
+  margin: 0 0 6px 0;
+}
+
 .maplibregl-ctrl-top-right{
   top: 90px !important;
 }
@@ -354,25 +560,27 @@ body{
    "I will help" counter and zoom buttons shift down underneath it (the legend
    keeps the bottom-left corner to itself). */
 @media (max-width: 640px){
-  .filter-bar{
+  .map-top{
     right: 16px;
     max-width: none;
   }
-  .filter-empty{
-    top: 86px;
-    right: 182px;
-    max-width: none;
-  }
+  .finder{ max-width: none; }
+  .nearby{ width: 100%; max-height: 38vh; }
+  /* the counter and zoom buttons move to the bottom-right so the search box
+     and the "closest to you" list can use the full width up top */
   .stat-box{
-    top: 86px;
+    top: auto;
+    bottom: 22px;
     min-width: 0;
-    max-width: 150px;
+    max-width: 130px;
     padding: 8px 12px;
   }
   .stat-box .big{ font-size: 1.3rem; }
   .maplibregl-ctrl-top-right{
-    top: 160px !important;
+    top: auto !important;
+    bottom: 100px;
   }
+  .near-btn .near-label-long{ display: none; }
 }
 @media (max-width: 360px){
   .filter-bar{ gap: 2px; }
@@ -409,6 +617,7 @@ body{
 
 <div id="map-wrap" role="main">
 <div id="map"></div>
+<div class="map-top">
 <div class="filter-bar" id="filterBar" role="group" aria-label="Filter events by date">
 <button type="button" class="filter-btn" data-filter="week" aria-pressed="false">This Week</button>
 <button type="button" class="filter-btn" data-filter="nextweek" aria-pressed="false">Next Week</button>
@@ -416,7 +625,26 @@ body{
 <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
 <span class="filter-count" id="filterCount" aria-live="polite"></span>
 </div>
-<div class="filter-empty" id="filterEmpty" hidden>No events in this date range. Try a wider filter.</div>
+<form class="finder" id="finder" role="search" autocomplete="off">
+<div class="finder-search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+<label class="sr-only" for="mapSearch" style="position:absolute;left:-9999px">Search events on the map</label>
+<input class="finder-input" id="mapSearch" type="search" placeholder="Search events or places" maxlength="80">
+<button type="button" class="finder-clear" id="mapSearchClear" aria-label="Clear search" hidden>&times;</button>
+</div>
+<button type="button" class="near-btn" id="nearBtn" title="Find volunteer events closest to you">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+<span>Near me</span>
+</button>
+</form>
+<div class="near-status" id="nearStatus" role="status" aria-live="polite" hidden></div>
+<section class="nearby" id="nearby" aria-label="Closest volunteer events" hidden>
+<div class="nearby-head"><span class="nearby-title">Closest to you</span><button type="button" class="nearby-close" id="nearbyClose">Clear</button></div>
+<ul class="nearby-list" id="nearbyList"></ul>
+<div class="nearby-note">Your location stays in your browser and is never sent anywhere.</div>
+</section>
+<div class="filter-empty" id="filterEmpty" hidden>No events match. Try a wider date range or a different search.</div>
+</div>
 <div class="legend" id="legend"></div>
 <div class="stat-box">
 <div class="label">People who clicked "I will help!"</div>
@@ -651,14 +879,21 @@ function popupContentHtml(d, opts){
 
 // Popup body for a pin: one event shows the usual card; several events at
 // the same spot show a scrollable list (soonest first).
-function groupPopupHtml(events){
-  if (events.length === 1) return popupContentHtml(events[0]);
+function distLabel(mi){
+  if (mi == null) return '';
+  return mi < 0.1 ? 'Less than 0.1 mi from you' : `${mi < 10 ? mi.toFixed(1) : Math.round(mi)} mi from you`;
+}
+
+function groupPopupHtml(events, distMi){
+  const distHtml = distMi == null ? '' : `<p class="popup-dist">${distLabel(distMi)}</p>`;
+  if (events.length === 1) return distHtml + popupContentHtml(events[0]);
   const sorted = events.slice().sort((x, y) =>
     (x.date + (x.start || '')).localeCompare(y.date + (y.start || '')));
   const items = sorted.map(ev =>
     `<div class="popup-item">${popupContentHtml(ev, { compact: true })}</div>`).join('');
   return `
     <p class="popup-group-head">${sorted.length} events here</p>
+    ${distHtml}
     <p class="popup-group-where">${escapeAttr(sorted[0].location)}</p>
     <div class="popup-list">${items}</div>
   `;
@@ -722,7 +957,7 @@ function renderPins(){
 
     // The pin's look and popup depend on which of its events pass the
     // current date filter, so they are (re)drawn by applyFilter below.
-    pinRecords.push({ marker, popup, pinEl, events: g.events });
+    pinRecords.push({ marker, popup, pinEl, events: g.events, lat: g.lat, lng: g.lng, visibleEvents: [] });
   });
 
   applyFilter(currentFilter);
@@ -742,7 +977,7 @@ function paintPin(rec, visibleEvents){
     pinEl.style.background = visibleEvents[0].color;
     pinEl.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14z"/><path d="M5 19l8-8"/></svg>';
   }
-  rec.popup.setHTML(groupPopupHtml(visibleEvents));
+  rec.popup.setHTML(groupPopupHtml(visibleEvents, userPos ? milesBetween(userPos, rec) : null));
 }
 
 // ---- date filter ----
@@ -786,8 +1021,9 @@ function applyFilter(key){
   let shown = 0;
   let total = 0;
   pinRecords.forEach(r => {
-    const visibleEvents = !range ? r.events
-      : r.events.filter(ev => ev.date >= range.start && ev.date <= range.end);
+    const visibleEvents = r.events.filter(ev =>
+      (!range || (ev.date >= range.start && ev.date <= range.end)) && matchesSearch(ev));
+    r.visibleEvents = visibleEvents;
     total += r.events.length;
     shown += visibleEvents.length;
     if (visibleEvents.length){
@@ -808,7 +1044,185 @@ function applyFilter(key){
     countEl.textContent = `${shown} of ${total} events`;
   }
   document.getElementById('filterEmpty').hidden = !(total > 0 && shown === 0);
+  renderNearby();
 }
+
+
+// ---- search box ----
+// Narrows the pins to events whose name, organization, address or tags contain
+// every word typed (so "food san jose" works). It combines with the date
+// filter above. Enter zooms the map to what is left.
+let searchTerms = [];
+
+function eventHaystack(ev){
+  return [ev.name, ev.org, ev.location, (ev.tags || []).join(' ')].join(' ').toLowerCase();
+}
+function matchesSearch(ev){
+  if (!searchTerms.length) return true;
+  const hay = ev._hay || (ev._hay = eventHaystack(ev));
+  return searchTerms.every(t => hay.includes(t));
+}
+
+const searchInput = document.getElementById('mapSearch');
+const searchClear = document.getElementById('mapSearchClear');
+let searchTimer = null;
+
+function setSearch(text){
+  searchTerms = text.toLowerCase().split(/\s+/).filter(Boolean);
+  searchClear.hidden = !text;
+  applyFilter(currentFilter);
+}
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => setSearch(searchInput.value), 200);
+});
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  setSearch('');
+  searchInput.focus();
+});
+
+function fitToVisible(extraPoints){
+  const pts = pinRecords.filter(r => r.visibleEvents.length).map(r => [r.lng, r.lat]).concat(extraPoints || []);
+  if (!pts.length) return;
+  const b = new maplibregl.LngLatBounds(pts[0], pts[0]);
+  pts.forEach(pt => b.extend(pt));
+  map.fitBounds(b, { padding: { top: 120, bottom: 60, left: 60, right: 60 }, maxZoom: 14, duration: 700 });
+}
+
+// ---- "Near me" ----
+let userPos = null;        // { lat, lng } -- lives only in this page, never sent anywhere
+let userMarker = null;
+const nearBtn = document.getElementById('nearBtn');
+const nearStatus = document.getElementById('nearStatus');
+const nearby = document.getElementById('nearby');
+const nearbyList = document.getElementById('nearbyList');
+
+function milesBetween(a, b){
+  const R = 3958.8, rad = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * rad, dLng = (b.lng - a.lng) * rad;
+  const h = Math.sin(dLat / 2) ** 2 +
+            Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+
+function showNearStatus(text, isError){
+  nearStatus.textContent = text;
+  nearStatus.classList.toggle('is-error', !!isError);
+  nearStatus.hidden = !text;
+}
+
+// The closest pins that still pass the date and search filters, nearest first.
+function nearestRecords(limit){
+  if (!userPos) return [];
+  return pinRecords
+    .filter(r => r.visibleEvents.length)
+    .map(r => ({ rec: r, mi: milesBetween(userPos, r) }))
+    .sort((x, y) => x.mi - y.mi)
+    .slice(0, limit);
+}
+
+function shortWhere(loc){
+  // "Cypress Center, 4001 N 1st St., San Jose, CA 95134" -> first two parts
+  return String(loc).split(',').slice(0, 2).join(',').trim();
+}
+
+function renderNearby(){
+  if (!userPos){ nearby.hidden = true; return; }
+  const list = nearestRecords(5);
+  if (!list.length){
+    nearby.hidden = true;
+    showNearStatus('No events match the current filters, so there is nothing to show near you. Try "All" or clear the search.', true);
+    return;
+  }
+  const far = list[0].mi > 60;
+  showNearStatus(far ? `The closest event is about ${Math.round(list[0].mi)} miles away. Civic Snap covers the San Francisco Bay Area.` : '', false);
+  nearbyList.innerHTML = list.map((item, i) => {
+    const evs = item.rec.visibleEvents.slice().sort((x, y) =>
+      (x.date + (x.start || '')).localeCompare(y.date + (y.start || '')));
+    const first = evs[0];
+    const when = `${first.day.slice(0, 3)}, ${formatDate(first.date).replace(/, \d{4}$/, '')}${first.start ? ' at ' + first.start : ''}`;
+    const many = evs.length > 1 ? `${evs.length} events here &middot; next: ` : '';
+    return `<li class="nearby-item"><button type="button" class="nearby-go" data-idx="${i}">
+      <span class="nearby-dist">${distLabel(item.mi).replace(' from you', '')} away</span>
+      <span class="nearby-name">${escapeAttr(shortWhere(first.location))}</span>
+      <span class="nearby-sub">${many}${escapeAttr(first.name)} &middot; ${escapeAttr(when)}</span>
+      <span class="nearby-sub">${escapeAttr(first.org)}</span></button></li>`;
+  }).join('');
+  nearbyList._records = list.map(x => x.rec);
+  nearby.hidden = false;
+}
+
+nearbyList.addEventListener('click', e => {
+  const btn = e.target.closest('.nearby-go');
+  if (!btn) return;
+  const rec = nearbyList._records && nearbyList._records[Number(btn.dataset.idx)];
+  if (!rec) return;
+  map.flyTo({ center: [rec.lng, rec.lat], zoom: Math.max(map.getZoom(), 14), duration: 800 });
+  pinRecords.forEach(r => { if (r !== rec && r.popup.isOpen()) r.popup.remove(); });
+  if (!rec.popup.isOpen()) rec.marker.togglePopup();
+});
+
+function clearLocation(){
+  userPos = null;
+  if (userMarker){ userMarker.remove(); userMarker = null; }
+  nearby.hidden = true;
+  showNearStatus('', false);
+  applyFilter(currentFilter);   // repaint popups without the "mi from you" line
+}
+document.getElementById('nearbyClose').addEventListener('click', clearLocation);
+
+function placeUserMarker(){
+  if (userMarker) userMarker.remove();
+  const el = document.createElement('div');
+  el.className = 'user-dot';
+  el.setAttribute('role', 'img');
+  el.setAttribute('aria-label', 'Your location');
+  userMarker = new maplibregl.Marker({ element: el, anchor: 'center' })
+    .setLngLat([userPos.lng, userPos.lat]).addTo(map);
+}
+
+function geoErrorMessage(err){
+  if (err && err.code === 1) return 'Location is blocked for this site. Allow it in your browser\'s address bar and try again, or use the search box (try a city name).';
+  if (err && err.code === 3) return 'Finding your location took too long. Please try again, or use the search box.';
+  return 'Your location is not available right now. You can still search by city, cause or group.';
+}
+
+nearBtn.addEventListener('click', () => {
+  if (!navigator.geolocation){
+    showNearStatus('This browser cannot share your location. Use the search box to look up a city instead.', true);
+    return;
+  }
+  nearBtn.disabled = true;
+  showNearStatus('Finding your location…', false);
+  navigator.geolocation.getCurrentPosition(pos => {
+    nearBtn.disabled = false;
+    userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    placeUserMarker();
+    applyFilter(currentFilter);          // repaints popups with distances and builds the list
+    const top = nearestRecords(3);
+    if (top.length) fitToVisibleNear(top);
+  }, err => {
+    nearBtn.disabled = false;
+    showNearStatus(geoErrorMessage(err), true);
+  }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 });
+});
+
+function fitToVisibleNear(top){
+  const pts = [[userPos.lng, userPos.lat]].concat(top.map(x => [x.rec.lng, x.rec.lat]));
+  const b = new maplibregl.LngLatBounds(pts[0], pts[0]);
+  pts.forEach(pt => b.extend(pt));
+  // On a phone the list covers the top of the map, so leave more room there.
+  const narrow = window.innerWidth <= 640;
+  map.fitBounds(b, { padding: { top: narrow ? 330 : 120, bottom: 60, left: narrow ? 40 : 380, right: narrow ? 40 : 90 }, maxZoom: 14, duration: 900 });
+}
+
+document.getElementById('finder').addEventListener('submit', e => {
+  e.preventDefault();
+  clearTimeout(searchTimer);
+  setSearch(searchInput.value);
+  if (searchTerms.length) fitToVisible();
+});
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
