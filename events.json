@@ -110,6 +110,43 @@
     "color": "#a8433f",
     "events": [
       {
+        "name": "Mussel Rock Beach Cleanup",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.6651,
+        "lng": -122.4928,
+        "location": "Mussel Rock Car Park, Westline Drive, Daly City, CA",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLScq691daox7vG8NDgnTlsshUP_lf2qCxgCxRQI-V6HNVa5v0w/viewform",
+        "tags": [
+          "cleanup",
+          "moderate",
+          "outdoors",
+          "beach",
+          "beginner-friendly",
+          "family-friendly"
+        ]
+      },
+      {
+        "name": "Linda Mar Habitat Restoration",
+        "date": "2026-10-25",
+        "day": "Sunday",
+        "start": "10:00 AM",
+        "end": "12:00 PM",
+        "lat": 32.9892,
+        "lng": -117.2728,
+        "location": "Linda Mar Beach, west side of Highway 1 at Crespi Drive stoplight, Pacifica",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform",
+        "tags": [
+          "restoration",
+          "active",
+          "outdoors",
+          "beach",
+          "beginner-friendly"
+        ]
+      },
+      {
         "name": "Surfer's Beach Cleanup, Half Moon Bay",
         "date": "2026-10-31",
         "day": "Saturday",
@@ -117,7 +154,7 @@
         "end": "11:00 AM",
         "lat": 37.5014,
         "lng": -122.4728,
-        "location": "Pillar Point RV Park, 4000 Cabrillo Hwy, Half Moon Bay, CA 94019 (coastal trail, north side of Surfers Beach)",
+        "location": "Pillar Point RV Park, 4000 Cabrillo Hwy, Half Moon Bay, CA 94019 (coastal trail near South Jetty, Surfers Beach)",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfyVxegnWgK25iLiwOQm6kQEEgQd2Yz7i0YDA7Rraet-j4THA/viewform",
         "tags": [
           "cleanup",
@@ -129,21 +166,41 @@
         ]
       },
       {
-        "name": "Linda Mar Habitat Restoration, Pacifica",
-        "date": "2026-11-14",
+        "name": "San Pedro Creek Cleanup, Pacifica",
+        "date": "2026-11-07",
         "day": "Saturday",
-        "start": "10:00 AM",
-        "end": "1:00 PM",
-        "lat": 37.5987,
-        "lng": -122.4978,
-        "location": "Linda Mar Beach, Pacifica",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform",
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.5889,
+        "lng": -122.5002,
+        "location": "751 San Pedro Terrace Road, Pacifica, CA",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSc0yHCe_fO2z-3gVwz5BFc0cpmIn-ga9Df5dzNS9zu_V1zRCQ/viewform",
         "tags": [
-          "restoration",
-          "active",
+          "cleanup",
+          "moderate",
+          "outdoors",
+          "creek",
+          "beginner-friendly",
+          "family-friendly"
+        ]
+      },
+      {
+        "name": "Esplanade Beach Cleanup, Pacifica",
+        "date": "2026-11-07",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "lat": 36.9718,
+        "lng": -121.9502,
+        "location": "Esplanade Beach, Pacifica",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeDkdt-BxduvqZjBTMrC_I9Tt29K41GRMAia8N8qbqRTFnrOQ/viewform",
+        "tags": [
+          "cleanup",
+          "moderate",
           "outdoors",
           "beach",
-          "educational"
+          "beginner-friendly",
+          "family-friendly"
         ]
       },
       {
@@ -173,7 +230,7 @@
         "end": "11:00 AM",
         "lat": 37.6284,
         "lng": -122.4948,
-        "location": "Corner of Beach Blvd and Clarendon (start of the Levee), Sharp Park Beach, Pacifica",
+        "location": "Corner of Beach Blvd and Clarendon (start of the Levee), Sharp Park Beach, Pacifica, CA",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfVdK6L3JcCl4fK6JQl05L5QQGi-fEF84LYToB3M5pZpeN-6Q/viewform",
         "tags": [
           "cleanup",
@@ -185,14 +242,33 @@
         ]
       },
       {
-        "name": "Esplanade Beach Cleanup",
-        "date": "2026-11-21",
+        "name": "San Pedro Creek Cleanup, Pacifica",
+        "date": "2026-12-05",
         "day": "Saturday",
         "start": "9:00 AM",
         "end": "11:00 AM",
-        "lat": 37.6548,
-        "lng": -122.4917,
-        "location": "Top of stairs on Esplanade Avenue next to Oceanaire Apartments, 100 Esplanade Ave, Pacifica, CA",
+        "lat": 37.5889,
+        "lng": -122.5002,
+        "location": "751 San Pedro Terrace Road, Pacifica, CA",
+        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSc0yHCe_fO2z-3gVwz5BFc0cpmIn-ga9Df5dzNS9zu_V1zRCQ/viewform",
+        "tags": [
+          "cleanup",
+          "moderate",
+          "outdoors",
+          "creek",
+          "beginner-friendly",
+          "family-friendly"
+        ]
+      },
+      {
+        "name": "Esplanade Beach Cleanup, Pacifica",
+        "date": "2026-12-05",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "lat": 36.9718,
+        "lng": -121.9502,
+        "location": "Esplanade Beach, Pacifica",
         "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeDkdt-BxduvqZjBTMrC_I9Tt29K41GRMAia8N8qbqRTFnrOQ/viewform",
         "tags": [
           "cleanup",
@@ -201,24 +277,6 @@
           "beach",
           "beginner-friendly",
           "family-friendly"
-        ]
-      },
-      {
-        "name": "Linda Mar Habitat Restoration, Pacifica",
-        "date": "2026-12-12",
-        "day": "Saturday",
-        "start": "10:00 AM",
-        "end": "1:00 PM",
-        "lat": 37.5987,
-        "lng": -122.4978,
-        "location": "Linda Mar Beach, Pacifica",
-        "bookingUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfxNQrRUKqokxRULh5slqhraOvkAIg7ZGmzGwu4e45BddkVMg/viewform",
-        "tags": [
-          "restoration",
-          "active",
-          "outdoors",
-          "beach",
-          "educational"
         ]
       }
     ],
@@ -256,10 +314,11 @@
         "end": "1:00 PM",
         "lat": 37.3894,
         "lng": -122.0832,
-        "location": "Mountain View A2W Pond, Mountain View, CA",
+        "location": "Mountain View A2W Pond, South Bay Salt Ponds Restoration Project, Mountain View, CA",
         "bookingUrl": "https://savesfbay.org/event/planting-at-mountain-view-a2w-pond-sskhyaw/",
         "tags": [
           "planting",
+          "restoration",
           "moderate",
           "outdoors",
           "wetland",
@@ -313,25 +372,6 @@
         ]
       },
       {
-        "name": "Volunteer Outdoors in Palo Alto at Pearson-Arastradero Preserve",
-        "date": "2026-10-24",
-        "day": "Saturday",
-        "start": "9:00 AM",
-        "end": null,
-        "lat": 37.3871,
-        "lng": -122.1738,
-        "location": "Pearson-Arastradero Preserve, 1530 Arastradero Road, Palo Alto, CA 94304",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-at-pearson-arastradero-preserve",
-        "tags": [
-          "restoration",
-          "invasive-removal",
-          "active",
-          "outdoors",
-          "woodland",
-          "beginner-friendly"
-        ]
-      },
-      {
         "name": "Volunteer Outdoors in East Palo Alto at Ravenswood",
         "date": "2026-10-24",
         "day": "Saturday",
@@ -351,20 +391,21 @@
         ]
       },
       {
-        "name": "Volunteer Outdoors in Redwood City: Habitat Restoration at Redwood Creek",
-        "date": "2026-10-31",
+        "name": "Volunteer Outdoors in Palo Alto at Pearson-Arastradero Preserve",
+        "date": "2026-10-24",
         "day": "Saturday",
-        "start": "",
+        "start": "9:00 AM",
         "end": null,
-        "lat": 37.4915,
-        "lng": -122.2274,
-        "location": "353 Main Street, Redwood City, CA 94063",
-        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-at-redwood-creek",
+        "lat": 37.3871,
+        "lng": -122.1738,
+        "location": "Pearson-Arastradero Preserve, 1530 Arastradero Road, Palo Alto, CA 94304",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/24/volunteer-at-pearson-arastradero-preserve",
         "tags": [
           "restoration",
+          "invasive-removal",
           "active",
           "outdoors",
-          "creek",
+          "woodland",
           "beginner-friendly"
         ]
       },
@@ -394,7 +435,7 @@
         "end": null,
         "lat": 37.4479,
         "lng": -122.1709,
-        "location": "Alma Pollinator Garden, 1 Alma Street, Menlo Park, CA 94025",
+        "location": "Alma Garden, 1 Alma Street, Menlo Park, CA 94025",
         "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-menlo-park-pollinator-garden",
         "tags": [
           "gardening",
@@ -406,10 +447,28 @@
         ]
       },
       {
+        "name": "Volunteer Outdoors in Redwood City: Habitat Restoration at Redwood Creek",
+        "date": "2026-10-31",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": null,
+        "lat": 37.4915,
+        "lng": -122.2274,
+        "location": "353 Main Street, Redwood City, CA 94063",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/10/31/volunteer-at-redwood-creek",
+        "tags": [
+          "restoration",
+          "active",
+          "outdoors",
+          "creek",
+          "beginner-friendly"
+        ]
+      },
+      {
         "name": "D\u00eda de los Muertos Celebracion en Cooley Landing",
         "date": "2026-11-07",
         "day": "Saturday",
-        "start": "",
+        "start": "10:00 AM",
         "end": null,
         "lat": 37.4768,
         "lng": -122.1219,
@@ -444,6 +503,26 @@
         ]
       },
       {
+        "name": "Volunteer Outside at McClellan Ranch Preserve in Cupertino",
+        "date": "2026-11-08",
+        "day": "Sunday",
+        "start": "9:00 AM",
+        "end": null,
+        "lat": 37.3132,
+        "lng": -122.0628,
+        "location": "McClellan Ranch Preserve, 22221 McClellan Road, Cupertino, CA 95014",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/11/08/volunteer-at-mcclellan-ranch-preserve-in-cupertino",
+        "tags": [
+          "restoration",
+          "invasive-removal",
+          "active",
+          "outdoors",
+          "creek",
+          "woodland",
+          "beginner-friendly"
+        ]
+      },
+      {
         "name": "Burn Pile Build at Foothills Nature Preserve",
         "date": "2026-11-08",
         "day": "Sunday",
@@ -459,6 +538,25 @@
           "outdoors",
           "woodland"
         ]
+      },
+      {
+        "name": "Volunteer Outdoors at Redwood Grove in Los Altos",
+        "date": "2026-11-20",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": null,
+        "lat": 37.3742,
+        "lng": -122.1185,
+        "location": "Redwood Grove Nature Preserve, 482 University Avenue, Los Altos, CA 94022",
+        "bookingUrl": "https://www.grassrootsecology.org/event-calendar/2026/11/20/volunteer-outdoors-redwood-grove",
+        "tags": [
+          "restoration",
+          "invasive-removal",
+          "active",
+          "outdoors",
+          "woodland",
+          "beginner-friendly"
+        ]
       }
     ],
     "cause": "environment"
@@ -472,7 +570,7 @@
         "date": "2026-10-23",
         "day": "Friday",
         "start": "6:00 PM",
-        "end": null,
+        "end": "9:00 PM",
         "lat": 37.7879,
         "lng": -122.4075,
         "location": "San Francisco, CA",
@@ -485,18 +583,19 @@
         ]
       },
       {
-        "name": "NERT RECERT Training",
-        "date": "2026-11-16",
-        "day": "Monday",
+        "name": "NERT Basic Training (Tuesdays, Nov 10 - Dec 15)",
+        "date": "2026-11-10",
+        "day": "Tuesday",
         "start": "6:00 PM",
-        "end": null,
+        "end": "9:00 PM",
         "lat": 37.7879,
         "lng": -122.4075,
-        "location": "San Francisco, CA (NERT)",
-        "bookingUrl": "https://sf-fire.org/calendar/nert-recert-training-november-16-23-mondays",
+        "location": "San Francisco, CA",
+        "bookingUrl": "https://sf-fire.org/calendar/nert-basic-training-november-10-december-15-tuesdays",
         "tags": [
           "relaxed",
           "indoors",
+          "beginner-friendly",
           "educational"
         ]
       }
@@ -507,7 +606,25 @@
   {
     "org": "Mentor Tutor Connection",
     "color": "#6b4c9a",
-    "events": [],
+    "events": [
+      {
+        "name": "Volunteer Information Session (online)",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "12:00 PM",
+        "end": null,
+        "lat": 38.1549,
+        "lng": -79.0697,
+        "location": "Online",
+        "bookingUrl": "https://www.mentortutorconnection.org/mc-events/volunteer-information-session-online/",
+        "tags": [
+          "relaxed",
+          "indoors",
+          "beginner-friendly",
+          "educational"
+        ]
+      }
+    ],
     "cause": "youth",
     "orgUrl": "https://www.mentortutorconnection.org/news-events/"
   },
@@ -724,62 +841,6 @@
         ]
       },
       {
-        "name": "DRIVERS - San Francisco Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "10:00 AM",
-        "end": "1:00 PM",
-        "lat": 37.7491,
-        "lng": -122.3869,
-        "location": "1050 Marin St, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1271996",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
-        "name": "DRIVERS - Marin Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "11:00 AM",
-        "end": "2:00 PM",
-        "lat": 37.9495,
-        "lng": -122.4909,
-        "location": "2550 Kerner Blvd, San Rafael, CA 94901",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1272006",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
-        "name": "DRIVERS - San Francisco Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "11:00 AM",
-        "end": "2:00 PM",
-        "lat": 37.7491,
-        "lng": -122.3869,
-        "location": "1050 Marin St, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1271996",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
-        "name": "DRIVERS - Marin Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "11:30 AM",
-        "end": "2:30 PM",
-        "lat": 37.9495,
-        "lng": -122.4909,
-        "location": "2550 Kerner Blvd, San Rafael, CA 94901",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1272006",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
         "name": "Illinois Warehouse - Second Shift",
         "date": "2026-10-23",
         "day": "Friday",
@@ -823,34 +884,6 @@
         ]
       },
       {
-        "name": "DRIVERS - Marin Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "12:00 PM",
-        "end": "3:00 PM",
-        "lat": 37.9495,
-        "lng": -122.4909,
-        "location": "2550 Kerner Blvd, San Rafael, CA 94901",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1272006",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
-        "name": "DRIVERS - San Francisco Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "12:00 PM",
-        "end": "3:00 PM",
-        "lat": 37.7491,
-        "lng": -122.3869,
-        "location": "1050 Marin St, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1271996",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
         "name": "Marin Warehouse - Afternoon",
         "date": "2026-10-23",
         "day": "Friday",
@@ -866,20 +899,6 @@
         ]
       },
       {
-        "name": "DRIVERS - San Francisco Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "1:00 PM",
-        "end": "4:00 PM",
-        "lat": 37.7491,
-        "lng": -122.3869,
-        "location": "1050 Marin St, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1271996",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
         "name": "CANTONESE Language Assistance - La Tiendita",
         "date": "2026-10-23",
         "day": "Friday",
@@ -889,20 +908,6 @@
         "lng": -122.4381,
         "location": "4834 Mission St, San Francisco, CA 94112",
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1266915",
-        "tags": [
-          "moderate"
-        ]
-      },
-      {
-        "name": "DRIVERS - San Francisco Deliveries - 10/23/2026",
-        "date": "2026-10-23",
-        "day": "Friday",
-        "start": "2:00 PM",
-        "end": "5:00 PM",
-        "lat": 37.7491,
-        "lng": -122.3869,
-        "location": "1050 Marin St, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1271996",
         "tags": [
           "moderate"
         ]
@@ -978,17 +983,18 @@
         ]
       },
       {
-        "name": "DRIVERS - San Francisco Deliveries - 10/23/2026",
+        "name": "San Francisco Warehouse - Shop Floor",
         "date": "2026-10-23",
         "day": "Friday",
-        "start": "9:00 AM",
-        "end": "12:00 PM",
-        "lat": 37.7491,
-        "lng": -122.3869,
-        "location": "1050 Marin St, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1271996",
+        "start": "8:45 AM",
+        "end": "12:15 PM",
+        "lat": 37.7544,
+        "lng": -122.3935,
+        "location": "900 Pennsylvania Ave, San Francisco, CA 94107",
+        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1268921",
         "tags": [
-          "moderate"
+          "moderate",
+          "indoors"
         ]
       },
       {
@@ -1318,6 +1324,21 @@
         ]
       },
       {
+        "name": "Marin Warehouse - Morning",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.9495,
+        "lng": -122.4909,
+        "location": "2550 Kerner Blvd, San Rafael, CA 94901",
+        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1268942",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
         "name": "DRIVERS - San Francisco Deliveries - 10/24/2026",
         "date": "2026-10-24",
         "day": "Saturday",
@@ -1371,21 +1392,6 @@
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=822789",
         "tags": [
           "moderate"
-        ]
-      },
-      {
-        "name": "San Francisco Warehouse - Shop Floor",
-        "date": "2026-10-26",
-        "day": "Monday",
-        "start": "8:45 AM",
-        "end": "12:15 PM",
-        "lat": 37.7544,
-        "lng": -122.3935,
-        "location": "900 Pennsylvania Ave, San Francisco, CA 94107",
-        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1268921",
-        "tags": [
-          "moderate",
-          "indoors"
         ]
       },
       {
@@ -1513,6 +1519,20 @@
         "lng": -122.5166,
         "location": "351 Mission Ave, San Rafael, CA 94901",
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=552192",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Salvation Army All Nations Corps",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "8:30 AM",
+        "end": "11:00 AM",
+        "lat": 37.7158,
+        "lng": -122.471,
+        "location": "4000 19th Ave, San Francisco, CA 94132",
+        "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1120093",
         "tags": [
           "moderate"
         ]
@@ -1678,8 +1698,8 @@
         "day": "Wednesday",
         "start": "12:00 PM",
         "end": "2:30 PM",
-        "lat": 37.9573,
-        "lng": -122.4997,
+        "lat": 37.9574,
+        "lng": -122.5001,
         "location": "Marin Community Clinic Health Hub, 3110 Kerner Blvd, San Rafael, CA 94901",
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=536314",
         "tags": [
@@ -1791,8 +1811,8 @@
         "day": "Wednesday",
         "start": "8:00 AM",
         "end": "11:00 AM",
-        "lat": 37.8719,
-        "lng": -122.5134,
+        "lat": 37.8724,
+        "lng": -122.5129,
         "location": "200 Phillips Dr, Sausalito, CA 94965",
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1181183",
         "tags": [
@@ -3175,8 +3195,8 @@
         "day": "Wednesday",
         "start": "12:00 PM",
         "end": "2:30 PM",
-        "lat": 37.9573,
-        "lng": -122.4997,
+        "lat": 37.9574,
+        "lng": -122.5001,
         "location": "Marin Community Clinic Health Hub, 3110 Kerner Blvd, San Rafael, CA 94901",
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=536314",
         "tags": [
@@ -3287,8 +3307,8 @@
         "day": "Wednesday",
         "start": "8:00 AM",
         "end": "11:00 AM",
-        "lat": 37.8719,
-        "lng": -122.5134,
+        "lat": 37.8724,
+        "lng": -122.5129,
         "location": "200 Phillips Dr, Sausalito, CA 94965",
         "bookingUrl": "https://volunteering.sfmfoodbank.org/need/detail/?need_id=1181183",
         "tags": [
@@ -4881,7 +4901,263 @@
   {
     "org": "Project Open Hand",
     "color": "#c0392b",
-    "events": [],
+    "events": [
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-10-26",
+        "day": "Monday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep PM (Medically-Tailored Meals)",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Packout PM (Medically-Tailored Groceries and Meals)",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Packout AM (Medically-Tailored Groceries and Meals)",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep PM (Medically-Tailored Meals)",
+        "date": "2026-10-30",
+        "day": "Friday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep PM (Medically-Tailored Meals)",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep PM (Medically-Tailored Meals)",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Packout AM (Medically-Tailored Groceries and Meals)",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Packout PM (Medically-Tailored Groceries and Meals)",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Kitchen Meal Prep AM (Medically-Tailored Meals)",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7839,
+        "lng": -122.4192,
+        "location": "730 Polk Street, San Francisco, CA",
+        "bookingUrl": "https://www.openhand.org/hotspots",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      }
+    ],
     "cause": "food",
     "orgUrl": "https://www.openhand.org/volunteer/volunteer-hot-spots"
   },
@@ -4914,6 +5190,21 @@
         "lng": -122.4126,
         "location": "121 Golden Gate Ave, San Francisco, CA 94102",
         "bookingUrl": "https://stanthonysf.my.salesforce-sites.com/volunteer/GW_Volunteers__VolunteersJobListingFS?Calendar=1&volunteerShiftId=a1RRi000002sczWMAQ&jobId=a1P0W000004wPt2UAE&dtMonthFilter=2026-10-23%2013:0:0&nDaysToShow=1&ShowNumberAvailable=1",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Breakfast Service",
+        "date": "2026-10-23",
+        "day": "Friday",
+        "start": "6:30 AM",
+        "end": "8:30 AM",
+        "lat": 37.7818,
+        "lng": -122.4126,
+        "location": "121 Golden Gate Ave, San Francisco, CA 94102",
+        "bookingUrl": "https://stanthonysf.my.salesforce-sites.com/volunteer/GW_Volunteers__VolunteersJobListingFS?Calendar=1&volunteerShiftId=a1RRi000002saGaMAI&jobId=a1P6T000006E4OdUAK&dtMonthFilter=2026-10-23%206:30:0&nDaysToShow=1&ShowNumberAvailable=1",
         "tags": [
           "moderate",
           "indoors"
@@ -7059,7 +7350,1640 @@
   {
     "org": "Second Harvest Food Bank of Silicon Valley",
     "color": "#a0731a",
-    "events": [],
+    "events": [
+      {
+        "name": "Distribute Food - Fair Oaks Adult Activity Center",
+        "date": "2026-10-23",
+        "day": "Friday",
+        "start": "10:00 AM",
+        "end": "1:00 PM",
+        "lat": 37.4772,
+        "lng": -122.2132,
+        "location": "Fair Oaks Adult Activity Center, 2600 Middlefield Rd., Redwood City, CA 94063",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJTMYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - San Jose City College",
+        "date": "2026-10-23",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:30 PM",
+        "lat": 37.3162,
+        "lng": -121.9297,
+        "location": "San Jose City College, 2100 Moorpark Avenue, San Jose, CA 95128",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJO7YAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Rebekah Children's Services",
+        "date": "2026-10-23",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:30 PM",
+        "lat": 37.0131,
+        "lng": -121.5682,
+        "location": "Rebekah Children's Services, 290 I.O.O.F Ave, Gilroy, CA 95020",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJiIYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-23",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK236YAD",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OJVjtYAH",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-24",
+        "day": "Saturday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK1wfYAD",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - SVDP St. Mark",
+        "date": "2026-10-26",
+        "day": "Monday",
+        "start": "10:00 AM",
+        "end": "11:30 AM",
+        "lat": 37.5292,
+        "lng": -122.2775,
+        "location": "SVDP St. Mark, 325 Marine View Avenue, Belmont, CA 94002",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000MkyO1YAJ",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-26",
+        "day": "Monday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OJyE2YAL",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Jose Higuera Adobe Park",
+        "date": "2026-10-26",
+        "day": "Monday",
+        "start": "8:00 AM",
+        "end": "11:30 AM",
+        "lat": 37.4582,
+        "lng": -121.8964,
+        "location": "Jose Higuera Adobe Park, Wessex Place, Milpitas, CA 95035",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW3ADYA1",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-10-26",
+        "day": "Monday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OJsn3YAD",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-26",
+        "day": "Monday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OJwXBYA1",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK3SCYA1",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Spartan Keyes Neighborhood Ctr",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "1:30 PM",
+        "end": "4:30 PM",
+        "lat": 37.3249,
+        "lng": -121.8659,
+        "location": "Spartan Keyes Neighborhood Ctr, 570 Keyes Street #2, San Jose, CA 95112",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW3AbYAL",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Garfield Community School",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "2:15 PM",
+        "end": "4:15 PM",
+        "lat": 37.47,
+        "lng": -122.1994,
+        "location": "Garfield Community School, 3600 Middlefield Road, Menlo Park, CA 94025",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJOJYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Our Lady of Refuge Church",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "2:30 PM",
+        "end": "6:30 PM",
+        "lat": 37.3171,
+        "lng": -121.8458,
+        "location": "Our Lady of Refuge Church, 2165 Lucretia Avenue, San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJWUYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Waypoint Church",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "7:30 AM",
+        "end": "9:30 AM",
+        "lat": 37.5435,
+        "lng": -122.3092,
+        "location": "Waypoint Church, 194 W 25th Avenue, San Mateo, CA 94403",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJU8YAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Mater Dolorosa Catholic Church",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "8:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.6622,
+        "lng": -122.4341,
+        "location": "Mater Dolorosa Catholic Church, 1040 Miller Avenue, South San Francisco, CA 94080",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000MkkT7YAJ",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Mission College",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:30 PM",
+        "lat": 37.39,
+        "lng": -121.9858,
+        "location": "Mission College, 3000 Mission College Boulevard, Parking Lot C, Santa Clara, CA 95054",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW4i1YAD",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK1YWYA1",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK3GyYAL",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Morgan Hill Comm & Cultural Ctr",
+        "date": "2026-10-27",
+        "day": "Tuesday",
+        "start": "9:45 AM",
+        "end": "12:15 PM",
+        "lat": 37.1264,
+        "lng": -121.6494,
+        "location": "Morgan Hill Comm & Cultural Ctr, 17000 Monterey Rd, Morgan Hill, CA 95037",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJj2YAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - St John Vianney Church",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "1:00 PM",
+        "end": "4:30 PM",
+        "lat": 37.3714,
+        "lng": -121.8263,
+        "location": "St John Vianney Church, 4600 Hyland Avenue, San Jose, CA 95127",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJLqYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK3SDYA1",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Belle Air Elementary School",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "1:45 PM",
+        "end": "4:00 PM",
+        "lat": 37.624,
+        "lng": -122.4051,
+        "location": "Belle Air Elementary School, 450 Third Ave., San Bruno, CA 94066",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJDqYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Gloria Dei Lutheran Church",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "7:30 AM",
+        "end": "11:00 AM",
+        "lat": 37.3639,
+        "lng": -121.8272,
+        "location": "Gloria Dei Lutheran Church, 121 S. White Road, San Jose, CA 95127",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJUWYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - CC- Eastside Neighborhood Ctr",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "8:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.3563,
+        "lng": -121.8468,
+        "location": "CC- Eastside Neighborhood Ctr, 2150 Alum Rock Ave, San Jose, CA 95116",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000RoXAwYAN",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OJsn4YAD",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-28",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK1jkYAD",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OJi0KYAT",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK3SEYA1",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Santee Elementary School",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "3:15 PM",
+        "end": "6:15 PM",
+        "lat": 37.3282,
+        "lng": -121.8467,
+        "location": "Santee Elementary School, 1313 Audubon Dr, San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJOlYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - San Mateo County Event Center",
+        "date": "2026-10-29",
+        "day": "Thursday",
+        "start": "7:30 AM",
+        "end": "10:30 AM",
+        "lat": 37.5484,
+        "lng": -122.3043,
+        "location": "San Mateo County Event Center, 1346 Saratoga Drive, San Mateo, CA 94403",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW4hPYAT",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - St. Lucy Parish",
+        "date": "2026-10-30",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:30 PM",
+        "lat": 37.2802,
+        "lng": -121.9488,
+        "location": "St. Lucy Parish, 2350 Winchester Blvd., Campbell, CA 95008",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJMHYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-10-30",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OK237YAD",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Trestle Glen Apartments",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "12:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.6829,
+        "lng": -122.4644,
+        "location": "Trestle Glen Apartments, 370 F Street, Colma, CA 94014",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000OksqoYAB",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvFYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Evergreen Community Center",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "7:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.2999,
+        "lng": -121.7716,
+        "location": "Evergreen Community Center, 4860 San Felipe Road, San Jose, CA 95135",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJMvYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Rogell Court",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "7:45 AM",
+        "end": "9:15 AM",
+        "lat": 37.5799,
+        "lng": -122.3226,
+        "location": "Rogell Court, 409 Rogell Court, San Mateo, CA 94401",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJDlYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - West Valley College",
+        "date": "2026-11-02",
+        "day": "Monday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2644,
+        "lng": -122.0135,
+        "location": "West Valley College, 14000 Fruitvale Ave, Saratoga, CA 95070",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW4iSYAT",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Ocean View Senior Apartments",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "10:15 AM",
+        "end": "12:00 PM",
+        "lat": 37.5989,
+        "lng": -122.4981,
+        "location": "Ocean View Senior Apartments, 629 Roberts Road, Pacifica, CA 94044",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJdMYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Daly City- Westlake",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "10:30 AM",
+        "end": "12:00 PM",
+        "lat": 37.7054,
+        "lng": -122.4858,
+        "location": "Daly City- Westlake, 101 Lake Merced, Daly City, CA 94015",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000Mkx0gYAB",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvGYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Our Lady of Refuge Church",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "2:30 PM",
+        "end": "6:30 PM",
+        "lat": 37.3171,
+        "lng": -121.8458,
+        "location": "Our Lady of Refuge Church, 2165 Lucretia Avenue, San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJWVYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Westminster Presbyterian Church",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "7:00 AM",
+        "end": "9:00 AM",
+        "lat": 37.3322,
+        "lng": -121.914,
+        "location": "Westminster Presbyterian Church, 1100 Shasta Ave., San Jose, CA 95126",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ7xYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - St. Luke Lutheran Church",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "7:45 AM",
+        "end": "10:45 AM",
+        "lat": 37.3454,
+        "lng": -122.0561,
+        "location": "St. Luke Lutheran Church, 1025 The Dalles Ave., Sunnyvale, CA 94087",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ7lYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PonYAF",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Casa Pacifica Senior Apartments",
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "start": "9:30 AM",
+        "end": "12:30 PM",
+        "lat": 37.5844,
+        "lng": -122.4749,
+        "location": "Casa Pacifica Senior Apartments, 1060 Terra Nova Boulevard, Pacifica, CA 94044",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJcaYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Greater Life Church",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "12:00 PM",
+        "end": "3:00 PM",
+        "lat": 37.5698,
+        "lng": -122.3117,
+        "location": "Greater Life Church, 525 South Bayshore Boulevard, San Mateo, CA 94401",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJE7YAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - YMCA (1 W. Orange 1st Wednesday)",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "12:30 PM",
+        "end": "3:00 PM",
+        "lat": 37.6552,
+        "lng": -122.4242,
+        "location": "YMCA (1 W. Orange 1st Wednesday), 1 W. Orange (enter off Memorial Drive), South San Francisco, CA 94080",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJeYYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvHYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Taft Elementary School",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "1:30 PM",
+        "end": "4:30 PM",
+        "lat": 37.4798,
+        "lng": -122.1947,
+        "location": "Taft Elementary School, 903 Tenth Ave., Redwood City, CA 94063",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ0HYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Christian Worship Center",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "6:00 AM",
+        "end": "7:45 AM",
+        "lat": 37.4271,
+        "lng": -121.9069,
+        "location": "Christian Worship Center, 241 S. Main Street, Milpitas, CA 95035",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJAAYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Cypress Community and Senior Center",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "7:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.3206,
+        "lng": -121.9599,
+        "location": "Cypress Community and Senior Center, 403 S. Cypress Ave., San Jose, CA 95117",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW6faYAD",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - P.A. Walsh Steam Academy",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "7:15 AM",
+        "end": "9:33 AM",
+        "lat": 37.1275,
+        "lng": -121.6607,
+        "location": "P.A. Walsh Steam Academy, 305 W. Main Ave, Morgan Hill, CA 95037",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJDFYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Mt. Olive Ministries",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "7:30 AM",
+        "end": "10:30 AM",
+        "lat": 37.4383,
+        "lng": -121.873,
+        "location": "Mt. Olive Ministries, 1989 E Calaveras Blvd, Milpitas, CA 95035",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJGTYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Jeanne R. Meadows Elementary School",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "8:00 AM",
+        "end": "10:15 AM",
+        "lat": 37.3212,
+        "lng": -121.8397,
+        "location": "Jeanne R. Meadows Elementary School, 1250 Taper Lane, San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJDxYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Gardner Community Center",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "8:15 AM",
+        "end": "10:30 AM",
+        "lat": 37.3197,
+        "lng": -121.8955,
+        "location": "Gardner Community Center, 520 West Virginia Street, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJULYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Bayshore Elementary School",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.7054,
+        "lng": -122.414,
+        "location": "Bayshore Elementary School, 155 Oriente Street, Daly City, CA 94014",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJLXYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-04",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9AQ0YAN",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Ohlone Chynoweth Commons",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "1:15 PM",
+        "end": "4:30 PM",
+        "lat": 37.258,
+        "lng": -121.8622,
+        "location": "Ohlone Chynoweth Commons, 5300 Terner Way, San Jose, CA 95136",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ1LYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvIYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000PCOTDYA5",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Hoover Elementary School",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "2:30 PM",
+        "end": "5:00 PM",
+        "lat": 37.4817,
+        "lng": -122.2158,
+        "location": "Hoover Elementary School, 701 Charter Street, Redwood City, CA 94063",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWECmYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - OB Whaley Elementary School",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "2:30 PM",
+        "end": "5:30 PM",
+        "lat": 37.3159,
+        "lng": -121.825,
+        "location": "OB Whaley Elementary School, 2655 Alvin Ave., San Jose, CA 95121",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ4wYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Santee Elementary School",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "3:15 PM",
+        "end": "6:15 PM",
+        "lat": 37.3282,
+        "lng": -121.8467,
+        "location": "Santee Elementary School, 1313 Audubon Dr, San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJOmYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Sturge Presbyterian Church",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "3:15 PM",
+        "end": "5:45 PM",
+        "lat": 37.5721,
+        "lng": -122.3183,
+        "location": "Sturge Presbyterian Church, 25 South Humboldt Street, San Mateo, CA 94401",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJcmYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - St. Leo the Great Catholic Church",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "4:00 PM",
+        "end": "7:00 PM",
+        "lat": 37.3289,
+        "lng": -121.9114,
+        "location": "St. Leo the Great Catholic Church, 88 Race Street, San Jose, CA 95126",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJbnYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Trinity Episcopal Cathedral",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "6:00 AM",
+        "end": "9:00 AM",
+        "lat": 37.3377,
+        "lng": -121.8908,
+        "location": "Trinity Episcopal Cathedral, 81 N. 2nd Street, San Jose, CA 95113",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ7NYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Advent Lutheran Church",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "7:00 AM",
+        "end": "9:30 AM",
+        "lat": 37.1326,
+        "lng": -121.6268,
+        "location": "Advent Lutheran Church, 16870 Murphy Avenue, Morgan Hill, CA 95037",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW6f0YAD",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Southside Senior Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "7:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.2523,
+        "lng": -121.805,
+        "location": "Southside Senior Center, 5585 Cottle Road, San Jose, CA 95123",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW6fPYAT",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - San Mateo County Event Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "7:30 AM",
+        "end": "10:30 AM",
+        "lat": 37.5484,
+        "lng": -122.3043,
+        "location": "San Mateo County Event Center, 1346 Saratoga Drive, San Mateo, CA 94403",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW4hQYAT",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - August Boeger Middle School",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "8:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.3463,
+        "lng": -121.8001,
+        "location": "August Boeger Middle School, 1944 Flint Ave., San Jose, CA 95148",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW3A2YAL",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Gilroy Senior Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "8:00 AM",
+        "end": "10:30 AM",
+        "lat": 37.0054,
+        "lng": -121.5728,
+        "location": "Gilroy Senior Center, 350 W 6th St, Gilroy, CA 95020",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJUvYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PooYAF",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-11-05",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000PBvmBYAT",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Crosspoint Church of Silicon Valley",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "11:00 AM",
+        "end": "1:00 PM",
+        "lat": 37.424,
+        "lng": -121.896,
+        "location": "Crosspoint Church of Silicon Valley, 658 Gibraltar Ct, Milpitas, CA 95035",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000Mkyw3YAB",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Rocketship RWC Prep",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "2:30 PM",
+        "end": "5:30 PM",
+        "lat": 37.4731,
+        "lng": -122.2314,
+        "location": "Rocketship RWC Prep, 1148 Hudson St, Redwood City, CA 94061",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJIhYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Hillsdale United Methodist Church",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "3:00 PM",
+        "end": "5:45 PM",
+        "lat": 37.5314,
+        "lng": -122.3038,
+        "location": "Hillsdale United Methodist Church, 303 W 36th Ave., San Mateo, CA 94403",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJcQYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Mayfair Golden Manor",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "6:45 AM",
+        "end": "8:45 AM",
+        "lat": 37.3648,
+        "lng": -121.8406,
+        "location": "Mayfair Golden Manor, 2627 Madden Ave., San Jose, CA 95116",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWECeYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Mayfair Community Center",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "7:30 AM",
+        "end": "11:00 AM",
+        "lat": 37.3511,
+        "lng": -121.8441,
+        "location": "Mayfair Community Center, 2039 Kammerer Avenue, San Jose, CA 95116",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000M70TPYAZ",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9AQ1YAN",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-11-06",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000PCOszYAH",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Grace Covenant Church",
+        "date": "2026-11-07",
+        "day": "Saturday",
+        "start": "7:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.6617,
+        "lng": -122.4519,
+        "location": "Grace Covenant Church, 740 Del Monte Avenue, South San Francisco, CA 94080",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000KhBKvYAN",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-09",
+        "day": "Monday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvJYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-09",
+        "day": "Monday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9AQ2YAN",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvKYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Our Lady of Refuge Church",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "2:30 PM",
+        "end": "6:30 PM",
+        "lat": 37.3171,
+        "lng": -121.8458,
+        "location": "Our Lady of Refuge Church, 2165 Lucretia Avenue, San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJWWYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Saint Clare Parish",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "6:00 AM",
+        "end": "9:00 AM",
+        "lat": 37.3483,
+        "lng": -121.9428,
+        "location": "Saint Clare Parish, 941 Lexington Street, Santa Clara, CA 95050",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWF6QYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Waypoint Church",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "7:30 AM",
+        "end": "9:30 AM",
+        "lat": 37.5435,
+        "lng": -122.3092,
+        "location": "Waypoint Church, 194 W 25th Avenue, San Mateo, CA 94403",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJU9YAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Mater Dolorosa Catholic Church",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "8:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.6622,
+        "lng": -122.4341,
+        "location": "Mater Dolorosa Catholic Church, 1040 Miller Avenue, South San Francisco, CA 94080",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000MkkT8YAJ",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Rocketship Los Suenos at PAL",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.3428,
+        "lng": -121.8496,
+        "location": "Rocketship Los Suenos at PAL, 680 S. 34th Street, San Jose, CA 95116",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000MHO2wYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-10",
+        "day": "Tuesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PopYAF",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-11",
+        "day": "Wednesday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvLYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Gloria Dei Lutheran Church",
+        "date": "2026-11-11",
+        "day": "Wednesday",
+        "start": "7:30 AM",
+        "end": "11:00 AM",
+        "lat": 37.3639,
+        "lng": -121.8272,
+        "location": "Gloria Dei Lutheran Church, 121 S. White Road, San Jose, CA 95127",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJUXYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - CC- Eastside Neighborhood Ctr",
+        "date": "2026-11-11",
+        "day": "Wednesday",
+        "start": "8:00 AM",
+        "end": "11:00 AM",
+        "lat": 37.3563,
+        "lng": -121.8468,
+        "location": "CC- Eastside Neighborhood Ctr, 2150 Alum Rock Ave, San Jose, CA 95116",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000RoXAxYAN",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-11",
+        "day": "Wednesday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9AQ3YAN",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "1:30 PM",
+        "end": "3:30 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PvMYAV",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Ted Adcock Community Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "2:00 PM",
+        "end": "5:00 PM",
+        "lat": 37.4643,
+        "lng": -122.4344,
+        "location": "Ted Adcock Community Center, 535 Kelly Avenue, Half Moon Bay, CA 94019",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ3fYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Selby Lane Elementary School",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "2:00 PM",
+        "end": "5:00 PM",
+        "lat": 37.4581,
+        "lng": -122.2202,
+        "location": "Selby Lane Elementary School, 170 Selby Lane, Atherton, CA 94027",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJMaYAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Katherine R Smith Elementary School",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "2:30 PM",
+        "end": "6:00 PM",
+        "lat": 37.327,
+        "lng": -121.8213,
+        "location": "Katherine R Smith Elementary School, 2025 Clarice Ave., San Jose, CA 95122",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJOSYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - St. Leo the Great Catholic Church",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "4:00 PM",
+        "end": "7:00 PM",
+        "lat": 37.3289,
+        "lng": -121.9114,
+        "location": "St. Leo the Great Catholic Church, 88 Race Street, San Jose, CA 95126",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJboYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Southside Senior Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "7:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.2523,
+        "lng": -121.805,
+        "location": "Southside Senior Center, 5585 Cottle Road, San Jose, CA 95123",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW6fOYAT",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - San Mateo County Event Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "7:30 AM",
+        "end": "10:30 AM",
+        "lat": 37.5484,
+        "lng": -122.3043,
+        "location": "San Mateo County Event Center, 1346 Saratoga Drive, San Mateo, CA 94403",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LW4hRYAT",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - YMCA SSF Library",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "8:30 AM",
+        "end": "11:00 AM",
+        "lat": 37.6523,
+        "lng": -122.4367,
+        "location": "YMCA SSF Library, 840 W Orange Avenue, South San Francisco, CA 94080",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000N1BqlYAF",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Lytton Gardens Apartments",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "8:45 AM",
+        "end": "10:45 AM",
+        "lat": 37.4508,
+        "lng": -122.1579,
+        "location": "Lytton Gardens Apartments, 656 Lytton Avenue, Palo Alto, CA 94301",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ0vYAH",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Menlo Park Senior Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4786,
+        "lng": -122.1694,
+        "location": "Menlo Park Senior Center, 100 Terminal Ave, Menlo Park, CA 94025-1246",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWECSYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - St. Maria Goretti Catholic Church",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:30 PM",
+        "lat": 37.2968,
+        "lng": -121.8354,
+        "location": "St. Maria Goretti Catholic Church, 2980 Senter Road, San Jose, CA 95111",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJMUYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9PoqYAF",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Sort Food - Cypress Center",
+        "date": "2026-11-12",
+        "day": "Thursday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.4132,
+        "lng": -121.9527,
+        "location": "Cypress Center, 4001 N 1st St., San Jose, CA 95134",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000PBvmDYAT",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      },
+      {
+        "name": "Distribute Food - Fair Oaks Adult Activity Center",
+        "date": "2026-11-13",
+        "day": "Friday",
+        "start": "10:00 AM",
+        "end": "1:00 PM",
+        "lat": 37.4772,
+        "lng": -122.2132,
+        "location": "Fair Oaks Adult Activity Center, 2600 Middlefield Rd., Redwood City, CA 94063",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJTNYA5",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Crosspoint Church of Silicon Valley",
+        "date": "2026-11-13",
+        "day": "Friday",
+        "start": "11:00 AM",
+        "end": "1:00 PM",
+        "lat": 37.424,
+        "lng": -121.896,
+        "location": "Crosspoint Church of Silicon Valley, 658 Gibraltar Ct, Milpitas, CA 95035",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000Mkyw4YAB",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - Seven Trees Community Center",
+        "date": "2026-11-13",
+        "day": "Friday",
+        "start": "7:00 AM",
+        "end": "10:00 AM",
+        "lat": 37.2851,
+        "lng": -121.834,
+        "location": "Seven Trees Community Center, 3590 Cas Drive, San Jose, CA 95111",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJ4FYAX",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Distribute Food - San Jose City College",
+        "date": "2026-11-13",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:30 PM",
+        "lat": 37.3162,
+        "lng": -121.9297,
+        "location": "San Jose City College, 2100 Moorpark Avenue, San Jose, CA 95128",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000LWJO8YAP",
+        "tags": [
+          "moderate"
+        ]
+      },
+      {
+        "name": "Sort Food - Curtner Center",
+        "date": "2026-11-13",
+        "day": "Friday",
+        "start": "9:00 AM",
+        "end": "12:00 PM",
+        "lat": 37.2918,
+        "lng": -121.877,
+        "location": "Curtner Center, 750 Curtner Ave, San Jose, CA 95125",
+        "bookingUrl": "https://www.shfb.org/give-help/volunteer/volcalendar-general/?shift_id=a0vPA00000P9AQ4YAN",
+        "tags": [
+          "moderate",
+          "indoors"
+        ]
+      }
+    ],
     "cause": "food",
     "orgUrl": "https://www.shfb.org/give-help/volunteer/individual-volunteering/"
   }
