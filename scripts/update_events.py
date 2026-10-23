@@ -1089,6 +1089,25 @@ def log(msg):
     print(msg, flush=True)
 
 
+# Number of failed Claude API calls so far this run. main() compares it before
+# and after each organization: if calls failed AND the org came back empty, the
+# problem is the API (no credit, outage, rate limit), not the org's calendar, so
+# the org's previous events are kept instead of being wiped.
+API_ERROR_COUNT = 0
+
+
+def load_previous_events(path=None):
+    """{org name: [event, ...]} from the events.json written by the previous run."""
+    path = path or EVENTS_JSON_PATH
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        return {o.get("org", ""): [e for e in o.get("events", []) if isinstance(e, dict)]
+                for o in data if isinstance(o, dict)}
+    except Exception:
+        return {}
+
+
 def http_get(url, **kwargs):
     resp = requests.get(url, headers=HTTP_HEADERS, timeout=30, **kwargs)
     resp.raise_for_status()
@@ -1379,14 +1398,19 @@ def _claude_extract_events_once(client, org_name, source_text, extra_context="")
         user_content += f"\n{extra_context}\n"
     user_content += f"\n--- SOURCE TEXT ---\n{source_text}\n--- END SOURCE TEXT ---"
 
-    resp = client.messages.create(
-        model=MODEL,
-        max_tokens=4096,
-        system=system,
-        tools=[RECORD_EVENTS_TOOL],
-        tool_choice={"type": "tool", "name": "record_events"},
-        messages=[{"role": "user", "content": user_content}],
-    )
+    global API_ERROR_COUNT
+    try:
+        resp = client.messages.create(
+            model=MODEL,
+            max_tokens=4096,
+            system=system,
+            tools=[RECORD_EVENTS_TOOL],
+            tool_choice={"type": "tool", "name": "record_events"},
+            messages=[{"role": "user", "content": user_content}],
+        )
+    except Exception:
+        API_ERROR_COUNT += 1
+        raise
     for block in resp.content:
         if block.type == "tool_use" and block.name == "record_events":
             raw = block.input.get("events", [])
@@ -2266,11 +2290,13 @@ def main():
 
     # Read last run's tags BEFORE events.json gets overwritten at the end.
     previous_tags = load_previous_tags() if TAGGING_ENABLED else {}
+    previous_events = load_previous_events()
 
     output = []
     for org_cfg in ORGS:
         org_name = org_cfg["org"]
         log(f"== {slugify_for_log(org_name)} ==")
+        api_errors_before = API_ERROR_COUNT
         events = []
         try:
             if org_cfg["kind"] == "google_calendar":
@@ -2365,7 +2391,13 @@ def main():
                 log(f"  ! unexpected error cleaning event {ev!r:.200} -- skipping it: {e}")
                 continue
 
-        cleaned_events.sort(key=lambda e: (e["date"], e["start"]))
+        if not cleaned_events and API_ERROR_COUNT > api_errors_before:
+            kept = [e for e in previous_events.get(org_name, []) if str(e.get("date", "")) >= today.isoformat()]
+            if kept:
+                log(f"  ! the Claude API failed {API_ERROR_COUNT - api_errors_before} time(s) for this org, so "
+                    f"keeping its {len(kept)} upcoming event(s) from the previous run instead of wiping them")
+                cleaned_events = kept
+        cleaned_events.sort(key=lambda e: (e["date"], e.get("start", "")))
         log(f"  -> {len(cleaned_events)} upcoming event(s) kept")
         tag_events(client, org_name, cleaned_events, previous_tags, cause=org_cfg.get("cause", "environment"))
 
