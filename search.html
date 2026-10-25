@@ -2,7 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Search | Civic Snap</title>
+<title>Search Volunteer Opportunities | Civic Snap</title>
+<meta name="description" content="Describe what you want to do, such as an easy outdoor cleanup this weekend, and Civic Snap shows matching local volunteer events.">
+<link rel="canonical" href="https://chenfamilysanfranciscoai-ctrl.github.io/Civic-Snap/search.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Civic Snap">
+<meta property="og:title" content="Search Volunteer Opportunities | Civic Snap">
+<meta property="og:description" content="Describe what you want to do, such as an easy outdoor cleanup this weekend, and Civic Snap shows matching local volunteer events.">
+<meta property="og:url" content="https://chenfamilysanfranciscoai-ctrl.github.io/Civic-Snap/search.html">
+<meta property="og:image" content="https://chenfamilysanfranciscoai-ctrl.github.io/Civic-Snap/logo-full.png">
+<meta name="twitter:card" content="summary">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -368,6 +377,45 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
   .card-side{ flex-direction: row; flex-wrap: wrap; align-items: baseline; text-align: left; gap: 4px 12px; }
   .card-cta{ margin-top: 0; margin-left: auto; }
 }
+
+/* ---- calendar dates + distance (extra filter blocks) ---- */
+.date-inputs{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.date-inputs label{ display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: #4b463c; }
+.date-inputs input[type="date"]{
+  font-family: inherit;
+  font-size: 0.84rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 7px 10px;
+}
+.date-inputs input[type="date"]:focus-visible{ outline: 2px solid var(--clay); outline-offset: 2px; }
+.date-hint{ font-size: 0.74rem; color: #8a8577; }
+.loc-row{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.loc-btn{
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: inherit; font-size: 0.8rem; font-weight: 700;
+  color: #fff; background: var(--clay);
+  border: none; border-radius: 9px; padding: 8px 12px; cursor: pointer;
+}
+.loc-btn:hover{ background: var(--clay-dark); }
+.loc-btn:disabled{ background: #cfc9ba; color: #6b6656; cursor: wait; }
+.loc-btn:focus-visible{ outline: 2px solid var(--moss-dark); outline-offset: 2px; }
+.loc-btn svg{ width: 15px; height: 15px; }
+.loc-btn.secondary{ background: #fff; color: var(--moss-dark); border: 1px solid var(--line); }
+.loc-btn.secondary:hover{ background: var(--moss-light); }
+.loc-note{ font-size: 0.76rem; color: #6b6656; }
+.loc-note.is-error{ color: #a8431f; }
+.sort-row{ display: inline-flex; gap: 4px; margin-left: auto; margin-right: 10px; }
+.sort-row[hidden]{ display: none; }
+.sort-btn{
+  font-family: inherit; font-size: 0.76rem; font-weight: 700; color: #6b6656;
+  background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; cursor: pointer;
+}
+.sort-btn[aria-pressed="true"]{ background: var(--moss); border-color: var(--moss); color: #fff; }
+.sort-btn:focus-visible{ outline: 2px solid var(--clay); outline-offset: 2px; }
+.card-dist{ font-size: 0.74rem; font-weight: 800; color: var(--clay-dark); }
 </style>
 </head>
 <body>
@@ -392,7 +440,7 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
 <main class="search-wrap" id="main">
 <div class="search-intro">
 <h1>Find your kind of volunteering</h1>
-<p>Type what you're looking for in your own words, or pick from the filters below. Every event is tagged with a few descriptive words: how active it is, where it happens, and what you'll actually be doing.</p>
+<p>Type what you're looking for in your own words, or pick from the filters below, including a calendar for exact dates and a distance from you. Every event is tagged with a few descriptive words: how active it is, where it happens, and what you'll actually be doing.</p>
 </div>
 
 <form class="search-box" id="searchForm" role="search" autocomplete="off">
@@ -409,6 +457,10 @@ details.filters[open] > summary::after{ transform: rotate(180deg); }
 
 <div class="results-head">
 <span class="results-count" id="resultsCount" aria-live="polite">Loading&hellip;</span>
+<span class="sort-row" id="sortRow" role="group" aria-label="Sort results" hidden>
+<button type="button" class="sort-btn" id="sortSoon" aria-pressed="true">Soonest</button>
+<button type="button" class="sort-btn" id="sortNear" aria-pressed="false">Closest</button>
+</span>
 <button type="button" class="link-btn" id="clearAll" hidden>Clear all</button>
 </div>
 <div class="understood" id="understood" hidden></div>
@@ -759,6 +811,11 @@ const sel = {};                       // group id -> Set of selected option ids
 FILTER_GROUPS.forEach(g => { sel[g.id] = new Set(); });
 let queryText = '';
 let clauses = [];
+let dateFrom = '', dateTo = '';        // from the calendar pickers (YYYY-MM-DD)
+let maxMiles = 0;                      // 0 = any distance
+let userPos = null;                    // { lat, lng }, kept only in this page
+let sortMode = 'soon';                 // 'soon' | 'near'
+const DISTANCE_CHOICES = [5, 10, 25, 50];
 const chipRefs = {};                  // "group:option" -> {btn, countEl, optEl}
 const groupRefs = {};                 // group id -> element
 
@@ -772,8 +829,25 @@ function passes(ev, skipGroupId){
     if (g.id !== skipGroupId && !matchesGroup(ev, g)) return false;
   }
   for (const c of clauses) if (!c.test(ev)) return false;
+  if (dateFrom && ev.date < dateFrom) return false;
+  if (dateTo && ev.date > dateTo) return false;
+  if (maxMiles && !(ev._dist != null && ev._dist <= maxMiles)) return false;
   return true;
 }
+
+function milesBetween(a, b){
+  const R = 3958.8, rad = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * rad, dLng = (b.lng - a.lng) * rad;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+function computeDistances(){
+  ALL_EVENTS.forEach(ev => {
+    const la = +ev.lat, ln = +ev.lng;
+    ev._dist = (userPos && isFinite(la) && isFinite(ln)) ? milesBetween(userPos, { lat: la, lng: ln }) : null;
+  });
+}
+function distText(mi){ return mi < 0.1 ? 'Less than 0.1 mi away' : (mi < 10 ? mi.toFixed(1) : Math.round(mi)) + ' mi away'; }
 
 // ---- building the events list ----
 function safeColor(c){ return /^#[0-9a-fA-F]{6}$/.test(c || '') ? c : '#4a7856'; }
@@ -849,6 +923,148 @@ function buildFilterPanel(){
     body.appendChild(wrap);
     groupRefs[g.id] = wrap;
   });
+  buildDateBlock(body);
+  buildDistanceBlock(body);
+}
+
+
+// ---- extra filter blocks: calendar dates and distance ----
+const distChipRefs = {};
+let locNoteEl = null, locBtnEl = null, dateFromEl = null, dateToEl = null;
+
+function makeGroup(label){
+  const wrap = document.createElement('div');
+  wrap.className = 'fgroup';
+  const l = document.createElement('p');
+  l.className = 'fgroup-label';
+  l.textContent = label;
+  wrap.appendChild(l);
+  return wrap;
+}
+
+function buildDateBlock(body){
+  const wrap = makeGroup('Pick dates (calendar)');
+  const row = document.createElement('div');
+  row.className = 'date-inputs';
+  const mk = (id, text) => {
+    const lab = document.createElement('label');
+    lab.setAttribute('for', id);
+    lab.appendChild(document.createTextNode(text));
+    const inp = document.createElement('input');
+    inp.type = 'date'; inp.id = id; inp.min = TODAY_ISO;
+    lab.appendChild(inp);
+    row.appendChild(lab);
+    return inp;
+  };
+  dateFromEl = mk('dateFrom', 'From');
+  dateToEl = mk('dateTo', 'To');
+  const hint = document.createElement('span');
+  hint.className = 'date-hint';
+  hint.textContent = 'Pick one day by choosing the same date twice.';
+  row.appendChild(hint);
+  const onChange = () => {
+    dateFrom = dateFromEl.value || '';
+    dateTo = dateToEl.value || '';
+    if (dateFrom && dateTo && dateTo < dateFrom) {            // keep the range sensible
+      if (document.activeElement === dateFromEl) { dateTo = dateFrom; dateToEl.value = dateTo; }
+      else { dateFrom = dateTo; dateFromEl.value = dateFrom; }
+    }
+    dateToEl.min = dateFrom || TODAY_ISO;
+    update();
+  };
+  dateFromEl.addEventListener('change', onChange);
+  dateToEl.addEventListener('change', onChange);
+  wrap.appendChild(row);
+  body.appendChild(wrap);
+}
+
+function setLocNote(text, isError){
+  if (!locNoteEl) return;
+  locNoteEl.textContent = text || '';
+  locNoteEl.classList.toggle('is-error', !!isError);
+}
+
+function requestLocation(then){
+  if (!navigator.geolocation) {
+    setLocNote('This browser cannot share your location.', true);
+    return;
+  }
+  if (locBtnEl) locBtnEl.disabled = true;
+  setLocNote('Finding your location…', false);
+  navigator.geolocation.getCurrentPosition(pos => {
+    if (locBtnEl) locBtnEl.disabled = false;
+    userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    computeDistances();
+    setLocNote('Using your current location. It stays in your browser and is never sent anywhere.', false);
+    if (then) then();
+    update();
+  }, err => {
+    if (locBtnEl) locBtnEl.disabled = false;
+    maxMiles = 0;
+    setLocNote(err && err.code === 1
+      ? 'Location is blocked for this site. Allow it in your browser’s address bar and try again.'
+      : 'Your location is not available right now. Try again in a moment.', true);
+    update();
+  }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 });
+}
+
+function buildDistanceBlock(body){
+  const wrap = makeGroup('Distance from me');
+  const col = document.createElement('div');
+  col.style.cssText = 'display:flex;flex-direction:column;gap:10px';
+  const chips = document.createElement('div');
+  chips.className = 'chips';
+  chips.setAttribute('role', 'group');
+  chips.setAttribute('aria-label', 'Distance from me');
+  DISTANCE_CHOICES.forEach(mi => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.dataset.miles = mi;
+    const t = document.createElement('span'); t.textContent = 'Within ' + mi + ' mi';
+    const n = document.createElement('span'); n.className = 'n';
+    btn.append(t, n);
+    btn.addEventListener('click', () => {
+      if (maxMiles === mi) { maxMiles = 0; update(); return; }
+      maxMiles = mi;
+      if (userPos) update();
+      else requestLocation();          // asks the browser for permission, then applies the choice
+    });
+    chips.appendChild(btn);
+    distChipRefs[mi] = { btn, countEl: n };
+  });
+  const row = document.createElement('div');
+  row.className = 'loc-row';
+  locBtnEl = document.createElement('button');
+  locBtnEl.type = 'button';
+  locBtnEl.className = 'loc-btn';
+  locBtnEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Use my location</span>';
+  locBtnEl.addEventListener('click', () => requestLocation());
+  locNoteEl = document.createElement('span');
+  locNoteEl.className = 'loc-note';
+  locNoteEl.setAttribute('role', 'status');
+  locNoteEl.textContent = 'Choose a distance to see only events near you. Your browser will ask for permission.';
+  row.append(locBtnEl, locNoteEl);
+  col.append(chips, row);
+  wrap.appendChild(col);
+  body.appendChild(wrap);
+}
+
+function updateExtraPanel(){
+  DISTANCE_CHOICES.forEach(mi => {
+    const ref = distChipRefs[mi];
+    const on = maxMiles === mi;
+    ref.btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    if (userPos) {
+      const saved = maxMiles; maxMiles = mi;
+      ref.countEl.textContent = ALL_EVENTS.filter(ev => passes(ev, null)).length;
+      maxMiles = saved;
+    } else ref.countEl.textContent = '';
+  });
+  document.getElementById('sortRow').hidden = !userPos;
+  document.getElementById('sortSoon').setAttribute('aria-pressed', sortMode === 'soon' ? 'true' : 'false');
+  document.getElementById('sortNear').setAttribute('aria-pressed', sortMode === 'near' ? 'true' : 'false');
 }
 
 function toggleOption(groupId, optId){
@@ -863,7 +1079,7 @@ function toggleOption(groupId, optId){
 }
 
 function activeFilterCount(){
-  return FILTER_GROUPS.reduce((n, g) => n + sel[g.id].size, 0);
+  return FILTER_GROUPS.reduce((n, g) => n + sel[g.id].size, 0) + ((dateFrom || dateTo) ? 1 : 0) + (maxMiles ? 1 : 0);
 }
 
 function updatePanel(){
@@ -882,6 +1098,7 @@ function updatePanel(){
     });
     groupRefs[g.id].hidden = !anyVisible;
   });
+  updateExtraPanel();
   const k = activeFilterCount();
   const badge = document.getElementById('filterBadge');
   badge.hidden = k === 0;
@@ -975,11 +1192,17 @@ function renderResults(list){
     const t = document.createElement('span');
     t.className = 'card-time';
     t.textContent = timeText(ev);
+    let dist = null;
+    if (userPos && ev._dist != null) {
+      dist = document.createElement('span');
+      dist.className = 'card-dist';
+      dist.textContent = distText(ev._dist);
+    }
     const cta = document.createElement(url ? 'a' : 'span');
     cta.className = 'card-cta' + (url ? '' : ' disabled');
     if (url) { cta.href = url; cta.target = '_blank'; cta.rel = 'noopener noreferrer'; }
     cta.textContent = url ? 'I will help →' : 'Link coming soon';
-    side.appendChild(d); side.appendChild(t); side.appendChild(cta);
+    side.appendChild(d); side.appendChild(t); if (dist) side.appendChild(dist); side.appendChild(cta);
 
     card.appendChild(main);
     card.appendChild(side);
@@ -1008,6 +1231,8 @@ function syncURL(){
     const f = [];
     FILTER_GROUPS.forEach(g => sel[g.id].forEach(id => f.push(g.id + '.' + id)));
     if (f.length) params.set('f', f.join(','));
+    if (dateFrom) params.set('from', dateFrom);
+    if (dateTo) params.set('to', dateTo);
     const qs = params.toString();
     history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
   } catch (e) { /* file:// or sandboxed iframe -- not important */ }
@@ -1016,6 +1241,9 @@ function syncURL(){
 function update(){
   clauses = parseQuery(queryText);
   const results = ALL_EVENTS.filter(ev => passes(ev, null));
+  if (sortMode === 'near' && userPos) {
+    results.sort((a, b) => (a._dist == null ? 1e9 : a._dist) - (b._dist == null ? 1e9 : b._dist) || (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  }
   updatePanel();
   renderResults(results);
   renderUnderstood();
@@ -1033,6 +1261,9 @@ function clearAll(){
   FILTER_GROUPS.forEach(g => sel[g.id].clear());
   queryText = '';
   document.getElementById('q').value = '';
+  dateFrom = dateTo = ''; maxMiles = 0;
+  if (dateFromEl) dateFromEl.value = '';
+  if (dateToEl) { dateToEl.value = ''; dateToEl.min = TODAY_ISO; }
   update();
 }
 
@@ -1058,6 +1289,10 @@ function readURL(){
       }
     });
     if (q) { queryText = q; document.getElementById('q').value = q; }
+    const isoRe = /^\d{4}-\d{2}-\d{2}$/;
+    const from = params.get('from') || '', to = params.get('to') || '';
+    if (isoRe.test(from)) { dateFrom = from; dateFromEl.value = from; }
+    if (isoRe.test(to)) { dateTo = to; dateToEl.value = to; }
   } catch (e) { /* ignore malformed links */ }
 }
 
@@ -1085,6 +1320,8 @@ async function init(){
   document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); clearTimeout(timer); setQuery(input.value); });
   document.getElementById('clearQ').addEventListener('click', () => { setQuery(''); input.focus(); });
   document.getElementById('clearAll').addEventListener('click', clearAll);
+  document.getElementById('sortSoon').addEventListener('click', () => { sortMode = 'soon'; update(); });
+  document.getElementById('sortNear').addEventListener('click', () => { sortMode = 'near'; update(); });
   if (window.matchMedia && window.matchMedia('(max-width: 640px)').matches) {
     document.getElementById('filters').removeAttribute('open');   // keep the phone view compact
   }
